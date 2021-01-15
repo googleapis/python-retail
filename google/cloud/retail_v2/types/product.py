@@ -33,7 +33,7 @@ class Product(proto.Message):
     Attributes:
         name (str):
             Immutable. Full resource name of the product, such as
-            ``projects/*/locations/global/catalogs/default_catalog/branches/default_branch/products/product_id``.
+            "projects/*/locations/global/catalogs/default_catalog/branches/default_branch/products/product_id".
 
             The branch ID must be "default_branch".
         id (str):
@@ -42,7 +42,7 @@ class Product(proto.Message):
             [name][google.cloud.retail.v2.Product.name]. For example,
             this field is "id_1", if
             [name][google.cloud.retail.v2.Product.name] is
-            ``projects/*/locations/global/catalogs/default_catalog/branches/default_branch/products/id_1``.
+            "projects/*/locations/global/catalogs/default_catalog/branches/default_branch/products/id_1".
 
             This field must be a UTF-8 encoded string with a length
             limit of 128 characters. Otherwise, an INVALID_ARGUMENT
