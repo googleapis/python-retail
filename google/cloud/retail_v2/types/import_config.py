@@ -53,13 +53,13 @@ class GcsSource(proto.Message):
         input_uris (Sequence[str]):
             Required. Google Cloud Storage URIs to input files. URI can
             be up to 2000 characters long. URIs can match the full
-            object path (for example,
-            ``gs://bucket/directory/object.json``) or a pattern matching
-            one or more files, such as ``gs://bucket/directory/*.json``.
-            A request can contain at most 100 files, and each file can
-            be up to 2 GB. See `Importing product
-            information <https://cloud.google.com/recommendations-ai/docs/upload-catalog>`__
-            for the expected file format and setup instructions.
+            object path (for example, gs://bucket/directory/object.json)
+            or a pattern matching one or more files, such as
+            gs://bucket/directory/*.json. A request can contain at most
+            100 files, and each file can be up to 2 GB. See `Importing
+            product
+            information </recommendations-ai/docs/upload-catalog>`__ for
+            the expected file format and setup instructions.
         data_schema (str):
             The schema to use when parsing the data from the source.
 
@@ -71,7 +71,7 @@ class GcsSource(proto.Message):
                [Product.id][google.cloud.retail.v2.Product.id].
             -  ``product_merchant_center``: See `Importing catalog data
                from Merchant
-               Center <https://cloud.google.com/retail/recommendations-ai/docs/upload-catalog#mc>`__.
+               Center </retail/recommendations-ai/docs/upload-catalog#mc>`__.
 
             Supported values for user events imports:
 
@@ -119,7 +119,7 @@ class BigQuerySource(proto.Message):
                [Product.id][google.cloud.retail.v2.Product.id].
             -  ``product_merchant_center``: See `Importing catalog data
                from Merchant
-               Center <https://cloud.google.com/retail/recommendations-ai/docs/upload-catalog#mc>`__.
+               Center </retail/recommendations-ai/docs/upload-catalog#mc>`__.
 
             Supported values for user events imports:
 

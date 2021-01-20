@@ -172,7 +172,7 @@ class ProductServiceAsyncClient:
                 [CreateProduct][] method.
             parent (:class:`str`):
                 Required. The parent catalog resource name, such as
-                ``projects/*/locations/global/catalogs/default_catalog/branches/default_branch``.
+                "projects/*/locations/global/catalogs/default_catalog/branches/default_branch".
 
                 This corresponds to the ``parent`` field
                 on the ``request`` instance; if ``request`` is provided, this
@@ -281,7 +281,7 @@ class ProductServiceAsyncClient:
             name (:class:`str`):
                 Required. Full resource name of
                 [Product][google.cloud.retail.v2.Product], such as
-                ``projects/*/locations/global/catalogs/default_catalog/branches/default_branch/products/some_product_id``.
+                "projects/*/locations/global/catalogs/default_catalog/branches/default_branch/products/some_product_id".
 
                 If the caller does not have permission to access the
                 [Product][google.cloud.retail.v2.Product], regardless of
@@ -464,7 +464,7 @@ class ProductServiceAsyncClient:
             name (:class:`str`):
                 Required. Full resource name of
                 [Product][google.cloud.retail.v2.Product], such as
-                ``projects/*/locations/global/catalogs/default_catalog/branches/default_branch/products/some_product_id``.
+                "projects/*/locations/global/catalogs/default_catalog/branches/default_branch/products/some_product_id".
 
                 If the caller does not have permission to delete the
                 [Product][google.cloud.retail.v2.Product], regardless of
