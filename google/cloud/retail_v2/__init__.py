@@ -89,7 +89,6 @@ __all__ = (
     "ProductInlineSource",
     "ProductInputConfig",
     "ProductLevelConfig",
-    "ProductServiceClient",
     "PurchaseTransaction",
     "PurgeMetadata",
     "PurgeUserEventsRequest",
@@ -103,7 +102,8 @@ __all__ = (
     "UserEventImportSummary",
     "UserEventInlineSource",
     "UserEventInputConfig",
+    "UserEventServiceClient",
     "UserInfo",
     "WriteUserEventRequest",
-    "UserEventServiceClient",
+    "ProductServiceClient",
 )
