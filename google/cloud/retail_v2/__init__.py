@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 # Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,6 +18,7 @@ from .services.catalog_service import CatalogServiceClient
 from .services.prediction_service import PredictionServiceClient
 from .services.product_service import ProductServiceClient
 from .services.user_event_service import UserEventServiceClient
+
 from .types.catalog import Catalog
 from .types.catalog import ProductLevelConfig
 from .types.catalog_service import ListCatalogsRequest
@@ -60,50 +60,49 @@ from .types.user_event_service import RejoinUserEventsRequest
 from .types.user_event_service import RejoinUserEventsResponse
 from .types.user_event_service import WriteUserEventRequest
 
-
 __all__ = (
-    "BigQuerySource",
-    "Catalog",
     "CatalogServiceClient",
-    "CollectUserEventRequest",
-    "CreateProductRequest",
+    "PredictionServiceClient",
+    "ProductServiceClient",
+    "UserEventServiceClient",
+    "Catalog",
+    "ProductLevelConfig",
+    "ListCatalogsRequest",
+    "ListCatalogsResponse",
+    "UpdateCatalogRequest",
     "CustomAttribute",
-    "DeleteProductRequest",
-    "GcsSource",
-    "GetProductRequest",
     "Image",
+    "PriceInfo",
+    "UserInfo",
+    "BigQuerySource",
+    "GcsSource",
     "ImportErrorsConfig",
     "ImportMetadata",
     "ImportProductsRequest",
     "ImportProductsResponse",
     "ImportUserEventsRequest",
     "ImportUserEventsResponse",
-    "ListCatalogsRequest",
-    "ListCatalogsResponse",
-    "PredictRequest",
-    "PredictResponse",
-    "PredictionServiceClient",
-    "PriceInfo",
-    "Product",
-    "ProductDetail",
     "ProductInlineSource",
     "ProductInputConfig",
-    "ProductLevelConfig",
-    "ProductServiceClient",
-    "PurchaseTransaction",
-    "PurgeMetadata",
-    "PurgeUserEventsRequest",
-    "PurgeUserEventsResponse",
-    "RejoinUserEventsMetadata",
-    "RejoinUserEventsRequest",
-    "RejoinUserEventsResponse",
-    "UpdateCatalogRequest",
-    "UpdateProductRequest",
-    "UserEvent",
     "UserEventImportSummary",
     "UserEventInlineSource",
     "UserEventInputConfig",
-    "UserInfo",
+    "PredictRequest",
+    "PredictResponse",
+    "Product",
+    "CreateProductRequest",
+    "DeleteProductRequest",
+    "GetProductRequest",
+    "UpdateProductRequest",
+    "PurgeMetadata",
+    "PurgeUserEventsRequest",
+    "PurgeUserEventsResponse",
+    "ProductDetail",
+    "PurchaseTransaction",
+    "UserEvent",
+    "CollectUserEventRequest",
+    "RejoinUserEventsMetadata",
+    "RejoinUserEventsRequest",
+    "RejoinUserEventsResponse",
     "WriteUserEventRequest",
-    "UserEventServiceClient",
 )

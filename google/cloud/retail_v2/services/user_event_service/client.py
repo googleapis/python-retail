@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 # Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 from collections import OrderedDict
 from distutils import util
 import os
@@ -42,7 +40,6 @@ from google.cloud.retail_v2.types import user_event
 from google.cloud.retail_v2.types import user_event_service
 from google.protobuf import any_pb2 as gp_any  # type: ignore
 from google.protobuf import timestamp_pb2 as timestamp  # type: ignore
-
 from .transports.base import UserEventServiceTransport, DEFAULT_CLIENT_INFO
 from .transports.grpc import UserEventServiceGrpcTransport
 from .transports.grpc_asyncio import UserEventServiceGrpcAsyncIOTransport
@@ -373,7 +370,6 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
             request (google.cloud.retail_v2.types.WriteUserEventRequest):
                 The request object. Request message for WriteUserEvent
                 method.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -389,7 +385,6 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
 
         """
         # Create or coerce a protobuf request object.
-
         # Minor optimization to avoid making a copy if the user passes
         # in a user_event_service.WriteUserEventRequest.
         # There's no risk of modifying the input as we've already verified
@@ -432,7 +427,6 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
             request (google.cloud.retail_v2.types.CollectUserEventRequest):
                 The request object. Request message for CollectUserEvent
                 method.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -489,7 +483,6 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
 
         """
         # Create or coerce a protobuf request object.
-
         # Minor optimization to avoid making a copy if the user passes
         # in a user_event_service.CollectUserEventRequest.
         # There's no risk of modifying the input as we've already verified
@@ -531,7 +524,6 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
             request (google.cloud.retail_v2.types.PurgeUserEventsRequest):
                 The request object. Request message for PurgeUserEvents
                 method.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -548,7 +540,6 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
 
         """
         # Create or coerce a protobuf request object.
-
         # Minor optimization to avoid making a copy if the user passes
         # in a purge_config.PurgeUserEventsRequest.
         # There's no risk of modifying the input as we've already verified
@@ -600,7 +591,6 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
             request (google.cloud.retail_v2.types.ImportUserEventsRequest):
                 The request object. Request message for the
                 ImportUserEvents request.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -619,7 +609,6 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
 
         """
         # Create or coerce a protobuf request object.
-
         # Minor optimization to avoid making a copy if the user passes
         # in a import_config.ImportUserEventsRequest.
         # There's no risk of modifying the input as we've already verified
@@ -674,7 +663,6 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
             request (google.cloud.retail_v2.types.RejoinUserEventsRequest):
                 The request object. Request message for RejoinUserEvents
                 method.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -691,7 +679,6 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
 
         """
         # Create or coerce a protobuf request object.
-
         # Minor optimization to avoid making a copy if the user passes
         # in a user_event_service.RejoinUserEventsRequest.
         # There's no risk of modifying the input as we've already verified

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 # Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 from collections import OrderedDict
 from distutils import util
 import os
@@ -37,7 +35,6 @@ from google.cloud.retail_v2.types import catalog
 from google.cloud.retail_v2.types import catalog as gcr_catalog
 from google.cloud.retail_v2.types import catalog_service
 from google.protobuf import field_mask_pb2 as field_mask  # type: ignore
-
 from .transports.base import CatalogServiceTransport, DEFAULT_CLIENT_INFO
 from .transports.grpc import CatalogServiceGrpcTransport
 from .transports.grpc_asyncio import CatalogServiceGrpcAsyncIOTransport
@@ -375,7 +372,6 @@ class CatalogServiceClient(metaclass=CatalogServiceClientMeta):
                 This corresponds to the ``parent`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -408,10 +404,8 @@ class CatalogServiceClient(metaclass=CatalogServiceClientMeta):
         # there are no flattened fields.
         if not isinstance(request, catalog_service.ListCatalogsRequest):
             request = catalog_service.ListCatalogsRequest(request)
-
             # If we have keyword arguments corresponding to fields on the
             # request, apply these.
-
             if parent is not None:
                 request.parent = parent
 
@@ -483,7 +477,6 @@ class CatalogServiceClient(metaclass=CatalogServiceClientMeta):
                 This corresponds to the ``update_mask`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -510,10 +503,8 @@ class CatalogServiceClient(metaclass=CatalogServiceClientMeta):
         # there are no flattened fields.
         if not isinstance(request, catalog_service.UpdateCatalogRequest):
             request = catalog_service.UpdateCatalogRequest(request)
-
             # If we have keyword arguments corresponding to fields on the
             # request, apply these.
-
             if catalog is not None:
                 request.catalog = catalog
             if update_mask is not None:

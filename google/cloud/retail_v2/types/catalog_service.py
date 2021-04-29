@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 # Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,9 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 import proto  # type: ignore
-
 
 from google.cloud.retail_v2.types import catalog as gcr_catalog
 from google.protobuf import field_mask_pb2 as field_mask  # type: ignore
@@ -62,11 +59,9 @@ class ListCatalogsRequest(proto.Message):
             an INVALID_ARGUMENT error is returned.
     """
 
-    parent = proto.Field(proto.STRING, number=1)
-
-    page_size = proto.Field(proto.INT32, number=2)
-
-    page_token = proto.Field(proto.STRING, number=3)
+    parent = proto.Field(proto.STRING, number=1,)
+    page_size = proto.Field(proto.INT32, number=2,)
+    page_token = proto.Field(proto.STRING, number=3,)
 
 
 class ListCatalogsResponse(proto.Message):
@@ -92,8 +87,7 @@ class ListCatalogsResponse(proto.Message):
     catalogs = proto.RepeatedField(
         proto.MESSAGE, number=1, message=gcr_catalog.Catalog,
     )
-
-    next_page_token = proto.Field(proto.STRING, number=2)
+    next_page_token = proto.Field(proto.STRING, number=2,)
 
 
 class UpdateCatalogRequest(proto.Message):
@@ -126,7 +120,6 @@ class UpdateCatalogRequest(proto.Message):
     """
 
     catalog = proto.Field(proto.MESSAGE, number=1, message=gcr_catalog.Catalog,)
-
     update_mask = proto.Field(proto.MESSAGE, number=2, message=field_mask.FieldMask,)
 
 
