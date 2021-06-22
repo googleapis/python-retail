@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.2.1](https://www.github.com/googleapis/python-retail/compare/v0.2.0...v0.2.1) (2021-06-22)
+
+
+### Documentation
+
+* omit mention of Python 2.7 in 'CONTRIBUTING.rst' ([#1127](https://www.github.com/googleapis/python-retail/issues/1127)) ([#46](https://www.github.com/googleapis/python-retail/issues/46)) ([f03c60a](https://www.github.com/googleapis/python-retail/commit/f03c60ab178f98ceda54d0ed594f83f6af20270f)), closes [#1126](https://www.github.com/googleapis/python-retail/issues/1126)
+
 ## [0.2.0](https://www.github.com/googleapis/python-retail/compare/v0.1.0...v0.2.0) (2021-05-28)
 
 
