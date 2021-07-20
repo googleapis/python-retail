@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.3.1](https://www.github.com/googleapis/python-retail/compare/v0.3.0...v0.3.1) (2021-07-20)
+
+
+### Bug Fixes
+
+* **deps:** pin 'google-{api,cloud}-core', 'google-auth' to allow 2.x versions ([#59](https://www.github.com/googleapis/python-retail/issues/59)) ([23223a7](https://www.github.com/googleapis/python-retail/commit/23223a7a195511f4fd63a638f7680999eb4fb554))
+
 ## [0.3.0](https://www.github.com/googleapis/python-retail/compare/v0.2.0...v0.3.0) (2021-07-01)
 
 
