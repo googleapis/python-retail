@@ -257,7 +257,7 @@ class Product(proto.Message):
                [Type.VARIANT][google.cloud.retail.v2.Product.Type.VARIANT].
             -  Max searchable entries count: 30.
             -  For indexable attribute, the key must match the pattern:
-               [a-zA-Z0-9][a-zA-Z0-9_]*. For example, key0LikeThis or
+               [a-zA-Z0-9][a-zA-Z0-9\_]*. For example, key0LikeThis or
                KEY_1_LIKE_THIS.
         tags (Sequence[str]):
             Custom tags associated with the product.
