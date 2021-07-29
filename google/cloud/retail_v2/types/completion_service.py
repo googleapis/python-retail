@@ -68,7 +68,7 @@ class CompleteQueryRequest(proto.Message):
 
             -  MOBILE
 
-            -  A customized string starts with OTHER_, e.g.
+            -  A customized string starts with OTHER\_, e.g.
                OTHER_IPHONE.
         dataset (str):
             Determines which dataset to use for fetching completion.
