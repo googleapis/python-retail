@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.4.3](https://www.github.com/googleapis/python-retail/compare/v0.4.2...v0.4.3) (2021-08-19)
+
+
+### Documentation
+
+* Keep the API doc up-to-date ([#80](https://www.github.com/googleapis/python-retail/issues/80)) ([a77f0ea](https://www.github.com/googleapis/python-retail/commit/a77f0ea03ab1d5a2cb976bb2bff3739c15026558))
+
 ### [0.4.2](https://www.github.com/googleapis/python-retail/compare/v0.4.1...v0.4.2) (2021-08-04)
 
 
