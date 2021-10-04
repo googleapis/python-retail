@@ -10,6 +10,6 @@
     "repo": "googleapis/python-retail",
     "distribution_name": "google-cloud-retail",
     "api_id": "retail.googleapis.com",
-    "default_version": "",
+    "default_version": "v2",
     "codeowner_team": ""
 }
