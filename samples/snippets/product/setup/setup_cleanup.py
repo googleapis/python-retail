@@ -95,6 +95,8 @@ def try_to_delete_product_if_exists(product_name: str):
     get_product_request.name = product_name
     delete_product_request = DeleteProductRequest()
     delete_product_request.name = product_name
+    print(
+        "---delete product from the catalog, if the product already exists---")
     try:
         product = get_product_service_client().get_product(get_product_request)
         get_product_service_client().delete_product(product.name)

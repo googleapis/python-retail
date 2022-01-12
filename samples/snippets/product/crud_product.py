@@ -17,8 +17,6 @@
 # Create product in a catalog using Retail API
 #
 import os
-import random
-import string
 
 from google.api_core.client_options import ClientOptions
 
