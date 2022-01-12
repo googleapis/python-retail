@@ -71,7 +71,7 @@ def get_import_products_big_query_request(reconciliation_mode):
 # call the Retail API to import products
 def import_products_from_big_query():
     # TRY THE FULL RECONCILIATION MODE HERE:
-    reconciliation_mode = ImportProductsRequest.ReconciliationMode.FULL
+    reconciliation_mode = ImportProductsRequest.ReconciliationMode.INCREMENTAL
 
     import_big_query_request = get_import_products_big_query_request(
         reconciliation_mode)
@@ -84,15 +84,21 @@ def import_products_from_big_query():
     while not big_query_operation.done():
         print("---please wait till operation is done---")
         time.sleep(5)
-
     print("---import products operation is done---")
-    print("---number of successfully imported products---")
-    print(big_query_operation.metadata.success_count)
-    print("---number of failures during the importing---")
-    print(big_query_operation.metadata.failure_count)
-    print("---operation result:---")
-    print(big_query_operation.result())
 
+    if big_query_operation.metadata is not None:
+        print("---number of successfully imported products---")
+        print(big_query_operation.metadata.success_count)
+        print("---number of failures during the importing---")
+        print(big_query_operation.metadata.failure_count)
+    else:
+        print("---operation.metadata is empty---")
+
+    if big_query_operation.result is not None:
+        print("---operation result:---")
+        print(big_query_operation.result())
+    else:
+        print("---operation.result is empty---")
 
 import_products_from_big_query()
 

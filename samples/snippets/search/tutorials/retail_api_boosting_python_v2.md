@@ -150,7 +150,7 @@ The boosting specification looks like this:
 
 1. To set the **```condition```**, you should use a filtering expression like the following:
 
-    ```'(colorFamily: ANY("blue"))'```
+    ```'(colorFamilies: ANY("blue"))'```
 
     or
     ```'(rating: IN(4.0, 5.0))'```

@@ -17,12 +17,16 @@
 # Create product in a catalog using Retail API
 #
 import os
+import random
+import string
 
 from google.api_core.client_options import ClientOptions
+
 from google.cloud.retail import CreateProductRequest, DeleteProductRequest, \
     GetProductRequest, Product, ProductServiceClient, UpdateProductRequest
 from google.cloud.retail_v2 import PriceInfo
 from google.cloud.retail_v2.types import product
+from setup.setup_cleanup import try_to_delete_product_if_exists
 
 project_number = os.getenv('PROJECT_NUMBER')
 endpoint = "retail.googleapis.com"
@@ -135,6 +139,7 @@ def delete_product():
 
 
 # call the methods
+try_to_delete_product_if_exists(product_name)
 create_product()
 get_product()
 update_product()

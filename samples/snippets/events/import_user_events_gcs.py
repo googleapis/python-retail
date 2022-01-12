@@ -22,6 +22,7 @@ import subprocess
 import time
 
 from google.api_core.client_options import ClientOptions
+
 from google.cloud.retail import GcsSource, ImportErrorsConfig, \
     ImportUserEventsRequest, UserEventInputConfig, UserEventServiceClient
 
@@ -95,12 +96,20 @@ def import_user_events_from_gcs():
         time.sleep(5)
 
     print("---import user events operation is done---")
-    print("---number of successfully imported events---")
-    print(gcs_operation.metadata.success_count)
-    print("---number of failures during the importing---")
-    print(gcs_operation.metadata.failure_count)
-    print("---operation result:---")
-    print(gcs_operation.result())
+
+    if gcs_operation.metadata is not None:
+        print("---number of successfully imported events---")
+        print(gcs_operation.metadata.success_count)
+        print("---number of failures during the importing---")
+        print(gcs_operation.metadata.failure_count)
+    else:
+        print("---operation.metadata is empty---")
+
+    if gcs_operation.result is not None:
+        print("---operation result:---")
+        print(gcs_operation.result())
+    else:
+        print("---operation.result is empty---")
 
 
 import_user_events_from_gcs()

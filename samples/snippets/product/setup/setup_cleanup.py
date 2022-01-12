@@ -19,6 +19,7 @@ import subprocess
 
 from google.api_core.client_options import ClientOptions
 from google.api_core.exceptions import NotFound
+
 from google.cloud import storage
 from google.cloud.retail_v2 import CreateProductRequest, DeleteProductRequest, \
     FulfillmentInfo, GetProductRequest, PriceInfo, Product, ProductServiceClient
@@ -79,10 +80,6 @@ def delete_product(product_name: str):
 def get_product(product_name: str):
     get_product_request = GetProductRequest()
     get_product_request.name = product_name
-    # product = get_product_service_client().get_product(get_product_request)
-    #
-    # print("---product:---")
-    # print(product)
     try:
         product = get_product_service_client().get_product(get_product_request)
         print("---get product response:---")
@@ -91,6 +88,19 @@ def get_product(product_name: str):
     except NotFound as e:
         print(e.message)
         return e.message
+
+
+def try_to_delete_product_if_exists(product_name: str):
+    get_product_request = GetProductRequest()
+    get_product_request.name = product_name
+    delete_product_request = DeleteProductRequest()
+    delete_product_request.name = product_name
+    try:
+        product = get_product_service_client().get_product(get_product_request)
+        get_product_service_client().delete_product(product.name)
+    except NotFound as e:
+        print(e.message)
+        #return e.message
 
 
 def get_project_id():

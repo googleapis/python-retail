@@ -50,7 +50,7 @@ def get_search_request(query: str, _filter: str):
 # call the Retail Search:
 def search():
     # TRY DIFFERENT FILTER EXPRESSIONS HERE:
-    filter_ = '(colorFamily: ANY("Black"))'
+    filter_ = '(colorFamilies: ANY("Black"))'
 
     search_request = get_search_request("Tee", filter_)
     search_response = get_search_service_client().search(search_request)

@@ -19,9 +19,9 @@ import os
 import time
 
 from google.api_core.client_options import ClientOptions
+
 from google.cloud.retail import BigQuerySource, ImportUserEventsRequest, \
     UserEventInputConfig, UserEventServiceClient
-
 from setup.setup_cleanup import get_project_id
 
 project_number = os.getenv('PROJECT_NUMBER')
@@ -81,14 +81,21 @@ def import_user_events_from_big_query():
     while not big_query_operation.done():
         print("---please wait till operation is done---")
         time.sleep(5)
-
     print("---import user events operation is done---")
-    print("---number of successfully imported events---")
-    print(big_query_operation.metadata.success_count)
-    print("---number of failures during the importing---")
-    print(big_query_operation.metadata.failure_count)
-    print("---operation result:---")
-    print(big_query_operation.result())
+
+    if big_query_operation.metadata is not None:
+        print("---number of successfully imported events---")
+        print(big_query_operation.metadata.success_count)
+        print("---number of failures during the importing---")
+        print(big_query_operation.metadata.failure_count)
+    else:
+        print("---operation.metadata is empty---")
+
+    if big_query_operation.result is not None:
+        print("---operation result:---")
+        print(big_query_operation.result())
+    else:
+        print("---operation.result is empty---")
 
 
 import_user_events_from_big_query()

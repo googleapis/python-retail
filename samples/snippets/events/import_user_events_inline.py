@@ -51,7 +51,7 @@ def get_user_events():
         user_event = UserEvent()
         user_event.event_type = "home-page-view"
         user_event.visitor_id = ''.join(
-            random.sample(string.ascii_lowercase, 4)) + 'event_' + x
+            random.sample(string.ascii_lowercase, 4)) + 'event_' + str(x)
         user_event.event_time = timestamp
         user_events.append(user_event)
 
@@ -92,12 +92,20 @@ def import_user_events_from_inline_source():
         time.sleep(5)
 
     print("---import user events operation is done---")
-    print("---number of successfully imported events---")
-    print(import_operation.metadata.success_count)
-    print("---number of failures during the importing---")
-    print(import_operation.metadata.failure_count)
-    print("---operation result:---")
-    print(import_operation.result())
+
+    if import_operation.metadata is not None:
+        print("---number of successfully imported events---")
+        print(import_operation.metadata.success_count)
+        print("---number of failures during the importing---")
+        print(import_operation.metadata.failure_count)
+    else:
+        print("---operation.metadata is empty---")
+
+    if import_operation.result is not None:
+        print("---operation result:---")
+        print(import_operation.result())
+    else:
+        print("---operation.result is empty---")
 
 
 import_user_events_from_inline_source()

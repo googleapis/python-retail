@@ -57,7 +57,7 @@ def get_search_request(query: str, condition: str, boost_strength: float):
 # call the Retail Search:
 def search():
     # TRY DIFFERENT CONDITIONS HERE:
-    condition = '(colorFamily: ANY("Blue"))'
+    condition = '(colorFamilies: ANY("Blue"))'
     boost = 0.0
 
     search_request = get_search_request("Tee", condition, boost)

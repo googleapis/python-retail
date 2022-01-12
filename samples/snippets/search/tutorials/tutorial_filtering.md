@@ -150,7 +150,7 @@ You can write a simple expression that applies to the text field and looks like 
 Function `ANY` returns true if the field contains any literals.
 
 An example of such an expression is
-```'(colorFamily: ANY("Black"))'```
+```'(colorFamilies: ANY("Black"))'```
 
 1. To see the whole request with the filtering applied, open
 <walkthrough-editor-select-regex filePath="cloudshell_open/grs-samples-python/search/search_with_filtering.py" regex="TRY DIFFERENT FILTER EXPRESSIONS HERE">search_with_filtering.py</walkthrough-editor-select-regex>.
@@ -173,7 +173,7 @@ Now you can try filtering by a text field yourself in the Cloud Shell environmen
 
     or
     ```
-    filter = '(colorFamily: ANY("White","Gray"))'
+    filter = '(colorFamilies: ANY("White","Gray"))'
     ```
 1. Run the following command in Terminal:
     ```bash

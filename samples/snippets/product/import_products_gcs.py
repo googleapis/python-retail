@@ -96,14 +96,21 @@ def import_products_from_gcs():
     while not gcs_operation.done():
         print("---please wait till operation is done---")
         time.sleep(5)
-
     print("---import products operation is done---")
-    print("---number of successfully imported products---")
-    print(gcs_operation.metadata.success_count)
-    print("---number of failures during the importing---")
-    print(gcs_operation.metadata.failure_count)
-    print("---operation result:---")
-    print(gcs_operation.result())
+
+    if gcs_operation.metadata is not None:
+        print("---number of successfully imported products---")
+        print(gcs_operation.metadata.success_count)
+        print("---number of failures during the importing---")
+        print(gcs_operation.metadata.failure_count)
+    else:
+        print("---operation.metadata is empty---")
+
+    if gcs_operation.result is not None:
+        print("---operation result:---")
+        print(gcs_operation.result())
+    else:
+        print("---operation.result is empty---")
 
     # The imported products needs to be indexed in the catalog before they become available for search.
     print(

@@ -48,7 +48,6 @@ def get_user_event(visitor_id):
 
     product_detail = ProductDetail()
     product_detail.product = product
-    product_detail.quantity = 3
 
     user_event = UserEvent()
     user_event.event_type = "detail-page-view"
