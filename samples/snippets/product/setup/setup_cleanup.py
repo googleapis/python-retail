@@ -100,7 +100,6 @@ def try_to_delete_product_if_exists(product_name: str):
         get_product_service_client().delete_product(product.name)
     except NotFound as e:
         print(e.message)
-        #return e.message
 
 
 def get_project_id():
@@ -127,6 +126,22 @@ def create_bucket(bucket_name: str):
             )
         )
         return new_bucket
+
+
+def delete_bucket(bucket_name: str):
+    """Delete a bucket from Cloud Storage"""
+    storage_client = storage.Client()
+    print("deleting bucket name:" + bucket_name)
+    buckets_in_your_project = str(list_buckets())
+    if bucket_name in buckets_in_your_project:
+        blobs = storage_client.list_blobs(bucket_name)
+        for blob in blobs:
+            blob.delete()
+        bucket = storage_client.get_bucket(bucket_name)
+        bucket.delete()
+        print("Bucket {} deleted".format(bucket.name))
+    else:
+        print("Bucket {} is not found".format(bucket_name))
 
 
 def list_buckets():

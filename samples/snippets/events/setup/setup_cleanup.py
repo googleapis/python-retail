@@ -110,6 +110,23 @@ def create_bucket(bucket_name: str):
         return new_bucket
 
 
+def delete_bucket(bucket_name: str):
+    """Delete a bucket from Cloud Storage"""
+    storage_client = storage.Client()
+    print("deleting bucket name:" + bucket_name)
+    buckets_in_your_project = str(list_buckets())
+    if bucket_name in buckets_in_your_project:
+        blobs = storage_client.list_blobs(bucket_name)
+        for blob in blobs:
+            blob.delete()
+        bucket = storage_client.get_bucket(bucket_name)
+        bucket.delete()
+        print("Bucket {} deleted".format(bucket.name))
+    else:
+        print("Bucket {} is not found".format(bucket_name))
+
+
+
 def list_buckets():
     """Lists all buckets"""
     bucket_list = []
