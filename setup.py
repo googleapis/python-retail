@@ -17,7 +17,7 @@
 
 import io
 import os
-import setuptools  # type: ignore
+import setuptools  # type: ignore 
 
 version = "1.3.0"
 
