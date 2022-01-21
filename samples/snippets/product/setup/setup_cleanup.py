@@ -113,7 +113,7 @@ def get_project_id():
 
 def create_bucket(bucket_name: str):
     """Create a new bucket in Cloud Storage"""
-    print("bucket name:" + bucket_name)
+    print("Creating new bucket:" + bucket_name)
     buckets_in_your_project = str(list_buckets())
     if bucket_name in buckets_in_your_project:
         print("Bucket {} already exists".format(bucket_name))
@@ -133,7 +133,7 @@ def create_bucket(bucket_name: str):
 def delete_bucket(bucket_name: str):
     """Delete a bucket from Cloud Storage"""
     storage_client = storage.Client()
-    print("deleting bucket name:" + bucket_name)
+    print("Deleting bucket name:" + bucket_name)
     buckets_in_your_project = str(list_buckets())
     if bucket_name in buckets_in_your_project:
         blobs = storage_client.list_blobs(bucket_name)
@@ -141,7 +141,7 @@ def delete_bucket(bucket_name: str):
             blob.delete()
         bucket = storage_client.get_bucket(bucket_name)
         bucket.delete()
-        print("Bucket {} deleted".format(bucket.name))
+        print("Bucket {} is deleted".format(bucket.name))
     else:
         print("Bucket {} is not found".format(bucket_name))
 
@@ -151,10 +151,8 @@ def list_buckets():
     bucket_list = []
     storage_client = storage.Client()
     buckets = storage_client.list_buckets()
-
     for bucket in buckets:
         bucket_list.append(str(bucket))
-        print(bucket.name)
     return bucket_list
 
 
@@ -162,11 +160,11 @@ def upload_blob(bucket_name, source_file_name):
     """Uploads a file to the bucket."""
     # The path to your file to upload
     # source_file_name = "local/path/to/file"
-
+    print("Uploading data form {} to the bucket {}".format(source_file_name,
+                                                           bucket_name))
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
     object_name = re.search('resources/(.*?)$', source_file_name).group(1)
-
     blob = bucket.blob(object_name)
     blob.upload_from_filename(source_file_name)
 
@@ -179,10 +177,12 @@ def upload_blob(bucket_name, source_file_name):
 
 def create_bq_dataset(dataset_name):
     """Create a BigQuery dataset"""
+    print("Creating dataset {}".format(dataset_name))
     if dataset_name not in list_bq_datasets():
         create_dataset_command = 'bq --location=US mk -d --default_table_expiration 3600 --description "This is my dataset." {}:{}'.format(
             get_project_id(), dataset_name)
         subprocess.check_output(shlex.split(create_dataset_command))
+        print("dataset is created")
     else:
         print("dataset {} already exists".format(dataset_name))
 
@@ -191,12 +191,12 @@ def list_bq_datasets():
     """List BigQuery datasets in the project"""
     list_dataset_command = "bq ls --project_id {}".format(get_project_id())
     datasets = subprocess.check_output(shlex.split(list_dataset_command))
-    print(datasets)
     return str(datasets)
 
 
 def create_bq_table(dataset, table_name, schema):
     """Create a BigQuery table"""
+    print("Creating BigQuery table {}".format(table_name))
     if table_name not in list_bq_tables(dataset):
         create_table_command = "bq mk --table {}:{}.{} {}".format(
             get_project_id(),
@@ -204,6 +204,7 @@ def create_bq_table(dataset, table_name, schema):
             table_name, schema)
         output = subprocess.check_output(shlex.split(create_table_command))
         print(output)
+        print("table is created")
     else:
         print("table {} already exists".format(table_name))
 
@@ -212,13 +213,13 @@ def list_bq_tables(dataset):
     """List BigQuery tables in the dataset"""
     list_tables_command = "bq ls {}:{}".format(get_project_id(), dataset)
     tables = subprocess.check_output(shlex.split(list_tables_command))
-    print("tables:")
-    print(tables)
     return str(tables)
 
 
 def upload_data_to_bq_table(dataset, table_name, source, schema):
     """Upload data to the table from specified source file"""
+    print("Uploading data form {} to the table {}.{}".format(source, dataset,
+                                                             table_name))
     upload_data_command = "bq load --source_format=NEWLINE_DELIMITED_JSON {}:{}.{} {} {}".format(
         get_project_id(), dataset, table_name, source, schema)
     output = subprocess.check_output(shlex.split(upload_data_command))
