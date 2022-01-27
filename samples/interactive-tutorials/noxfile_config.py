@@ -21,7 +21,7 @@ TEST_CONFIG_OVERRIDE = {
     # You can opt out from the test for specific Python versions.
     "ignored_versions": ["2.7", "3.6", "3.8", "3.9"],
     # An envvar key for determining the project id to use. Change it
-    # to 'PROJECT_NUMBER' if you want to opt in using a
+    # to 'BUILD_SPECIFIC_GCLOUD_PROJECT' if you want to opt in using a
     # build specific Cloud project. You can also use your own string
     # to use your own Cloud project.
     'gcloud_project_env': 'GOOGLE_CLOUD_PROJECT',

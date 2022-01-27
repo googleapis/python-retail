@@ -21,7 +21,7 @@ import os
 from google.api_core.client_options import ClientOptions
 from google.cloud.retail import SearchRequest, SearchServiceClient
 
-project_number = os.getenv('PROJECT_NUMBER')
+project_number = os.environ['PROJECT_NUMBER']
 
 
 # get search service client
