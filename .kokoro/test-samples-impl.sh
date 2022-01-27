@@ -48,6 +48,11 @@ fi
 # - testing/client-secrets.json
 ./scripts/decrypt-secrets.sh
 
+for FILE in ${KOKORO_GFILE_DIR}/secret_manager/*-samples-secrets; do
+  [[ -f "$FILE" ]] || continue
+  source "$FILE"
+done
+
 source ./testing/test-env.sh
 export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/testing/service-account.json
 
