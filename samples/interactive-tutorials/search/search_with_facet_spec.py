@@ -18,7 +18,7 @@ import os
 
 from google.cloud.retail import SearchRequest, SearchServiceClient
 
-project_number = os.environ["PROJECT_NUMBER"]
+project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
 
 
 # get search service request:
