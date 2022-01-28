@@ -1,5 +1,22 @@
-# Google Retail Search: Python code samples
-## Get started
+# Google Retail API: Python Code Samples
+
+## Get started with the Google Cloud Retail API
+
+The Retail API provides you with the following possibilities to: 
+  - Create and maintaining the catalog data. 
+  - Fine-tune the search configuration.
+  - Import and maintain the user events data.
+
+You can find the information about the Retail services in the [documentation](https://cloud.google.com/retail/docs)
+
+<!--TODO(tkarasova) update the link to the tutorials when will be published-->
+If you would like to have a closer look at the Retail API features and try them yourself,
+the best option is to use the [Interactive Tutorials](https://cloud.google.com/retail/docs/overview). The tutorials will be launched in the CloudShell environment, and you will be able to request the Retail services and check the response with minimum time and effort.
+
+The code samples in the directory **python-retail/samples/interactive-tutorials** are explicitly created for use with the Retail Interactive Tutorials.
+
+If, for some reason, you have decided to proceed with these code samples without the tutorial, please go through the following steps and set up the required preconditions.
+
 ### Select your project and enable the Retail API
 
 Google Cloud organizes resources into projects. This lets you
@@ -14,35 +31,60 @@ After the project is created, set your PROJECT_ID to a ```project``` variable.
     gcloud config set project <YOUR_PROJECT_ID>
     ```
 
-1. Check that the Retail API is enabled for your Project in the [Admin Console](https://console.cloud.google.com/ai/retail/).
+1. To check that the Retail API is enabled for your Project, go to the [Admin Console](https://console.cloud.google.com/ai/retail/).
+
+### Create service account
+
+To access the Retail API, you must create a service account.
+
+1. To create a service account, follow this [instruction](https://cloud.google.com/retail/docs/setting-up#service-account)
+
+1. Find your service account on the [IAM page](https://console.cloud.google.com/iam-admin/iam),
+   click `Edit` icon, add the 'Storage Admin' and 'BigQuery Admin' roles. It may take some time for changes to apply.
+
+1. Copy the service account email in the Principal field.
 
 ### Set up authentication
 
-To run a code sample from the Cloud Shell, you need to authenticate. To do this, use the Application Default Credentials.
+To run a code sample from the Cloud Shell, you need to be authenticated using the service account credentials.
 
-1. Set your user credentials to authenticate your requests to the Retail API
-
+1. Login with your user credentials.
     ```bash
-    gcloud auth application-default login
+    gcloud auth login
     ```
 
-1. Type `Y` and press **Enter**. Click the link in Terminal. A browser window should appear asking you to log in using your Google account.
+1. Type `Y` and press **Enter**. Click the link in a Terminal. A browser window should appear asking you to log in using your Gmail account.
 
 1. Provide the Google Auth Library with access to your credentials and paste the code from the browser to the Terminal.
 
-1. Run the code sample and check the Retail API in action.
+1. Upload your service account key JSON file and use it to activate the service account:
 
-**Note**: Click the copy button on the side of the code box to paste the command in the Cloud Shell terminal and run it.
-
-### Set the GOOGLE_CLOUD_PROJECT_NUMBER environment variable
-
-Because you are going to run the code samples in your own Google Cloud project, you should specify the **project_number** as an environment variable. It will be used in every request to the Retail API.
-
-1. You can find the ```project_number``` in the Project Info card displayed on **Home/Dashboard**.
-
-1. Set the environment variable with the following command:
     ```bash
-    export GOOGLE_CLOUD_PROJECT_NUMBER=<YOUR_PROJECT_NUMBER>
+    gcloud iam service-accounts keys create ~/key.json --iam-account <YOUR_SERVICE_ACCOUNT_EMAIL>
+    ```
+
+    ```bash
+    gcloud auth activate-service-account --key-file ~/key.json
+    ```
+
+1. To request the Retail API, set your service account key JSON file as the GOOGLE_APPLICATION_CREDENTIALS environment variable :
+    ```bash
+    export GOOGLE_APPLICATION_CREDENTIALS=~/key.json
+    ```
+
+### Set the PROJECT_NUMBER and PROJECT_ID environment variables
+
+You will run the code samples in your own Google Cloud project. To use the **project_number** and **project_id** in every request to the Retail API, you should first specify them as environment variables.
+
+1. Find the project number and project ID in the Project Info card displayed on **Home/Dashboard**.
+
+1. Set the **project_number** with the following command:
+    ```bash
+    export PROJECT_NUMBER=<YOUR_PROJECT_NUMBER>
+    ```
+1. Set the **project_id** with the following command:
+    ```bash
+    export PROJECT_ID=<YOUR_PROJECT_ID>
     ```
 
 ### Install Google Cloud Retail libraries
@@ -64,27 +106,7 @@ To run Python code samples for the Retail API tutorial, you need to set up your 
 
     ```
 
-## Clone the Retail code samples
-
-This step is required if this is the first Retail API Tutorial you run.
-Otherwise, you can skip it.
-
-Clone the Git repository with all the code samples to learn the Retail features and check them in action.
-
-<!-- TODO(ianan): change the repository link -->
-1. Run the following command in the Terminal:
-    ```bash
-    git clone https://github.com/t-karasova/grs-samples-python.git
-    ```
-
-    The code samples for each of the Retail services are stored in different directories.
-
-1. Go to the ```grs-samples-python``` directory. It's our starting point to run more commands.
-    ```bash
-    cd grs-samples-python
-    ```
-
-## Import catalog data
+## Import Catalog Data
 
 This step is required if this is the first Retail API Tutorial you run.
 Otherwise, you can skip it.
