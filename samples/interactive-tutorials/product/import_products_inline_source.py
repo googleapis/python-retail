@@ -35,7 +35,6 @@ from google.protobuf.field_mask_pb2 import FieldMask
 
 project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
 
-endpoint = "retail.googleapis.com"
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog/branches/default_branch".format(
     project_number
 )
@@ -105,12 +104,6 @@ def get_products():
     return products
 
 
-# get product service client
-def get_product_service_client():
-    client_options = ClientOptions(endpoint)
-    return ProductServiceClient(client_options=client_options)
-
-
 # get import products from inline source request
 def get_import_products_inline_request(products_to_import):
     # TO CHECK ERROR HANDLING PASTE THE INVALID CATALOG NAME HERE:
@@ -134,7 +127,7 @@ def get_import_products_inline_request(products_to_import):
 # call the Retail API to import products
 def import_products_from_inline_source():
     import_request = get_import_products_inline_request(get_products())
-    import_operation = get_product_service_client().import_products(import_request)
+    import_operation = ProductServiceClient().import_products(import_request)
 
     print("---the operation was started:----")
     print(import_operation.operation.name)
