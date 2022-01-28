@@ -13,11 +13,13 @@
 # limitations under the License.
 
 import datetime
+import os
 
-from setup_cleanup import create_bucket, get_project_id, upload_blob
+from setup_cleanup import create_bucket, upload_blob
 
+project_id = os.environ["GOOGLE_CLOUD_PROJECT"]
 timestamp_ = datetime.datetime.now().timestamp().__round__()
-bucket_name = "{}_products_{}".format(get_project_id(), timestamp_)
+bucket_name = "{}_products_{}".format(project_id, timestamp_)
 
 create_bucket(bucket_name)
 upload_blob(bucket_name, "resources/products.json")
