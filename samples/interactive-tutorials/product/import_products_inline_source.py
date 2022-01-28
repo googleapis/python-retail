@@ -20,7 +20,6 @@ import random
 import string
 import time
 
-from google.api_core.client_options import ClientOptions
 from google.cloud.retail import (
     ColorInfo,
     FulfillmentInfo,
