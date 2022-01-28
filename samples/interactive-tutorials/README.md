@@ -101,8 +101,8 @@ To run Python code samples for the Retail API tutorial, you need to set up your 
     ```bash
     pip install google
     pip install google-cloud-retail
-    pip install google.cloud.storage
-    pip install google.cloud.bigquery
+    pip install google-cloud-storage
+    pip install google-cloud-bigquery
 
     ```
 
