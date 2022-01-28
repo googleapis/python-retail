@@ -41,7 +41,7 @@ def get_project_id():
 # Read the project number from the environment variable
 project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
 project_id = get_project_id()
-endpoint = "retail.googleapis.com"
+
 # You can change the branch here. The "default_branch" is set to point to the branch "0"
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog/branches/default_branch".format(
     project_number
@@ -55,12 +55,6 @@ gcs_products_object = "products.json"
 
 # TO CHECK ERROR HANDLING USE THE JSON WITH INVALID PRODUCT
 # gcs_products_object = "products_some_invalid.json"
-
-
-# get product service client
-def get_product_service_client():
-    client_options = ClientOptions(endpoint)
-    return ProductServiceClient(client_options=client_options)
 
 
 # get import products from gcs request
@@ -95,7 +89,7 @@ def get_import_products_gcs_request(gcs_object_name: str):
 # call the Retail API to import products
 def import_products_from_gcs():
     import_gcs_request = get_import_products_gcs_request(gcs_products_object)
-    gcs_operation = get_product_service_client().import_products(import_gcs_request)
+    gcs_operation = ProductServiceClient().import_products(import_gcs_request)
 
     print("---the operation was started:----")
     print(gcs_operation.operation.name)

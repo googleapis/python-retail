@@ -25,15 +25,9 @@ from google.cloud.retail_v2 import CreateProductRequest, DeleteProductRequest, \
     FulfillmentInfo, GetProductRequest, PriceInfo, Product, ProductServiceClient
 
 project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
-endpoint = "retail.googleapis.com"
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog".format(
     project_number)
 default_branch_name = "projects/" + project_number + "/locations/global/catalogs/default_catalog/branches/default_branch"
-
-
-def get_product_service_client():
-    client_options = ClientOptions(endpoint)
-    return ProductServiceClient(client_options=client_options)
 
 
 def generate_product() -> Product:
@@ -61,7 +55,7 @@ def create_product(product_id: str) -> object:
     create_product_request.product_id = product_id
     create_product_request.parent = default_branch_name
 
-    created_product = get_product_service_client().create_product(
+    created_product = ProductServiceClient().create_product(
         create_product_request)
     print("---product is created:---")
     print(created_product)
@@ -72,7 +66,7 @@ def create_product(product_id: str) -> object:
 def delete_product(product_name: str):
     delete_product_request = DeleteProductRequest()
     delete_product_request.name = product_name
-    get_product_service_client().delete_product(delete_product_request)
+    ProductServiceClient().delete_product(delete_product_request)
 
     print("---product " + product_name + " was deleted:---")
 
@@ -81,7 +75,7 @@ def get_product(product_name: str):
     get_product_request = GetProductRequest()
     get_product_request.name = product_name
     try:
-        product = get_product_service_client().get_product(get_product_request)
+        product = ProductServiceClient().get_product(get_product_request)
         print("---get product response:---")
         print(product)
         return product
@@ -98,8 +92,8 @@ def try_to_delete_product_if_exists(product_name: str):
     print(
         "---delete product from the catalog, if the product already exists---")
     try:
-        product = get_product_service_client().get_product(get_product_request)
-        get_product_service_client().delete_product(product.name)
+        product = ProductServiceClient().get_product(get_product_request)
+        ProductServiceClient().delete_product(product.name)
     except NotFound as e:
         print(e.message)
 

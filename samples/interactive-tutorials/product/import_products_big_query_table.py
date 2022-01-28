@@ -31,7 +31,6 @@ from setup.setup_cleanup import get_project_id
 project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
 project_id = get_project_id()
 
-endpoint = "retail.googleapis.com"
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog/branches/default_branch".format(
     project_number
 )
@@ -41,12 +40,6 @@ table_id = "products"
 
 # TO CHECK ERROR HANDLING USE THE TABLE WITH INVALID PRODUCTS:
 # table_id = "products_some_invalid"
-
-
-# get product service client
-def get_product_service_client():
-    client_options = ClientOptions(endpoint)
-    return ProductServiceClient(client_options=client_options)
 
 
 # get import products from big query request
@@ -81,7 +74,7 @@ def import_products_from_big_query():
     import_big_query_request = get_import_products_big_query_request(
         reconciliation_mode
     )
-    big_query_operation = get_product_service_client().import_products(
+    big_query_operation = ProductServiceClient().import_products(
         import_big_query_request
     )
 
