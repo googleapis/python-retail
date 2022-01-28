@@ -28,7 +28,7 @@ from google.cloud.retail import (
 
 from setup.setup_cleanup import get_project_id
 
-project_number = os.getenv("GOOGLE_CLOUD_PROJECT_NUMBER")
+project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
 project_id = get_project_id()
 
 endpoint = "retail.googleapis.com"
