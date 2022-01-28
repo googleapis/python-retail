@@ -26,7 +26,7 @@ To run a code sample from the Cloud Shell, you need to authenticate. To do this,
     gcloud auth application-default login
     ```
 
-1. Type `Y` and press **Enter**. Click the link in Terminal. A browser window should appear asking you to log in using your Gmail account.
+1. Type `Y` and press **Enter**. Click the link in Terminal. A browser window should appear asking you to log in using your Google account.
 
 1. Provide the Google Auth Library with access to your credentials and paste the code from the browser to the Terminal.
 
