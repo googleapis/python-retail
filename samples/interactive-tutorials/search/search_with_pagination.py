@@ -19,16 +19,9 @@
 #
 import os
 
-from google.api_core.client_options import ClientOptions
 from google.cloud.retail import SearchRequest, SearchServiceClient
 
 project_number = os.environ['PROJECT_NUMBER']
-
-
-# get search service client
-def get_search_service_client():
-    client_options = ClientOptions("retail.googleapis.com")
-    return SearchServiceClient(client_options=client_options)
 
 
 # get search service request:
@@ -59,7 +52,7 @@ def search():
 
     search_request_first_page = get_search_request("Hoodie", page_size, offset,
                                                    page_token)
-    search_response_first_page = get_search_service_client().search(
+    search_response_first_page = SearchServiceClient().search(
         search_request_first_page)
 
     print("---search response---")
