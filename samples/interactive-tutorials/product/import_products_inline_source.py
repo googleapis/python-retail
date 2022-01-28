@@ -21,16 +21,24 @@ import string
 import time
 
 from google.api_core.client_options import ClientOptions
-from google.cloud.retail import ColorInfo, FulfillmentInfo, \
-    ImportProductsRequest, PriceInfo, Product, ProductInlineSource, \
-    ProductInputConfig, ProductServiceClient
+from google.cloud.retail import (
+    ColorInfo,
+    FulfillmentInfo,
+    ImportProductsRequest,
+    PriceInfo,
+    Product,
+    ProductInlineSource,
+    ProductInputConfig,
+    ProductServiceClient,
+)
 from google.protobuf.field_mask_pb2 import FieldMask
 
-project_number = os.getenv('GOOGLE_CLOUD_PROJECT_NUMBER')
+project_number = os.getenv("GOOGLE_CLOUD_PROJECT_NUMBER")
 
 endpoint = "retail.googleapis.com"
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog/branches/default_branch".format(
-    project_number)
+    project_number
+)
 
 
 # prepare product to import as inline source
@@ -47,20 +55,17 @@ def get_products():
 
     color_info1 = ColorInfo()
     color_info1.color_families = ["Blue"]
-    color_info1.colors = ["Light blue",
-                          "Blue",
-                          "Dark blue"]
+    color_info1.colors = ["Light blue", "Blue", "Dark blue"]
 
     fulfillment_info1 = FulfillmentInfo()
     fulfillment_info1.type_ = "pickup-in-store"
     fulfillment_info1.place_ids = ["store1", "store2"]
 
-    field_mask1 = FieldMask(
-        paths=["title", "categories", "price_info", "color_info"])
+    field_mask1 = FieldMask(paths=["title", "categories", "price_info", "color_info"])
 
     # TO CHECK ERROR HANDLING COMMENT OUT THE PRODUCT TITLE HERE:
     product1.title = "#IamRemarkable Pen"
-    product1.id = ''.join(random.sample(string.ascii_lowercase, 8))
+    product1.id = "".join(random.sample(string.ascii_lowercase, 8))
     product1.categories = ["Office"]
     product1.uri = "https://shop.googlemerchandisestore.com/Google+Redesign/Office/IamRemarkable+Pen"
     product1.brands = ["#IamRemarkable"]
@@ -83,11 +88,10 @@ def get_products():
     fulfillment_info2.type_ = "pickup-in-store"
     fulfillment_info2.place_ids = ["store2", "store3"]
 
-    field_mask2 = FieldMask(
-        paths=["title", "categories", "price_info", "color_info"])
+    field_mask2 = FieldMask(paths=["title", "categories", "price_info", "color_info"])
 
     product2.title = "Android Embroidered Crewneck Sweater"
-    product2.id = ''.join(random.sample(string.ascii_lowercase, 8))
+    product2.id = "".join(random.sample(string.ascii_lowercase, 8))
     product2.categories = ["Apparel"]
     product2.uri = "https://shop.googlemerchandisestore.com/Google+Redesign/Apparel/Android+Embroidered+Crewneck+Sweater"
     product2.brands = ["Android"]
@@ -130,8 +134,7 @@ def get_import_products_inline_request(products_to_import):
 # call the Retail API to import products
 def import_products_from_inline_source():
     import_request = get_import_products_inline_request(get_products())
-    import_operation = get_product_service_client().import_products(
-        import_request)
+    import_operation = get_product_service_client().import_products(import_request)
 
     print("---the operation was started:----")
     print(import_operation.operation.name)
