@@ -24,7 +24,7 @@ from google.cloud.retail import GcsSource, ImportErrorsConfig, \
 from google.cloud.retail_v2 import ProductServiceClient
 
 project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
-bucket_name = os.getenv('BUCKET_NAME')
+bucket_name = os.environ['BUCKET_NAME']
 storage_client = storage.Client()
 resource_file = "resources/products.json"
 object_name = re.search('resources/(.*?)$', resource_file).group(1)

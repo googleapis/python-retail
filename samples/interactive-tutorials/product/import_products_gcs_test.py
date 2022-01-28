@@ -18,7 +18,7 @@ import subprocess
 
 def test_import_products_gcs():
     output = str(
-        subprocess.check_output("python product/import_products_gcs.py", shell=True)
+        subprocess.check_output("python import_products_gcs.py", shell=True)
     )
 
     assert re.match(".*import products from google cloud source request.*", output)

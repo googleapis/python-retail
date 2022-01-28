@@ -22,7 +22,7 @@ from google.cloud.retail import DeleteProductRequest, ListProductsRequest, \
     ProductServiceClient
 
 project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
-bucket_name = os.getenv('BUCKET_NAME')
+bucket_name = os.environ['BUCKET_NAME']
 
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog/branches/default_branch".format(
     project_number)

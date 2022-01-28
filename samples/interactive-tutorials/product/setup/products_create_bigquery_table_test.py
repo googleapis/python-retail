@@ -19,7 +19,7 @@ import subprocess
 def test_create_bigquery_table():
     output = str(
         subprocess.check_output(
-            'python product/setup/products_create_bigquery_table.py',
+            'python setup/products_create_bigquery_table.py',
             shell=True))
     assert re.match(
         '.*Creating dataset products.*', output)

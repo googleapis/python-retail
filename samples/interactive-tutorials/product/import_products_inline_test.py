@@ -19,7 +19,7 @@ import subprocess
 def test_import_products_gcs():
     output = str(
         subprocess.check_output(
-            "python product/import_products_inline_source.py", shell=True
+            "python import_products_inline_source.py", shell=True
         )
     )
 
