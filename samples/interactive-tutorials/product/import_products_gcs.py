@@ -39,7 +39,7 @@ def get_project_id():
 
 
 # Read the project number from the environment variable
-project_number = os.getenv("GOOGLE_CLOUD_PROJECT_NUMBER")
+project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
 project_id = get_project_id()
 endpoint = "retail.googleapis.com"
 # You can change the branch here. The "default_branch" is set to point to the branch "0"

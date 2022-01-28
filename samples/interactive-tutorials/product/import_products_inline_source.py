@@ -33,7 +33,7 @@ from google.cloud.retail import (
 )
 from google.protobuf.field_mask_pb2 import FieldMask
 
-project_number = os.getenv("GOOGLE_CLOUD_PROJECT_NUMBER")
+project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
 
 endpoint = "retail.googleapis.com"
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog/branches/default_branch".format(
