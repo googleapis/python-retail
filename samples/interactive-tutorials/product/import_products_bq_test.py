@@ -17,13 +17,17 @@ import subprocess
 
 
 def test_import_products_bq():
-    output = str(subprocess.check_output(
-        'python product/import_products_big_query_table.py', shell=True))
+    output = str(
+        subprocess.check_output(
+            "python product/import_products_big_query_table.py", shell=True
+        )
+    )
 
-    assert re.match('.*import products from big query table request.*', output)
-    assert re.match('.*the operation was started.*', output)
+    assert re.match(".*import products from big query table request.*", output)
+    assert re.match(".*the operation was started.*", output)
     assert re.match(
-        '.*projects/.*/locations/global/catalogs/default_catalog/branches/0/operations/import-products.*',
-        output)
+        ".*projects/.*/locations/global/catalogs/default_catalog/branches/0/operations/import-products.*",
+        output,
+    )
 
-    assert re.match('.*number of successfully imported products.*316.*', output)
+    assert re.match(".*number of successfully imported products.*316.*", output)

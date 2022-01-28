@@ -19,17 +19,22 @@ import os
 import time
 
 from google.api_core.client_options import ClientOptions
-from google.cloud.retail import BigQuerySource, ImportProductsRequest, \
-    ProductInputConfig, ProductServiceClient
+from google.cloud.retail import (
+    BigQuerySource,
+    ImportProductsRequest,
+    ProductInputConfig,
+    ProductServiceClient,
+)
 
 from setup.setup_cleanup import get_project_id
 
-project_number = os.getenv('GOOGLE_CLOUD_PROJECT_NUMBER')
+project_number = os.getenv("GOOGLE_CLOUD_PROJECT_NUMBER")
 project_id = get_project_id()
 
 endpoint = "retail.googleapis.com"
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog/branches/default_branch".format(
-    project_number)
+    project_number
+)
 dataset_id = "products"
 table_id = "products"
 
@@ -74,9 +79,11 @@ def import_products_from_big_query():
     reconciliation_mode = ImportProductsRequest.ReconciliationMode.INCREMENTAL
 
     import_big_query_request = get_import_products_big_query_request(
-        reconciliation_mode)
+        reconciliation_mode
+    )
     big_query_operation = get_product_service_client().import_products(
-        import_big_query_request)
+        import_big_query_request
+    )
 
     print("---the operation was started:----")
     print(big_query_operation.operation.name)
@@ -99,6 +106,7 @@ def import_products_from_big_query():
         print(big_query_operation.result())
     else:
         print("---operation.result is empty---")
+
 
 import_products_from_big_query()
 

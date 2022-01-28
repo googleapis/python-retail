@@ -18,15 +18,15 @@ import subprocess
 
 def test_import_products_gcs():
     output = str(
-        subprocess.check_output('python product/import_products_gcs.py',
-                                shell=True))
+        subprocess.check_output("python product/import_products_gcs.py", shell=True)
+    )
 
-    assert re.match('.*import products from google cloud source request.*',
-                    output)
+    assert re.match(".*import products from google cloud source request.*", output)
     assert re.match('.*input_uris: "gs://.*/products.json".*', output)
-    assert re.match('.*the operation was started.*', output)
+    assert re.match(".*the operation was started.*", output)
     assert re.match(
-        '.*projects/.*/locations/global/catalogs/default_catalog/branches/0/operations/import-products.*',
-        output)
+        ".*projects/.*/locations/global/catalogs/default_catalog/branches/0/operations/import-products.*",
+        output,
+    )
 
-    assert re.match('.*number of successfully imported products.*316.*', output)
+    assert re.match(".*number of successfully imported products.*316.*", output)
