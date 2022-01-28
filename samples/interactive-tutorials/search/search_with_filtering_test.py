@@ -22,7 +22,7 @@ from search_with_filtering import search
 
 def test_search_with_filtering_pass():
     output = str(
-        subprocess.check_output("python search/search_with_filtering.py", shell=True)
+        subprocess.check_output("python search_with_filtering.py", shell=True)
     )
 
     assert re.match(".*search request.*", output)

@@ -17,26 +17,25 @@
 import re
 import subprocess
 
-from search_with_query_expansion_spec import search
+from search_with_facet_spec import search
 
 
-def test_search_with_query_expansion_spec_pass():
+def test_search_with_filtering_pass():
     output = str(
-        subprocess.check_output(
-            "python search/search_with_query_expansion_spec.py", shell=True
-        )
+        subprocess.check_output("python search_with_facet_spec.py", shell=True)
     )
 
     assert re.match(".*search request.*", output)
     assert re.match(".*search response.*", output)
     # check the response contains some products
     assert re.match(".*results.*id.*", output)
+    assert re.match(".*facets.*?colorFamilies.*", output)
 
 
-def test_search_with_query_expansion_spec():
+def test_search_with_filtering():
     response = search()
 
     assert len(response.results) == 10
-    assert response.results[0].product.title == "Google Youth Hero Tee Grey"
-    assert response.results[2].product.title != "Google Youth Hero Tee Grey"
-    assert response.query_expansion_info.expanded_query is True
+    product_title = response.results[0].product.title
+    assert re.match(".*Tee.*", product_title)
+    assert response.facets[0].key == "colorFamilies"

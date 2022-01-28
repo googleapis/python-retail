@@ -22,7 +22,7 @@ from search_with_boost_spec import search
 
 def test_search_with_boost_spec_pass():
     output = str(
-        subprocess.check_output("python search/search_with_boost_spec.py", shell=True)
+        subprocess.check_output("python search_with_boost_spec.py", shell=True)
     )
 
     assert re.match(".*search request.*", output)

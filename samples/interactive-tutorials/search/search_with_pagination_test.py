@@ -22,7 +22,7 @@ from search_with_pagination import search
 
 def test_search_with_pagination_pass():
     output = str(
-        subprocess.check_output("python search/search_with_pagination.py", shell=True)
+        subprocess.check_output("python search_with_pagination.py", shell=True)
     )
 
     assert re.match(".*search request.*", output)
