@@ -31,16 +31,9 @@ from google.cloud.retail import (
 )
 
 
-def get_project_id():
-    get_project_command = "gcloud config get-value project --format json"
-    config = subprocess.check_output(shlex.split(get_project_command))
-    project_id = re.search('"(.*?)"', str(config)).group(1)
-    return project_id
-
-
 # Read the project number from the environment variable
 project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
-project_id = get_project_id()
+project_id = os.environ["GOOGLE_CLOUD_PROJECT"]
 
 # You can change the branch here. The "default_branch" is set to point to the branch "0"
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog/branches/default_branch".format(

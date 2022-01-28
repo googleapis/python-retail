@@ -26,10 +26,8 @@ from google.cloud.retail import (
     ProductServiceClient,
 )
 
-from setup.setup_cleanup import get_project_id
-
 project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
-project_id = get_project_id()
+project_id = os.environ["GOOGLE_CLOUD_PROJECT"]
 
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog/branches/default_branch".format(
     project_number
