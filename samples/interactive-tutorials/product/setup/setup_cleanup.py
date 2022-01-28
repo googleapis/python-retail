@@ -17,7 +17,6 @@ import re
 import shlex
 import subprocess
 
-from google.api_core.client_options import ClientOptions
 from google.api_core.exceptions import NotFound
 
 from google.cloud import storage
@@ -97,7 +96,6 @@ def try_to_delete_product_if_exists(product_name: str):
         ProductServiceClient().delete_product(product.name)
     except NotFound as e:
         print(e.message)
-
 
 
 def create_bucket(bucket_name: str):

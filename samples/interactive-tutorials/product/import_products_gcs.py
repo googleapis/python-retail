@@ -16,12 +16,8 @@
 # Import products into a catalog from gcs using Retail API
 #
 import os
-import re
-import shlex
-import subprocess
 import time
 
-from google.api_core.client_options import ClientOptions
 from google.cloud.retail import (
     GcsSource,
     ImportErrorsConfig,

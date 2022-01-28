@@ -14,6 +14,7 @@
 
 import re
 import subprocess
+
 from products_delete_gcs_bucket import delete_bucket_by_name
 
 
@@ -37,4 +38,3 @@ def test_create_gcs_bucket():
     assert re.match(
         '.*Uploading data form resources/products_some_invalid.json to the bucket.*',
         output)
-
