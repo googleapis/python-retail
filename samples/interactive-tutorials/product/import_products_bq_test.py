@@ -19,7 +19,7 @@ import subprocess
 def test_import_products_bq():
     output = str(
         subprocess.check_output(
-            "python product/import_products_big_query_table.py", shell=True
+            "python import_products_big_query_table.py", shell=True
         )
     )
 

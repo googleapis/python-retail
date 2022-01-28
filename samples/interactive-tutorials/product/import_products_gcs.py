@@ -34,14 +34,14 @@ from google.cloud.retail import (
 # Read the project number from the environment variable
 project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
 project_id = os.environ["GOOGLE_CLOUD_PROJECT"]
+bucket_name = os.environ["BUCKET_NAME"]
 
 # You can change the branch here. The "default_branch" is set to point to the branch "0"
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog/branches/default_branch".format(
     project_number
 )
 
-# Read bucket name from the environment variable
-gcs_bucket = "gs://{}".format(os.getenv("BUCKET_NAME"))
+gcs_bucket = "gs://{}".format(bucket_name)
 gcs_errors_bucket = "{}/error".format(gcs_bucket)
 gcs_products_object = "products.json"
 
