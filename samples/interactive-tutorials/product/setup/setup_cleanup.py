@@ -24,7 +24,7 @@ from google.cloud import storage
 from google.cloud.retail_v2 import CreateProductRequest, DeleteProductRequest, \
     FulfillmentInfo, GetProductRequest, PriceInfo, Product, ProductServiceClient
 
-project_number = os.getenv('GOOGLE_CLOUD_PROJECT_NUMBER')
+project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
 endpoint = "retail.googleapis.com"
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog".format(
     project_number)
