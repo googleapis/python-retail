@@ -267,4 +267,3 @@ def readmegen(session: nox.sessions.Session, path: str) -> None:
     session.run(
         "python", _get_repo_root() + "/scripts/readme-gen/readme_gen.py", in_file
     )
-    

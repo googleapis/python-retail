@@ -22,13 +22,13 @@ from search_with_filtering import search
 
 def test_search_with_filtering_pass():
     output = str(
-        subprocess.check_output('python search/search_with_filtering.py',
-                                shell=True))
+        subprocess.check_output("python search/search_with_filtering.py", shell=True)
+    )
 
-    assert re.match('.*search request.*', output)
-    assert re.match('.*search response.*', output)
+    assert re.match(".*search request.*", output)
+    assert re.match(".*search response.*", output)
     # check the response contains some products
-    assert re.match('.*results.*id.*', output)
+    assert re.match(".*results.*id.*", output)
 
 
 def test_search_with_filtering():
@@ -36,6 +36,6 @@ def test_search_with_filtering():
 
     assert len(response.results) == 10
     product_title = response.results[0].product.title
-    assert re.match('.*Tee.*Black', product_title)
+    assert re.match(".*Tee.*Black", product_title)
     assert "Black" in response.results[0].product.color_info.color_families
     assert response.total_size == 16

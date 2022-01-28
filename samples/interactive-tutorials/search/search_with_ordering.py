@@ -19,13 +19,16 @@ import os
 
 from google.cloud.retail import SearchRequest, SearchServiceClient
 
-project_number = os.environ['PROJECT_NUMBER']
+project_number = os.environ["PROJECT_NUMBER"]
 
 
 # get search service request:
 def get_search_request(query: str, order: str):
-    default_search_placement = "projects/" + project_number + \
-                               "/locations/global/catalogs/default_catalog/placements/default_search"
+    default_search_placement = (
+        "projects/"
+        + project_number
+        + "/locations/global/catalogs/default_catalog/placements/default_search"
+    )
 
     search_request = SearchRequest()
     search_request.placement = default_search_placement
@@ -43,7 +46,7 @@ def get_search_request(query: str, order: str):
 # call the Retail Search:
 def search():
     # TRY DIFFERENT ORDERING EXPRESSIONS HERE:
-    order = 'price desc'
+    order = "price desc"
 
     search_request = get_search_request("Hoodie", order)
     search_response = SearchServiceClient().search(search_request)

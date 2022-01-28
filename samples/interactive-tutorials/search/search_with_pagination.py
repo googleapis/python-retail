@@ -21,13 +21,16 @@ import os
 
 from google.cloud.retail import SearchRequest, SearchServiceClient
 
-project_number = os.environ['PROJECT_NUMBER']
+project_number = os.environ["PROJECT_NUMBER"]
 
 
 # get search service request:
-def get_search_request(query: str, page_size: int, offset: int,
-                       next_page_token: str):
-    default_search_placement = "projects/" + project_number + "/locations/global/catalogs/default_catalog/placements/default_search"
+def get_search_request(query: str, page_size: int, offset: int, next_page_token: str):
+    default_search_placement = (
+        "projects/"
+        + project_number
+        + "/locations/global/catalogs/default_catalog/placements/default_search"
+    )
 
     search_request = SearchRequest()
     search_request.placement = default_search_placement
@@ -50,10 +53,10 @@ def search():
     offset = 0
     page_token = ""
 
-    search_request_first_page = get_search_request("Hoodie", page_size, offset,
-                                                   page_token)
-    search_response_first_page = SearchServiceClient().search(
-        search_request_first_page)
+    search_request_first_page = get_search_request(
+        "Hoodie", page_size, offset, page_token
+    )
+    search_response_first_page = SearchServiceClient().search(search_request_first_page)
 
     print("---search response---")
     print(search_response_first_page)

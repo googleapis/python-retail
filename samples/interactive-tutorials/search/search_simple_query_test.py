@@ -21,13 +21,14 @@ from search_simple_query import search
 
 
 def test_search_simple_query_pass():
-    output = str(subprocess.check_output('python search/search_simple_query.py',
-                                         shell=True))
+    output = str(
+        subprocess.check_output("python search/search_simple_query.py", shell=True)
+    )
 
-    assert re.match('.*search request.*', output)
-    assert re.match('.*search response.*', output)
+    assert re.match(".*search request.*", output)
+    assert re.match(".*search response.*", output)
     # check the response contains some products
-    assert re.match('.*results.*id.*', output)
+    assert re.match(".*results.*id.*", output)
 
 
 def test_search_simple_query_response():
@@ -35,4 +36,4 @@ def test_search_simple_query_response():
 
     assert len(response.results) == 10
     product_title = response.results[0].product.title
-    assert re.match('.*Hoodie.*', product_title)
+    assert re.match(".*Hoodie.*", product_title)

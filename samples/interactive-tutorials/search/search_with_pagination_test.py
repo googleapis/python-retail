@@ -21,17 +21,19 @@ from search_with_pagination import search
 
 
 def test_search_with_pagination_pass():
-    output = str(subprocess.check_output('python search/search_with_pagination.py', shell=True))
+    output = str(
+        subprocess.check_output("python search/search_with_pagination.py", shell=True)
+    )
 
-    assert re.match('.*search request.*', output)
-    assert re.match('.*search response.*', output)
+    assert re.match(".*search request.*", output)
+    assert re.match(".*search response.*", output)
     # check the response contains some products
-    assert re.match('.*results.*id.*', output)
+    assert re.match(".*results.*id.*", output)
 
 
 def test_search_with_pagination():
     response = search()
 
     product_title = response.results[0].product.title
-    assert re.match('.*Hoodie', product_title)
+    assert re.match(".*Hoodie", product_title)
     assert len(response.results) == 6

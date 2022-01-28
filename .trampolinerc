@@ -61,6 +61,3 @@ fi
 if [[ -z "${TRAMPOLINE_BUILD_FILE:-}" ]]; then
     TRAMPOLINE_BUILD_FILE=""
 fi
-
-# Secret Manager secrets.
-source ${PROJECT_ROOT}/.kokoro/populate-secrets.sh

@@ -18,12 +18,16 @@ import os
 
 from google.cloud.retail import SearchRequest, SearchServiceClient
 
-project_number = os.environ['PROJECT_NUMBER']
+project_number = os.environ["PROJECT_NUMBER"]
 
 
 # get search service request:
 def get_search_request(query: str, facet_key_param: str):
-    default_search_placement = "projects/" + project_number + "/locations/global/catalogs/default_catalog/placements/default_search"
+    default_search_placement = (
+        "projects/"
+        + project_number
+        + "/locations/global/catalogs/default_catalog/placements/default_search"
+    )
     # PUT THE INTERVALS HERE:
     facet_key = SearchRequest.FacetSpec().FacetKey()
     facet_key.key = facet_key_param
