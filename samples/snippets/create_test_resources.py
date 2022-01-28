@@ -16,12 +16,12 @@ import os
 import re
 import time
 
-from google.api_core.client_options import ClientOptions
 from google.cloud.storage.bucket import Bucket
 
 from google.cloud import storage
 from google.cloud.retail import GcsSource, ImportErrorsConfig, \
-    ImportProductsRequest, ProductInputConfig, ProductServiceClient
+    ImportProductsRequest, ProductInputConfig
+from google.cloud.retail_v2 import ProductServiceClient
 
 project_number = os.getenv('PROJECT_NUMBER')
 bucket_name = os.getenv('BUCKET_NAME')
@@ -70,12 +70,6 @@ def upload_data_to_bucket(bucket: Bucket):
                                                          bucket.name))
 
 
-def get_product_service_client():
-    """Get product service client"""
-    client_options = ClientOptions()
-    return ProductServiceClient(client_options=client_options)
-
-
 def get_import_products_gcs_request():
     """Get import products from gcs request"""
     gcs_bucket = "gs://{}".format(bucket_name)
@@ -105,7 +99,7 @@ def get_import_products_gcs_request():
 def import_products_from_gcs():
     """Call the Retail API to import products"""
     import_gcs_request = get_import_products_gcs_request()
-    gcs_operation = get_product_service_client().import_products(
+    gcs_operation = ProductServiceClient().import_products(
         import_gcs_request)
     print(
         "Import operation is started: {}".format(gcs_operation.operation.name))
@@ -128,5 +122,6 @@ def import_products_from_gcs():
 after that they will be available for search")
 
 
-upload_data_to_bucket(create_bucket(bucket_name))
+created_bucket = create_bucket(bucket_name)
+upload_data_to_bucket(created_bucket)
 import_products_from_gcs()

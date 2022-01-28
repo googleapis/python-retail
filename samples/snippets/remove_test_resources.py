@@ -14,7 +14,7 @@
 
 import os
 
-from google.api_core.client_options import ClientOptions
+from google.api_core.exceptions import PermissionDenied
 from google.cloud.storage.bucket import Bucket
 
 from google.cloud import storage
@@ -52,8 +52,7 @@ def delete_object_from_bucket(bucket: Bucket):
 
 def delete_all_products():
     """Delete all products in the catalog"""
-    client_options = ClientOptions()
-    product_client = ProductServiceClient(client_options=client_options)
+    product_client = ProductServiceClient()
     list_request = ListProductsRequest()
     list_request.parent = default_catalog
     products = product_client.list_products(list_request)
@@ -65,7 +64,8 @@ def delete_all_products():
             product_client.delete_product(delete_request)
             delete_count += 1
         except PermissionDenied:
-            print("Ignore PermissionDenied in case the product does not exist at time of deletion")
+            print(
+                "Ignore PermissionDenied in case the product does not exist at time of deletion")
     print(f"{delete_count} products were deleted from {default_catalog}")
 
 
