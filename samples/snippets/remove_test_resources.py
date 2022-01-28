@@ -57,11 +57,16 @@ def delete_all_products():
     list_request = ListProductsRequest()
     list_request.parent = default_catalog
     products = product_client.list_products(list_request)
+    delete_count = 0
     for product in products:
         delete_request = DeleteProductRequest()
         delete_request.name = product.name
-        product_client.delete_product(delete_request)
-    print("Products are deleted from {}".format(default_catalog))
+        try:
+            product_client.delete_product(delete_request)
+            delete_count += 1
+        except PermissionDenied:
+            print("Ignore PermissionDenied in case the product does not exist at time of deletion")
+    print(f"{delete_count} products were deleted from {default_catalog}")
 
 
 delete_bucket()
