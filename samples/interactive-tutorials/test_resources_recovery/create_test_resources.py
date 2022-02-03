@@ -86,7 +86,7 @@ def upload_data_to_bucket(bucket: Bucket):
 
 def get_import_products_gcs_request():
     """Get import products from gcs request"""
-    gcs_bucket = "gs://{}".format(bucket_name)
+    gcs_bucket = "gs://{}".format(products_bucket_name)
     gcs_errors_bucket = "{}/error".format(gcs_bucket)
 
     gcs_source = GcsSource()
