@@ -26,7 +26,8 @@ from google.cloud.retail import GcsSource, ImportErrorsConfig, \
 from google.cloud.retail_v2 import ProductServiceClient
 
 project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
-bucket_name = os.environ['BUCKET_NAME']
+products_bucket_name = os.environ['BUCKET_NAME']
+events_bucket_name = os.environ['EVENTS_BUCKET_NAME']
 project_id = os.environ["GOOGLE_CLOUD_PROJECT_ID"]
 
 product_resource_file = "../resources/products.json"
@@ -188,11 +189,11 @@ def upload_data_to_bq_table(dataset, table_name, source, schema):
 
 
 # Create a GCS bucket with products.json file
-created_products_bucket = create_bucket(bucket_name)
+created_products_bucket = create_bucket(products_bucket_name)
 upload_data_to_bucket(created_products_bucket)
 
 # Create a GCS bucket with user_events.json file
-created_events_bucket = create_bucket(bucket_name)
+created_events_bucket = create_bucket(events_bucket_name)
 upload_data_to_bucket(created_events_bucket)
 
 # Import prodcuts from the GCS bucket to the Retail catalog
