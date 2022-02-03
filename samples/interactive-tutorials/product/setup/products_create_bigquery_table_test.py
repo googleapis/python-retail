@@ -30,7 +30,7 @@ def test_create_bigquery_table():
     assert re.match(
         '(.*table products already exists.*|.*table is created.*)', output)
     assert re.match(
-        '.*Uploading data form resources/products.json to the table products.products.*', output)
+        '.*Uploading data form ../resources/products.json to the table products.products.*', output)
 
     assert re.match(
         '.*Creating BigQuery table products_some_invalid.*',
@@ -39,5 +39,5 @@ def test_create_bigquery_table():
         '(.*table products_some_invalid already exists.*|.*table is created.*)',
         output)
     assert re.match(
-        '.*Uploading data form resources/products_some_invalid.json to the table products.products_some_invalid.*',
+        '.*Uploading data form ../resources/products_some_invalid.json to the table products.products_some_invalid.*',
         output)
