@@ -446,6 +446,31 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
     ) -> gcr_product.Product:
         r"""Creates a [Product][google.cloud.retail.v2.Product].
 
+
+        .. code-block::
+
+            from google.cloud import retail_v2
+
+            def sample_create_product():
+                # Create a client
+                client = retail_v2.ProductServiceClient()
+
+                # Initialize request argument(s)
+                product = retail_v2.Product()
+                product.title = "title_value"
+
+                request = retail_v2.CreateProductRequest(
+                    parent="parent_value",
+                    product=product,
+                    product_id="product_id_value",
+                )
+
+                # Make the request
+                response = client.create_product(request=request)
+
+                # Handle response
+                print(response)
+
         Args:
             request (Union[google.cloud.retail_v2.types.CreateProductRequest, dict]):
                 The request object. Request message for
@@ -501,7 +526,7 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
         """
         # Create or coerce a protobuf request object.
-        # Sanity check: If we got a request object, we should *not* have
+        # Quick check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
         has_flattened_params = any([parent, product, product_id])
         if request is not None and has_flattened_params:
@@ -552,6 +577,26 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
     ) -> product.Product:
         r"""Gets a [Product][google.cloud.retail.v2.Product].
 
+
+        .. code-block::
+
+            from google.cloud import retail_v2
+
+            def sample_get_product():
+                # Create a client
+                client = retail_v2.ProductServiceClient()
+
+                # Initialize request argument(s)
+                request = retail_v2.GetProductRequest(
+                    name="name_value",
+                )
+
+                # Make the request
+                response = client.get_product(request=request)
+
+                # Handle response
+                print(response)
+
         Args:
             request (Union[google.cloud.retail_v2.types.GetProductRequest, dict]):
                 The request object. Request message for [GetProduct][]
@@ -587,7 +632,7 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
         """
         # Create or coerce a protobuf request object.
-        # Sanity check: If we got a request object, we should *not* have
+        # Quick check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
         has_flattened_params = any([name])
         if request is not None and has_flattened_params:
@@ -634,6 +679,25 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
     ) -> pagers.ListProductsPager:
         r"""Gets a list of [Product][google.cloud.retail.v2.Product]s.
 
+
+        .. code-block::
+
+            from google.cloud import retail_v2
+
+            def sample_list_products():
+                # Create a client
+                client = retail_v2.ProductServiceClient()
+
+                # Initialize request argument(s)
+                request = retail_v2.ListProductsRequest(
+                    parent="parent_value",
+                )
+
+                # Make the request
+                page_result = client.list_products(request=request)
+                for response in page_result:
+                    print(response)
+
         Args:
             request (Union[google.cloud.retail_v2.types.ListProductsRequest, dict]):
                 The request object. Request message for
@@ -670,7 +734,7 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
         """
         # Create or coerce a protobuf request object.
-        # Sanity check: If we got a request object, we should *not* have
+        # Quick check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
         has_flattened_params = any([parent])
         if request is not None and has_flattened_params:
@@ -724,6 +788,29 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
     ) -> gcr_product.Product:
         r"""Updates a [Product][google.cloud.retail.v2.Product].
 
+
+        .. code-block::
+
+            from google.cloud import retail_v2
+
+            def sample_update_product():
+                # Create a client
+                client = retail_v2.ProductServiceClient()
+
+                # Initialize request argument(s)
+                product = retail_v2.Product()
+                product.title = "title_value"
+
+                request = retail_v2.UpdateProductRequest(
+                    product=product,
+                )
+
+                # Make the request
+                response = client.update_product(request=request)
+
+                # Handle response
+                print(response)
+
         Args:
             request (Union[google.cloud.retail_v2.types.UpdateProductRequest, dict]):
                 The request object. Request message for
@@ -771,7 +858,7 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
         """
         # Create or coerce a protobuf request object.
-        # Sanity check: If we got a request object, we should *not* have
+        # Quick check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
         has_flattened_params = any([product, update_mask])
         if request is not None and has_flattened_params:
@@ -822,6 +909,23 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
     ) -> None:
         r"""Deletes a [Product][google.cloud.retail.v2.Product].
 
+
+        .. code-block::
+
+            from google.cloud import retail_v2
+
+            def sample_delete_product():
+                # Create a client
+                client = retail_v2.ProductServiceClient()
+
+                # Initialize request argument(s)
+                request = retail_v2.DeleteProductRequest(
+                    name="name_value",
+                )
+
+                # Make the request
+                response = client.delete_product(request=request)
+
         Args:
             request (Union[google.cloud.retail_v2.types.DeleteProductRequest, dict]):
                 The request object. Request message for
@@ -863,7 +967,7 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
                 sent along with the request as metadata.
         """
         # Create or coerce a protobuf request object.
-        # Sanity check: If we got a request object, we should *not* have
+        # Quick check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
         has_flattened_params = any([name])
         if request is not None and has_flattened_params:
@@ -915,6 +1019,33 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
         Note that it is possible for a subset of the
         [Product][google.cloud.retail.v2.Product]s to be successfully
         updated.
+
+
+
+        .. code-block::
+
+            from google.cloud import retail_v2
+
+            def sample_import_products():
+                # Create a client
+                client = retail_v2.ProductServiceClient()
+
+                # Initialize request argument(s)
+                input_config = retail_v2.ProductInputConfig()
+                input_config.product_inline_source.products.title = "title_value"
+
+                request = retail_v2.ImportProductsRequest(
+                    parent="parent_value",
+                    input_config=input_config,
+                )
+
+                # Make the request
+                operation = client.import_products(request=request)
+
+                print("Waiting for operation to complete...")
+
+                response = operation.result()
+                print(response)
 
         Args:
             request (Union[google.cloud.retail_v2.types.ImportProductsRequest, dict]):
@@ -1027,6 +1158,32 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
         `here <https://cloud.google.com/contact>`__ to contact cloud
         sales if you are interested in using Retail Search.
 
+
+
+        .. code-block::
+
+            from google.cloud import retail_v2
+
+            def sample_set_inventory():
+                # Create a client
+                client = retail_v2.ProductServiceClient()
+
+                # Initialize request argument(s)
+                inventory = retail_v2.Product()
+                inventory.title = "title_value"
+
+                request = retail_v2.SetInventoryRequest(
+                    inventory=inventory,
+                )
+
+                # Make the request
+                operation = client.set_inventory(request=request)
+
+                print("Waiting for operation to complete...")
+
+                response = operation.result()
+                print(response)
+
         Args:
             request (Union[google.cloud.retail_v2.types.SetInventoryRequest, dict]):
                 The request object. Request message for [SetInventory][]
@@ -1106,7 +1263,7 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
         """
         # Create or coerce a protobuf request object.
-        # Sanity check: If we got a request object, we should *not* have
+        # Quick check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
         has_flattened_params = any([inventory, set_mask])
         if request is not None and has_flattened_params:
@@ -1182,6 +1339,31 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
         `here <https://cloud.google.com/contact>`__ to contact cloud
         sales if you are interested in using Retail Search.
 
+
+
+        .. code-block::
+
+            from google.cloud import retail_v2
+
+            def sample_add_fulfillment_places():
+                # Create a client
+                client = retail_v2.ProductServiceClient()
+
+                # Initialize request argument(s)
+                request = retail_v2.AddFulfillmentPlacesRequest(
+                    product="product_value",
+                    type_="type__value",
+                    place_ids=['place_ids_value_1', 'place_ids_value_2'],
+                )
+
+                # Make the request
+                operation = client.add_fulfillment_places(request=request)
+
+                print("Waiting for operation to complete...")
+
+                response = operation.result()
+                print(response)
+
         Args:
             request (Union[google.cloud.retail_v2.types.AddFulfillmentPlacesRequest, dict]):
                 The request object. Request message for
@@ -1215,7 +1397,7 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
         """
         # Create or coerce a protobuf request object.
-        # Sanity check: If we got a request object, we should *not* have
+        # Quick check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
         has_flattened_params = any([product])
         if request is not None and has_flattened_params:
@@ -1287,6 +1469,31 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
         `here <https://cloud.google.com/contact>`__ to contact cloud
         sales if you are interested in using Retail Search.
 
+
+
+        .. code-block::
+
+            from google.cloud import retail_v2
+
+            def sample_remove_fulfillment_places():
+                # Create a client
+                client = retail_v2.ProductServiceClient()
+
+                # Initialize request argument(s)
+                request = retail_v2.RemoveFulfillmentPlacesRequest(
+                    product="product_value",
+                    type_="type__value",
+                    place_ids=['place_ids_value_1', 'place_ids_value_2'],
+                )
+
+                # Make the request
+                operation = client.remove_fulfillment_places(request=request)
+
+                print("Waiting for operation to complete...")
+
+                response = operation.result()
+                print(response)
+
         Args:
             request (Union[google.cloud.retail_v2.types.RemoveFulfillmentPlacesRequest, dict]):
                 The request object. Request message for
@@ -1320,7 +1527,7 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
         """
         # Create or coerce a protobuf request object.
-        # Sanity check: If we got a request object, we should *not* have
+        # Quick check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
         has_flattened_params = any([product])
         if request is not None and has_flattened_params:
