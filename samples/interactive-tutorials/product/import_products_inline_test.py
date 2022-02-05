@@ -18,9 +18,7 @@ import subprocess
 
 def test_import_products_gcs():
     output = str(
-        subprocess.check_output(
-            "python import_products_inline_source.py", shell=True
-        )
+        subprocess.check_output("python import_products_inline_source.py", shell=True)
     )
 
     assert re.match(".*import products from inline source request.*", output)
