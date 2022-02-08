@@ -14,7 +14,7 @@ The Secret Manager name is set in .kokoro/presubmit/common.cfg file, SECRET_MANA
 
 ## Import catalog data
 
-There are a JSON files with valid products and user events prepared in `resources` directory:
+There are JSON files with valid products and user events prepared in `resources` directory:
 `samples/resources/products.json` and `samples/resources/user_events.json` respectively.
 
 Run the `create_test_resources.py` to perform the following actions:
