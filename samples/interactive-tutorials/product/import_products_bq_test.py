@@ -18,9 +18,7 @@ import subprocess
 
 def test_import_products_bq():
     output = str(
-        subprocess.check_output(
-            "python import_products_big_query_table.py", shell=True
-        )
+        subprocess.check_output("python import_products_big_query_table.py", shell=True)
     )
 
     assert re.match(".*import products from big query table request.*", output)
