@@ -80,7 +80,7 @@ def import_products_from_big_query():
 
     while not big_query_operation.done():
         print("---please wait till operation is done---")
-        time.sleep(5)
+        time.sleep(30)
     print("---import products operation is done---")
 
     if big_query_operation.metadata is not None:

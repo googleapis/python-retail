@@ -26,7 +26,7 @@ from google.cloud.retail import DeleteProductRequest, ListProductsRequest, \
 project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
 product_bucket_name = os.environ['BUCKET_NAME']
 events_bucket_name = os.environ['EVENTS_BUCKET_NAME']
-project_id = os.environ["GOOGLE_CLOUD_PROJECT_ID"]
+project_id = os.environ["GOOGLE_CLOUD_PROJECT"]
 
 product_dataset = "products"
 events_dataset = "user_events"

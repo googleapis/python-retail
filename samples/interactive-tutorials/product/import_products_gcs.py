@@ -85,7 +85,7 @@ def import_products_from_gcs():
 
     while not gcs_operation.done():
         print("---please wait till operation is done---")
-        time.sleep(5)
+        time.sleep(30)
     print("---import products operation is done---")
 
     if gcs_operation.metadata is not None:
@@ -104,7 +104,7 @@ def import_products_from_gcs():
 
     # The imported products needs to be indexed in the catalog before they become available for search.
     print(
-        "Wait 2 -5 minutes till products become indexed in the catalog, after that they will be available for search"
+        "Wait 2-5 minutes till products become indexed in the catalog, after that they will be available for search"
     )
 
 
