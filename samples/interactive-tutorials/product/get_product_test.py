@@ -17,13 +17,13 @@ import subprocess
 
 
 def test_get_product():
-    output = str(
-        subprocess.check_output('python get_product.py', shell=True))
+    output = str(subprocess.check_output("python get_product.py", shell=True))
 
-    assert re.match('.*get product request.*', output)
-    assert re.match('.*get product response.*', output)
+    assert re.match(".*get product request.*", output)
+    assert re.match(".*get product response.*", output)
     assert re.match(
-        '.*get product response.*?name.*?projects/.*/locations/global/catalogs/default_catalog/branches/0/products/.*',
-        output)
-    assert re.match('.*get product response.*?title.*?Nest Mini.*', output)
-    assert re.match('.*product.*was deleted.*', output)
+        ".*get product response.*?name.*?projects/.*/locations/global/catalogs/default_catalog/branches/0/products/.*",
+        output,
+    )
+    assert re.match(".*get product response.*?title.*?Nest Mini.*", output)
+    assert re.match(".*product.*was deleted.*", output)

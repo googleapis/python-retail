@@ -17,14 +17,15 @@ import subprocess
 
 
 def test_delete_product():
-    output = str(
-        subprocess.check_output('python delete_product.py', shell=True))
+    output = str(subprocess.check_output("python delete_product.py", shell=True))
 
-    assert re.match('.*delete product request.*', output)
+    assert re.match(".*delete product request.*", output)
     assert re.match(
         '.*name: "projects/.+/locations/global/catalogs/default_catalog/branches/0/products/.*',
-        output)
+        output,
+    )
     assert re.match(
-        '.*deleting product projects/.+/locations/global/catalogs/default_catalog/branches/0/products/.*',
-        output)
-    assert re.match('.*product was deleted.*', output)
+        ".*deleting product projects/.+/locations/global/catalogs/default_catalog/branches/0/products/.*",
+        output,
+    )
+    assert re.match(".*product was deleted.*", output)

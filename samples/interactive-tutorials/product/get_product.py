@@ -25,9 +25,9 @@ from google.cloud.retail import GetProductRequest, ProductServiceClient
 
 from setup.setup_cleanup import create_product, delete_product
 
-project_number = os.getenv('GOOGLE_CLOUD_PROJECT_NUMBER')
+project_number = os.getenv("GOOGLE_CLOUD_PROJECT_NUMBER")
 endpoint = "retail.googleapis.com"
-product_id = ''.join(random.sample(string.ascii_lowercase, 8))
+product_id = "".join(random.sample(string.ascii_lowercase, 8))
 
 
 # get product service client

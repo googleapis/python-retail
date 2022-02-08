@@ -21,8 +21,12 @@ import random
 import string
 
 from google.api_core.client_options import ClientOptions
-from google.cloud.retail_v2 import PriceInfo, Product, ProductServiceClient, \
-    UpdateProductRequest
+from google.cloud.retail_v2 import (
+    PriceInfo,
+    Product,
+    ProductServiceClient,
+    UpdateProductRequest,
+)
 from google.cloud.retail_v2.types import product
 
 from setup.setup_cleanup import create_product, delete_product
@@ -31,10 +35,14 @@ from setup.setup_cleanup import create_product, delete_product
 # from google.protobuf.field_mask_pb2 import FieldMask
 
 
-project_number = os.getenv('GOOGLE_CLOUD_PROJECT_NUMBER')
-default_branch_name = "projects/" + project_number + "/locations/global/catalogs/default_catalog/branches/default_branch"
+project_number = os.getenv("GOOGLE_CLOUD_PROJECT_NUMBER")
+default_branch_name = (
+    "projects/"
+    + project_number
+    + "/locations/global/catalogs/default_catalog/branches/default_branch"
+)
 endpoint = "retail.googleapis.com"
-generated_product_id = ''.join(random.sample(string.ascii_lowercase, 8))
+generated_product_id = "".join(random.sample(string.ascii_lowercase, 8))
 
 
 # get product service client
@@ -51,11 +59,14 @@ def generate_product_for_update(product_id: str) -> Product:
     price_info.currency_code = "EUR"
     return product.Product(
         id=product_id,
-        name='projects/' + project_number + '/locations/global/catalogs/default_catalog/branches/default_branch/products/' + product_id,
-        title='Updated Nest Mini',
+        name="projects/"
+        + project_number
+        + "/locations/global/catalogs/default_catalog/branches/default_branch/products/"
+        + product_id,
+        title="Updated Nest Mini",
         type_=product.Product.Type.PRIMARY,
-        categories=['Updated Speakers and displays'],
-        brands=['Updated Google'],
+        categories=["Updated Speakers and displays"],
+        brands=["Updated Google"],
         availability="OUT_OF_STOCK",
         price_info=price_info,
     )
@@ -78,10 +89,10 @@ def get_update_product_request(product_to_update: Product):
 def update_product(original_product: Product):
     # update product
     updated_product = get_product_service_client().update_product(
-        get_update_product_request(
-            generate_product_for_update(original_product.id)))
+        get_update_product_request(generate_product_for_update(original_product.id))
+    )
 
-    print('---updated product---:')
+    print("---updated product---:")
     print(updated_product)
     return updated_product
 

@@ -20,20 +20,23 @@ import pytest
 
 @pytest.mark.flaky(max_runs=10, min_passes=1)
 def test_set_inventory():
-    output = str(
-        subprocess.check_output('python set_inventory.py', shell=True))
+    output = str(subprocess.check_output("python set_inventory.py", shell=True))
     print(output)
-    assert re.match('.*product is created.*', output)
+    assert re.match(".*product is created.*", output)
     assert re.match(
         '.*name: "projects/.*/locations/global/catalogs/default_catalog/branches/0/products/inventory_test_product_id".*',
-        output)
-    assert re.match('.*set inventory request.*', output)
+        output,
+    )
+    assert re.match(".*set inventory request.*", output)
     assert re.match(
         '.*get product response.*?fulfillment_info.*type_: "pickup-in-store".*?place_ids: "store1".*',
-        output)
+        output,
+    )
     assert re.match(
         '.*get product response.*?fulfillment_info.*type_: "pickup-in-store".*?place_ids: "store2".*',
-        output)
+        output,
+    )
     assert re.match(
-        '.*product projects/.*/locations/global/catalogs/default_catalog/branches/default_branch/products/inventory_test_product_id was deleted.*',
-        output)
+        ".*product projects/.*/locations/global/catalogs/default_catalog/branches/default_branch/products/inventory_test_product_id was deleted.*",
+        output,
+    )

@@ -25,11 +25,14 @@ from google.cloud.retail import DeleteProductRequest, ProductServiceClient
 
 from setup.setup_cleanup import create_product
 
-project_number = os.getenv('GOOGLE_CLOUD_PROJECT_NUMBER')
+project_number = os.getenv("GOOGLE_CLOUD_PROJECT_NUMBER")
 endpoint = "retail.googleapis.com"
-default_branch_name = "projects/" + project_number \
-                      + "/locations/global/catalogs/default_catalog/branches/default_branch"
-product_id = ''.join(random.sample(string.ascii_lowercase, 8))
+default_branch_name = (
+    "projects/"
+    + project_number
+    + "/locations/global/catalogs/default_catalog/branches/default_branch"
+)
+product_id = "".join(random.sample(string.ascii_lowercase, 8))
 
 
 # get product service client

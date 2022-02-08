@@ -36,11 +36,11 @@ from google.cloud.retail_v2.types import product
 project_number = os.getenv("GOOGLE_CLOUD_PROJECT_NUMBER")
 endpoint = "retail.googleapis.com"
 default_branch_name = (
-        "projects/"
-        + project_number
-        + "/locations/global/catalogs/default_catalog/branches/default_branch"
+    "projects/"
+    + project_number
+    + "/locations/global/catalogs/default_catalog/branches/default_branch"
 )
-product_id = ''.join(random.sample(string.ascii_lowercase, 8))
+product_id = "".join(random.sample(string.ascii_lowercase, 8))
 product_name = "{}/products/{}".format(default_branch_name, product_id)
 
 
@@ -110,8 +110,7 @@ def get_product() -> object:
     print("---get product request---")
     print(get_product_request)
 
-    get_product_response = get_product_service_client().get_product(
-        get_product_request)
+    get_product_response = get_product_service_client().get_product(get_product_request)
 
     print("---get product response:---")
     print(get_product_response)

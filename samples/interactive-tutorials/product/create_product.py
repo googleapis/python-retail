@@ -21,17 +21,20 @@ import random
 import string
 
 from google.api_core.client_options import ClientOptions
-from google.cloud.retail import CreateProductRequest, Product, \
-    ProductServiceClient
+from google.cloud.retail import CreateProductRequest, Product, ProductServiceClient
 from google.cloud.retail_v2 import PriceInfo
 from google.cloud.retail_v2.types import product
 
 from setup.setup_cleanup import delete_product
 
-project_number = os.getenv('GOOGLE_CLOUD_PROJECT_NUMBER')
-default_branch_name = "projects/" + project_number + "/locations/global/catalogs/default_catalog/branches/default_branch"
+project_number = os.getenv("GOOGLE_CLOUD_PROJECT_NUMBER")
+default_branch_name = (
+    "projects/"
+    + project_number
+    + "/locations/global/catalogs/default_catalog/branches/default_branch"
+)
 endpoint = "retail.googleapis.com"
-generated_product_id = ''.join(random.sample(string.ascii_lowercase, 8))
+generated_product_id = "".join(random.sample(string.ascii_lowercase, 8))
 
 
 # get product service client
@@ -47,18 +50,17 @@ def generate_product() -> Product:
     price_info.original_price = 35.5
     price_info.currency_code = "USD"
     return product.Product(
-        title='Nest Mini',
+        title="Nest Mini",
         type_=product.Product.Type.PRIMARY,
-        categories=['Speakers and displays'],
-        brands=['Google'],
+        categories=["Speakers and displays"],
+        brands=["Google"],
         price_info=price_info,
         availability="IN_STOCK",
     )
 
 
 # get create product request
-def get_create_product_request(product_to_create: Product,
-                               product_id: str) -> object:
+def get_create_product_request(product_to_create: Product, product_id: str) -> object:
     create_product_request = CreateProductRequest()
     create_product_request.product = product_to_create
     create_product_request.product_id = product_id
@@ -72,10 +74,10 @@ def get_create_product_request(product_to_create: Product,
 
 # call the Retail API to create product
 def create_product(product_id: str):
-    create_product_request = get_create_product_request(generate_product(),
-                                                        product_id)
+    create_product_request = get_create_product_request(generate_product(), product_id)
     product_created = get_product_service_client().create_product(
-        create_product_request)
+        create_product_request
+    )
 
     print("---created product:---")
     print(product_created)

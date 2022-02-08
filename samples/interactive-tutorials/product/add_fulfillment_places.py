@@ -18,15 +18,19 @@ import os
 import time
 
 from google.api_core.client_options import ClientOptions
-from google.cloud.retail import AddFulfillmentPlacesRequest, \
-    ProductServiceClient
+from google.cloud.retail import AddFulfillmentPlacesRequest, ProductServiceClient
 
 from setup.setup_cleanup import create_product, get_product
 
-project_number = os.getenv('GOOGLE_CLOUD_PROJECT_NUMBER')
+project_number = os.getenv("GOOGLE_CLOUD_PROJECT_NUMBER")
 endpoint = "retail.googleapis.com"
 product_id = "add_fulfillment_test_product_id"
-product_name = 'projects/' + project_number + '/locations/global/catalogs/default_catalog/branches/default_branch/products/' + product_id
+product_name = (
+    "projects/"
+    + project_number
+    + "/locations/global/catalogs/default_catalog/branches/default_branch/products/"
+    + product_id
+)
 
 # The request timestamp
 request_time = datetime.datetime.now()
@@ -43,14 +47,12 @@ def get_product_service_client():
 
 
 # add fulfillment request
-def get_add_fulfillment_request(
-        product_name: str) -> AddFulfillmentPlacesRequest:
+def get_add_fulfillment_request(product_name: str) -> AddFulfillmentPlacesRequest:
     add_fulfillment_request = AddFulfillmentPlacesRequest()
     add_fulfillment_request.product = product_name
-    add_fulfillment_request.type_ = 'pickup-in-store'
-    add_fulfillment_request.place_ids = ['store2', 'store3', 'store4']
-    add_fulfillment_request.add_time = request_time - datetime.timedelta(
-        minutes=1)
+    add_fulfillment_request.type_ = "pickup-in-store"
+    add_fulfillment_request.place_ids = ["store2", "store3", "store4"]
+    add_fulfillment_request.add_time = request_time - datetime.timedelta(minutes=1)
     add_fulfillment_request.allow_missing = True
 
     print("---add fulfillment request---")
