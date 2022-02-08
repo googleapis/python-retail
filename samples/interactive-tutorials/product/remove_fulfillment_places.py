@@ -68,8 +68,8 @@ def remove_fulfillment_places(product_name: str):
 
     # This is a long running operation and its result is not immediately present with get operations,
     # thus we simulate wait with sleep method.
-    print("---remove fulfillment places, wait 30 seconds:---")
-    time.sleep(30)
+    print("---remove fulfillment places, wait 40 seconds:---")
+    time.sleep(40)
 
 
 # [END retail_remove_fulfillment_places]
