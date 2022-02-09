@@ -45,7 +45,9 @@ def get_product_service_client():
 
 
 # add fulfillment request
-def get_add_fulfillment_request(product_name: str, timestamp, place_id) -> AddFulfillmentPlacesRequest:
+def get_add_fulfillment_request(
+    product_name: str, timestamp, place_id
+) -> AddFulfillmentPlacesRequest:
     add_fulfillment_request = AddFulfillmentPlacesRequest()
     add_fulfillment_request.product = product_name
     add_fulfillment_request.type_ = "pickup-in-store"
@@ -61,7 +63,9 @@ def get_add_fulfillment_request(product_name: str, timestamp, place_id) -> AddFu
 
 # add fulfillment places to product
 def add_fulfillment_places(product_name: str, timestamp, place_id):
-    add_fulfillment_request = get_add_fulfillment_request(product_name, timestamp, place_id)
+    add_fulfillment_request = get_add_fulfillment_request(
+        product_name, timestamp, place_id
+    )
     get_product_service_client().add_fulfillment_places(add_fulfillment_request)
 
     # This is a long running operation and its result is not immediately present with get operations,

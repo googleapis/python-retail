@@ -46,7 +46,9 @@ def get_product_service_client():
 
 
 # remove fulfillment request
-def get_remove_fulfillment_request(product_name: str, timestamp, store_id) -> RemoveFulfillmentPlacesRequest:
+def get_remove_fulfillment_request(
+    product_name: str, timestamp, store_id
+) -> RemoveFulfillmentPlacesRequest:
     remove_fulfillment_request = RemoveFulfillmentPlacesRequest()
     remove_fulfillment_request.product = product_name
     remove_fulfillment_request.type_ = "pickup-in-store"
@@ -62,7 +64,9 @@ def get_remove_fulfillment_request(product_name: str, timestamp, store_id) -> Re
 
 # remove fulfillment places to product
 def remove_fulfillment_places(product_name: str, timestamp, store_id):
-    remove_fulfillment_request = get_remove_fulfillment_request(product_name, timestamp, store_id)
+    remove_fulfillment_request = get_remove_fulfillment_request(
+        product_name, timestamp, store_id
+    )
     get_product_service_client().remove_fulfillment_places(remove_fulfillment_request)
 
     # This is a long running operation and its result is not immediately present with get operations,
