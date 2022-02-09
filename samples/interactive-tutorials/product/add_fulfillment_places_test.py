@@ -38,15 +38,7 @@ def test_add_fulfillment():
     assert re.match(".*add fulfillment places.*", output)
     assert re.match(
         '.*get product response.*?fulfillment_info.*type_: "pickup-in-store".*?place_ids: "store1".*',
-        output,
-    )
+        output)
     assert re.match(
         '.*get product response.*?fulfillment_info.*type_: "pickup-in-store".*?place_ids: "store2".*',
-        output,
-    )
-    assert re.match(
-        '.*get product response.*?fulfillment_info.*type_: "pickup-in-store".*?place_ids: "store3".*',
-        output,
-    )
-
-    delete_product(product_name)
+        output)
