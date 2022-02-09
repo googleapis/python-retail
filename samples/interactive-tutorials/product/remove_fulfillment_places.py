@@ -16,15 +16,17 @@
 import datetime
 import os
 import time
+import random
+import string
 
 from google.api_core.client_options import ClientOptions
 from google.cloud.retail import ProductServiceClient, RemoveFulfillmentPlacesRequest
 
-from setup.setup_cleanup import create_product, get_product
+from setup.setup_cleanup import create_product, delete_product, get_product
 
 project_number = os.getenv("GOOGLE_CLOUD_PROJECT_NUMBER")
 endpoint = "retail.googleapis.com"
-product_id = "remove_fulfillment_test_product_id"
+product_id = "".join(random.sample(string.ascii_lowercase, 8))
 product_name = (
     "projects/"
     + project_number
@@ -33,11 +35,8 @@ product_name = (
 )
 
 # The request timestamp
-request_time = datetime.datetime.now()
-
-
-# The outdated request timestamp
-# request_time = datetime.datetime.now() - datetime.timedelta(days=1)
+current_date = datetime.datetime.now()
+outdated_date = datetime.datetime.now() - datetime.timedelta(days=1)
 
 
 # get product service client
@@ -47,12 +46,12 @@ def get_product_service_client():
 
 
 # remove fulfillment request
-def get_remove_fulfillment_request(product_name: str) -> RemoveFulfillmentPlacesRequest:
+def get_remove_fulfillment_request(product_name: str, timestamp, store_id) -> RemoveFulfillmentPlacesRequest:
     remove_fulfillment_request = RemoveFulfillmentPlacesRequest()
     remove_fulfillment_request.product = product_name
     remove_fulfillment_request.type_ = "pickup-in-store"
-    remove_fulfillment_request.place_ids = ["store0"]
-    remove_fulfillment_request.remove_time = request_time
+    remove_fulfillment_request.place_ids = [store_id]
+    remove_fulfillment_request.remove_time = timestamp
     remove_fulfillment_request.allow_missing = True
 
     print("---remove fulfillment request---")
@@ -62,8 +61,8 @@ def get_remove_fulfillment_request(product_name: str) -> RemoveFulfillmentPlaces
 
 
 # remove fulfillment places to product
-def remove_fulfillment_places(product_name: str):
-    remove_fulfillment_request = get_remove_fulfillment_request(product_name)
+def remove_fulfillment_places(product_name: str, timestamp, store_id):
+    remove_fulfillment_request = get_remove_fulfillment_request(product_name, timestamp, store_id)
     get_product_service_client().remove_fulfillment_places(remove_fulfillment_request)
 
     # This is a long running operation and its result is not immediately present with get operations,
@@ -76,6 +75,10 @@ def remove_fulfillment_places(product_name: str):
 
 
 create_product(product_id)
-remove_fulfillment_places(product_name)
+print("------remove fulfilment places with current date: {}-----".format(current_date))
+remove_fulfillment_places(product_name, current_date, "store0")
 get_product(product_name)
-# delete_product(product_name)
+print("------remove outdated fulfilment places: {}-----".format(outdated_date))
+remove_fulfillment_places(product_name, outdated_date, "store1")
+get_product(product_name)
+delete_product(product_name)
