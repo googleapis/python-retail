@@ -72,19 +72,19 @@ To run a code sample from the Cloud Shell, you need to be authenticated using th
     export GOOGLE_APPLICATION_CREDENTIALS=~/key.json
     ```
 
-### Set the PROJECT_NUMBER and PROJECT_ID environment variables
+### Set the GOOGLE_CLOUD_PROJECT and GOOGLE_CLOUD_PROJECT environment variables
 
-You will run the code samples in your own Google Cloud project. To use the **project_number** and **project_id** in every request to the Retail API, you should first specify them as environment variables.
+You will run the code samples in your own Google Cloud project. To use the **project_id** and **project_id** in every request to the Retail API, you should first specify them as environment variables.
 
 1. Find the project number and project ID in the Project Info card displayed on **Home/Dashboard**.
 
-1. Set the **project_number** with the following command:
+1. Set the **project_id** with the following command:
     ```bash
-    export PROJECT_NUMBER=<YOUR_PROJECT_NUMBER>
+    export GOOGLE_CLOUD_PROJECT=<YOUR_PROJECT_NUMBER>
     ```
 1. Set the **project_id** with the following command:
     ```bash
-    export PROJECT_ID=<YOUR_PROJECT_ID>
+    export GOOGLE_CLOUD_PROJECT=<YOUR_PROJECT_ID>
     ```
 
 ### Install Google Cloud Retail libraries
