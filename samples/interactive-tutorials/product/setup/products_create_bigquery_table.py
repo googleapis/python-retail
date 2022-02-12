@@ -18,9 +18,9 @@ from setup_cleanup import create_bq_dataset, create_bq_table, \
 dataset = "products"
 valid_products_table = "products"
 invalid_products_table = "products_some_invalid"
-product_schema = "../../resources/product_schema.json"
-valid_products_source_file = "../../resources/products.json"
-invalid_products_source_file = "../../resources/products_some_invalid.json"
+product_schema = "../resources/product_schema.json"
+valid_products_source_file = "../resources/products.json"
+invalid_products_source_file = "../resources/products_some_invalid.json"
 
 create_bq_dataset(dataset)
 create_bq_table(dataset, valid_products_table, product_schema)

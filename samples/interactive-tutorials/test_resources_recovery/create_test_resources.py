@@ -30,15 +30,15 @@ products_bucket_name = os.environ['BUCKET_NAME']
 events_bucket_name = os.environ['EVENTS_BUCKET_NAME']
 project_id = os.environ["GOOGLE_CLOUD_PROJECT"]
 
-product_resource_file = "../../resources/products.json"
-events_source_file = "../../resources/user_events.json"
+product_resource_file = "../resources/products.json"
+events_source_file = "../resources/user_events.json"
 
 product_dataset = "products"
 product_table = "products"
-product_schema = "../../resources/product_schema.json"
+product_schema = "../resources/product_schema.json"
 events_dataset = "user_events"
 events_table = "events"
-events_schema = "../../resources/events_schema.json"
+events_schema = "../resources/events_schema.json"
 
 object_name = re.search('resources/(.*?)$', product_resource_file).group(1)
 default_catalog = f"projects/{project_number}/locations/global/catalogs/default_catalog/branches/default_branch"
@@ -119,7 +119,7 @@ def import_products_from_gcs():
 
     while not gcs_operation.done():
         print("Please wait till operation is completed")
-        time.sleep(5)
+        time.sleep(30)
     print("Import products operation is completed")
 
     if gcs_operation.metadata is not None:

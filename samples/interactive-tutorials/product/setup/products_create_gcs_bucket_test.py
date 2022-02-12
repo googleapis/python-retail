@@ -21,7 +21,7 @@ from products_delete_gcs_bucket import delete_bucket_by_name
 def test_create_gcs_bucket():
     output = str(
         subprocess.check_output(
-            'python products_create_gcs_bucket.py',
+            'python setup/products_create_gcs_bucket.py',
             shell=True))
 
     bucket_name = re.search('The gcs bucket (.+?) was created', output).group(1)
