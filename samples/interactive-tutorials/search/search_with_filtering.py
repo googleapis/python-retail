@@ -19,14 +19,14 @@ import os
 
 from google.cloud.retail import SearchRequest, SearchServiceClient
 
-project_id = os.environ["GOOGLE_CLOUD_PROJECT"]
+project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
 
 
 # get search service request:
 def get_search_request(query: str, _filter: str):
     default_search_placement = (
         "projects/"
-        + project_id
+        + project_number
         + "/locations/global/catalogs/default_catalog/placements/default_search"
     )
 
