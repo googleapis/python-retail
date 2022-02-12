@@ -23,11 +23,10 @@ from google.cloud import storage
 from google.cloud.retail_v2 import CreateProductRequest, DeleteProductRequest, \
     FulfillmentInfo, GetProductRequest, PriceInfo, Product, ProductServiceClient
 
+project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
 project_id = os.environ["GOOGLE_CLOUD_PROJECT"]
-project_id = os.environ["GOOGLE_CLOUD_PROJECT"]
-default_catalog = "projects/{0}/locations/global/catalogs/default_catalog".format(
-    project_id)
-default_branch_name = "projects/" + project_id + "/locations/global/catalogs/default_catalog/branches/default_branch"
+default_catalog = f"projects/{project_number}/locations/global/catalogs/default_catalog"
+default_branch_name = f"projects/{project_number}/locations/global/catalogs/default_catalog/branches/default_branch"
 
 
 def generate_product() -> Product:
