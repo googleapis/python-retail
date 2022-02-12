@@ -164,7 +164,7 @@ def upload_blob(bucket_name, source_file_name):
 def create_bq_dataset(dataset_name):
     """Create a BigQuery dataset"""
     print("Creating dataset {}".format(dataset_name))
-    if dataset_name not in list_bq_datasets():
+    if dataset_name not in list_bq_dataset(project_id, dataset_name):
         create_dataset_command = 'bq --location=US mk -d --default_table_expiration 3600 --description "This is my dataset." {}:{}'.format(
             project_id, dataset_name)
         subprocess.check_output(shlex.split(create_dataset_command))
@@ -173,11 +173,11 @@ def create_bq_dataset(dataset_name):
         print("dataset {} already exists".format(dataset_name))
 
 
-def list_bq_datasets():
-    """List BigQuery datasets in the project"""
-    list_dataset_command = "bq ls --project_id {}".format(project_id)
-    datasets = subprocess.check_output(shlex.split(list_dataset_command))
-    return str(datasets)
+def list_bq_dataset(project_id:str, dataset_name:str):
+    """List BigQuery dataset in the project"""
+    list_dataset_command = f"bq show {project_id}:{dataset_name}"
+    dataset_name = subprocess.check_output(shlex.split(list_dataset_command))
+    return str(dataset_name)
 
 
 def create_bq_table(dataset, table_name, schema):

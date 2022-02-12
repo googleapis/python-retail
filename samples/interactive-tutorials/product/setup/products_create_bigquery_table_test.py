@@ -19,7 +19,7 @@ import subprocess
 def test_create_bigquery_table():
     output = str(
         subprocess.check_output(
-            'python setup/products_create_bigquery_table.py',
+            'python products_create_bigquery_table.py',
             shell=True))
     assert re.match(
         '.*Creating dataset products.*', output)
@@ -30,7 +30,7 @@ def test_create_bigquery_table():
     assert re.match(
         '(.*table products already exists.*|.*table is created.*)', output)
     assert re.match(
-        '.*Uploading data from ../resources/products.json to the table products.products.*', output)
+        '.*Uploading data from ../../resources/products.json to the table products.products.*', output)
 
     assert re.match(
         '.*Creating BigQuery table products_some_invalid.*',
@@ -39,5 +39,5 @@ def test_create_bigquery_table():
         '(.*table products_some_invalid already exists.*|.*table is created.*)',
         output)
     assert re.match(
-        '.*Uploading data from ../resources/products_some_invalid.json to the table products.products_some_invalid.*',
+        '.*Uploading data from ../../resources/products_some_invalid.json to the table products.products_some_invalid.*',
         output)

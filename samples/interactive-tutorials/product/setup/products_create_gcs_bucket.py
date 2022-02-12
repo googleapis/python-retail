@@ -22,7 +22,7 @@ timestamp_ = datetime.datetime.now().timestamp().__round__()
 bucket_name = "{}_products_{}".format(project_id, timestamp_)
 
 create_bucket(bucket_name)
-upload_blob(bucket_name, "../resources/products.json")
-upload_blob(bucket_name, "../resources/products_some_invalid.json")
+upload_blob(bucket_name, "../../resources/products.json")
+upload_blob(bucket_name, "../../resources/products_some_invalid.json")
 
 print("\nThe gcs bucket {} was created".format(bucket_name))
