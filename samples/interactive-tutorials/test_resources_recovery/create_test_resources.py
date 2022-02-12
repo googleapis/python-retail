@@ -146,7 +146,7 @@ def create_bq_dataset(dataset_name):
         print("dataset {} already exists".format(dataset_name))
 
 
-def list_bq_dataset(project_id:str, dataset_name:str):
+def list_bq_dataset(project_id: str, dataset_name: str):
     """List BigQuery dataset in the project"""
     list_dataset_command = f"bq show {project_id}:{dataset_name}"
     dataset_name = subprocess.check_output(shlex.split(list_dataset_command))
