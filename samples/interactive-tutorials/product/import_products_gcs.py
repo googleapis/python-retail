@@ -28,16 +28,15 @@ from google.cloud.retail import (
 
 
 # Read the project number from the environment variable
+project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
 project_id = os.environ["GOOGLE_CLOUD_PROJECT"]
 bucket_name = os.environ["BUCKET_NAME"]
 
 # You can change the branch here. The "default_branch" is set to point to the branch "0"
-default_catalog = "projects/{0}/locations/global/catalogs/default_catalog/branches/default_branch".format(
-    project_id
-)
+default_catalog = f"projects/{project_number}/locations/global/catalogs/default_catalog/branches/default_branch"
 
-gcs_bucket = "gs://{}".format(bucket_name)
-gcs_errors_bucket = "{}/error".format(gcs_bucket)
+gcs_bucket = f"gs://{bucket_name}"
+gcs_errors_bucket = f"{gcs_bucket}/error"
 gcs_products_object = "products.json"
 
 
@@ -50,7 +49,7 @@ def get_import_products_gcs_request(gcs_object_name: str):
     # TO CHECK ERROR HANDLING PASTE THE INVALID CATALOG NAME HERE:
     # default_catalog = "invalid_catalog_name"
     gcs_source = GcsSource()
-    gcs_source.input_uris = ["{0}/{1}".format(gcs_bucket, gcs_object_name)]
+    gcs_source.input_uris = [f"{gcs_bucket}/{gcs_object_name}"]
 
     input_config = ProductInputConfig()
     input_config.gcs_source = gcs_source
