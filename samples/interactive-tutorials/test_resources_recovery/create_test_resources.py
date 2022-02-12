@@ -179,7 +179,7 @@ def list_bq_tables(dataset):
 
 def upload_data_to_bq_table(dataset, table_name, source, schema):
     """Upload data to the table from specified source file"""
-    print("Uploading data form {} to the table {}.{}".format(source, dataset,
+    print("Uploading data from {} to the table {}.{}".format(source, dataset,
                                                              table_name))
     upload_data_command = "bq load --source_format=NEWLINE_DELIMITED_JSON {}:{}.{} {} {}".format(
         project_id, dataset, table_name, source, schema)

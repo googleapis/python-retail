@@ -34,7 +34,7 @@ def test_create_gcs_bucket():
     assert re.match(
         '(.*The gcs bucket.*?was created.*|.*Bucket.*?already exists.*)', output)
     assert re.match(
-        '.*Uploading data form ../resources/products.json to the bucket.*', output)
+        '.*Uploading data from ../resources/products.json to the bucket.*', output)
     assert re.match(
-        '.*Uploading data form ../resources/products_some_invalid.json to the bucket.*',
+        '.*Uploading data from ../resources/products_some_invalid.json to the bucket.*',
         output)

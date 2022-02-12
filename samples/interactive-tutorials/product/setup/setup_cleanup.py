@@ -146,7 +146,7 @@ def upload_blob(bucket_name, source_file_name):
     """Uploads a file to the bucket."""
     # The path to your file to upload
     # source_file_name = "local/path/to/file"
-    print("Uploading data form {} to the bucket {}".format(source_file_name,
+    print("Uploading data from {} to the bucket {}".format(source_file_name,
                                                            bucket_name))
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
@@ -204,7 +204,7 @@ def list_bq_tables(dataset):
 
 def upload_data_to_bq_table(dataset, table_name, source, schema):
     """Upload data to the table from specified source file"""
-    print("Uploading data form {} to the table {}.{}".format(source, dataset,
+    print("Uploading data from {} to the table {}.{}".format(source, dataset,
                                                              table_name))
     upload_data_command = "bq load --source_format=NEWLINE_DELIMITED_JSON {}:{}.{} {} {}".format(
         project_id, dataset, table_name, source, schema)
