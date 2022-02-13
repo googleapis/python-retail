@@ -140,7 +140,7 @@ def create_bq_dataset(dataset_name):
     try:
         list_bq_dataset(project_id, dataset_name)
         print("dataset {} already exists".format(dataset_name))
-    except:
+    except subprocess.CalledProcessError:
         create_dataset_command = 'bq --location=US mk -d --default_table_expiration 3600 --description "This is my dataset." {}:{}'.format(
             project_id, dataset_name)
         subprocess.check_output(shlex.split(create_dataset_command))
