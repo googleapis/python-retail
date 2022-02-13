@@ -137,13 +137,14 @@ after that they will be available for search")
 def create_bq_dataset(dataset_name):
     """Create a BigQuery dataset"""
     print("Creating dataset {}".format(dataset_name))
-    if dataset_name not in list_bq_dataset(project_id, dataset_name):
+    try:
+        list_bq_dataset(project_id, dataset_name)
+        print("dataset {} already exists".format(dataset_name))
+    except:
         create_dataset_command = 'bq --location=US mk -d --default_table_expiration 3600 --description "This is my dataset." {}:{}'.format(
             project_id, dataset_name)
         subprocess.check_output(shlex.split(create_dataset_command))
         print("dataset is created")
-    else:
-        print("dataset {} already exists".format(dataset_name))
 
 
 def list_bq_dataset(project_id: str, dataset_name: str):
