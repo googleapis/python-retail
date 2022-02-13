@@ -17,6 +17,8 @@ import subprocess
 
 
 def test_import_products_bq():
+    subprocess.call("python setup/products_create_bigquery_table.py", shell=True)
+
     output = str(
         subprocess.check_output("python import_products_big_query_table.py", shell=True)
     )
