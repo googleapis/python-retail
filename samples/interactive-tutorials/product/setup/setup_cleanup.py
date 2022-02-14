@@ -12,13 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import json
 import os
 import re
-import shlex
-import subprocess
 
 from google.api_core.exceptions import NotFound
 
+from google.cloud import bigquery
 from google.cloud import storage
 from google.cloud.retail_v2 import CreateProductRequest, DeleteProductRequest, \
     FulfillmentInfo, GetProductRequest, PriceInfo, Product, ProductServiceClient
@@ -163,51 +163,46 @@ def upload_blob(bucket_name, source_file_name):
 
 def create_bq_dataset(dataset_name):
     """Create a BigQuery dataset"""
-    print("Creating dataset {}".format(dataset_name))
+    full_dataset_id = f"{project_id}.{dataset_name}"
+    bq = bigquery.Client()
+    print(f"Creating dataset {full_dataset_id}")
     try:
-        list_bq_dataset(project_id, dataset_name)
-        print("dataset {} already exists".format(dataset_name))
-    except subprocess.CalledProcessError:
-        create_dataset_command = 'bq --location=US mk -d --default_table_expiration 3600 --description "This is my dataset." {}:{}'.format(
-            project_id, dataset_name)
-        subprocess.check_output(shlex.split(create_dataset_command))
+        bq.get_dataset(full_dataset_id)
+        print(f"dataset {full_dataset_id} already exists")
+    except NotFound:
+        # Construct a Dataset object to send to the API.
+        dataset = bq.Dataset(full_dataset_id)
+        dataset.location = "US"
+        bq.create_dataset(dataset)
         print("dataset is created")
 
 
-def list_bq_dataset(project_id: str, dataset_name: str):
-    """List BigQuery dataset in the project"""
-    list_dataset_command = f"bq show {project_id}:{dataset_name}"
-    dataset_name = subprocess.check_output(shlex.split(list_dataset_command))
-    return str(dataset_name)
-
-
-def create_bq_table(dataset, table_name, schema):
+def create_bq_table(dataset, table_name, schema_file_path):
     """Create a BigQuery table"""
-    print("Creating BigQuery table {}".format(table_name))
-    if table_name not in list_bq_tables(dataset):
-        create_table_command = "bq mk --table {}:{}.{} {}".format(
-            project_id,
-            dataset,
-            table_name, schema)
-        output = subprocess.check_output(shlex.split(create_table_command))
-        print(output)
+    full_table_id = f"{project_id}.{dataset}.{table_name}"
+    bq = bigquery.Client()
+    print(f"Creating BigQuery table {full_table_id}")
+    try:
+        bq.get_table(full_table_id)
+        print(f"table {full_table_id} already exists")
+    except NotFound:
+        # Construct a Table object to send to the API.
+        with open(schema_file_path, "rb") as schema:
+            schema_dict = json.load(schema)
+            table = bigquery.Table(full_table_id, schema=schema_dict)
+        bq.create_table(table)
         print("table is created")
-    else:
-        print("table {} already exists".format(table_name))
 
 
-def list_bq_tables(dataset):
-    """List BigQuery tables in the dataset"""
-    list_tables_command = "bq ls {}:{}".format(project_id, dataset)
-    tables = subprocess.check_output(shlex.split(list_tables_command))
-    return str(tables)
-
-
-def upload_data_to_bq_table(dataset, table_name, source, schema):
+def upload_data_to_bq_table(dataset, table_name, source, schema_file_path):
     """Upload data to the table from specified source file"""
-    print("Uploading data from {} to the table {}.{}".format(source, dataset,
-                                                             table_name))
-    upload_data_command = "bq load --source_format=NEWLINE_DELIMITED_JSON {}:{}.{} {} {}".format(
-        project_id, dataset, table_name, source, schema)
-    output = subprocess.check_output(shlex.split(upload_data_command))
-    print(output)
+    full_table_id = f"{project_id}.{dataset}.{table_name}"
+    bq = bigquery.Client()
+    print(f"Uploading data from {source} to the table {full_table_id}")
+    with open(schema_file_path, "rb") as schema:
+        schema_dict = json.load(schema)
+    job_config = bigquery.LoadJobConfig(source_format=bigquery.SourceFormat.NEWLINE_DELIMITED_JSON, schema=schema_dict)
+    with open(source, "rb") as source_file:
+        job = bq.load_table_from_file(source_file, full_table_id, job_config=job_config)
+    job.result()  # Waits for the job to complete.
+    print("data was uploaded")
