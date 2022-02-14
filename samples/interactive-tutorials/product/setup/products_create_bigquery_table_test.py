@@ -12,9 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
 import re
 import subprocess
 
+project_id = os.environ["GOOGLE_CLOUD_PROJECT"]
 
 def test_create_bigquery_table():
     output = str(
@@ -22,22 +24,21 @@ def test_create_bigquery_table():
             'python setup/products_create_bigquery_table.py',
             shell=True))
     assert re.match(
-        '.*Creating dataset products.*', output)
+        f'.*Creating dataset {project_id}.products.*', output)
     assert re.match(
-        '(.*dataset products already exists.*|.*dataset is created.*)', output)
+        f'(.*dataset {project_id}.products already exists.*|.*dataset is created.*)', output)
     assert re.match(
-        '.*Creating BigQuery table products.*', output)
+        f'.*Creating BigQuery table {project_id}.products.products.*', output)
     assert re.match(
-        '(.*table products already exists.*|.*table is created.*)', output)
+        f'(.*table {project_id}.products.products already exists.*|.*table is created.*)', output)
     assert re.match(
-        '.*Uploading data from ../resources/products.json to the table products.products.*', output)
-
+        f'.*Uploading data from ../resources/products.json to the table {project_id}.products.products.*', output)
     assert re.match(
-        '.*Creating BigQuery table products_some_invalid.*',
+        f'.*Creating BigQuery table {project_id}.products.products_some_invalid.*',
         output)
     assert re.match(
-        '(.*table products_some_invalid already exists.*|.*table is created.*)',
+        f'(.*table {project_id}.products.products_some_invalid already exists.*|.*table is created.*)',
         output)
     assert re.match(
-        '.*Uploading data from ../resources/products_some_invalid.json to the table products.products_some_invalid.*',
+        f'.*Uploading data from ../resources/products_some_invalid.json to the table {project_id}.products.products_some_invalid.*',
         output)
