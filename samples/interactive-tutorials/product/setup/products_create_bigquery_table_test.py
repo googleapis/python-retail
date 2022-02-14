@@ -18,6 +18,7 @@ import subprocess
 
 project_id = os.environ["GOOGLE_CLOUD_PROJECT"]
 
+
 def test_create_bigquery_table():
     output = str(
         subprocess.check_output(
