@@ -15,6 +15,8 @@
 # [START retail_set_inventory]
 import datetime
 import os
+import random
+import string
 import time
 
 from google.api_core.client_options import ClientOptions
