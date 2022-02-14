@@ -1,3 +1,2 @@
-<<<<<<< HEAD
 pytest==6.2.5
 pytest-xdist==2.5.0
