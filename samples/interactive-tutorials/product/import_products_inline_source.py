@@ -143,12 +143,6 @@ def import_products_from_inline_source():
     else:
         print("---operation.metadata is empty---")
 
-    if import_operation.result is not None:
-        print("---operation result:---")
-        print(import_operation.result())
-    else:
-        print("---operation.result is empty---")
-
 
 import_products_from_inline_source()
 
