@@ -20,15 +20,20 @@ import time
 
 from google.api_core.client_options import ClientOptions
 
-from google.cloud.retail import BigQuerySource, ImportUserEventsRequest, \
-    UserEventInputConfig, UserEventServiceClient
+from google.cloud.retail import (
+    BigQuerySource,
+    ImportUserEventsRequest,
+    UserEventInputConfig,
+    UserEventServiceClient,
+)
 from setup.setup_cleanup import get_project_id
 
-project_id = os.getenv('GOOGLE_CLOUD_PROJECT')
+project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
 
 endpoint = "retail.googleapis.com"
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog".format(
-    project_id)
+    project_id
+)
 dataset_id = "user_events"
 table_id = "events"
 
@@ -70,7 +75,8 @@ def get_import_events_big_query_request():
 def import_user_events_from_big_query():
     import_big_query_request = get_import_events_big_query_request()
     big_query_operation = get_user_events_service_client().import_user_events(
-        import_big_query_request)
+        import_big_query_request
+    )
 
     print("---the operation was started:----")
     print(big_query_operation.operation.name)

@@ -18,19 +18,22 @@ import subprocess
 
 def test_create_product():
     output = str(
-        subprocess.check_output('python import_user_events_big_query.py',
-                                shell=True))
+        subprocess.check_output("python import_user_events_big_query.py", shell=True)
+    )
 
     assert re.match(
         '.*import user events from BigQuery source request.*?parent: "projects/.*?/locations/global/catalogs/default_catalog.*',
-        output)
+        output,
+    )
     assert re.match(
-        '.*import user events from BigQuery source request.*?input_config.*?big_query_source.*',
-        output)
+        ".*import user events from BigQuery source request.*?input_config.*?big_query_source.*",
+        output,
+    )
     assert re.match(
-        '.*the operation was started.*?projects/.*?/locations/global/catalogs/default_catalog/operations/import-user-events.*',
-        output)
-    assert re.match('.*import user events operation is done.*', output)
-    assert re.match('.*number of successfully imported events.*', output)
-    assert re.match('.*number of failures during the importing.*?0.*', output)
-    assert re.match('.*operation result.*?errors_config.*', output)
+        ".*the operation was started.*?projects/.*?/locations/global/catalogs/default_catalog/operations/import-user-events.*",
+        output,
+    )
+    assert re.match(".*import user events operation is done.*", output)
+    assert re.match(".*number of successfully imported events.*", output)
+    assert re.match(".*number of failures during the importing.*?0.*", output)
+    assert re.match(".*operation result.*?errors_config.*", output)

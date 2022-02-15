@@ -23,22 +23,29 @@ import time
 
 from google.api_core.client_options import ClientOptions
 
-from google.cloud.retail import GcsSource, ImportErrorsConfig, \
-    ImportUserEventsRequest, UserEventInputConfig, UserEventServiceClient
+from google.cloud.retail import (
+    GcsSource,
+    ImportErrorsConfig,
+    ImportUserEventsRequest,
+    UserEventInputConfig,
+    UserEventServiceClient,
+)
 
 # Read the project number from the environment variable
-project_id = os.getenv('GOOGLE_CLOUD_PROJECT')
+project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
 
 
 def get_project_id():
     get_project_command = "gcloud config get-value project --format json"
     config = subprocess.check_output(shlex.split(get_project_command))
-    project_id = re.search('\"(.*?)\"', str(config)).group(1)
+    project_id = re.search('"(.*?)"', str(config)).group(1)
     return project_id
+
 
 endpoint = "retail.googleapis.com"
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog".format(
-    project_id)
+    project_id
+)
 
 # Read bucket name from the environment variable
 gcs_bucket = "gs://{}".format(os.getenv("EVENTS_BUCKET_NAME"))
@@ -84,7 +91,8 @@ def get_import_events_gcs_request(gcs_object_name: str):
 def import_user_events_from_gcs():
     import_gcs_request = get_import_events_gcs_request(gcs_events_object)
     gcs_operation = get_user_events_service_client().import_user_events(
-        import_gcs_request)
+        import_gcs_request
+    )
 
     print("---the operation was started:----")
     print(gcs_operation.operation.name)
