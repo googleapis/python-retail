@@ -17,8 +17,6 @@ import subprocess
 
 import pytest
 
-from setup.setup_cleanup import delete_product
-
 
 @pytest.mark.flaky(max_runs=10, min_passes=1)
 def test_add_fulfillment():

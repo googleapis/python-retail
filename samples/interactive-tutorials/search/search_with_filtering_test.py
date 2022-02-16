@@ -37,4 +37,3 @@ def test_search_with_filtering():
     assert re.match(".*Tee.*", product_title)
     assert re.match(".*Black.*", product_title)
     assert "Black" in response.results[0].product.color_info.color_families
-    assert response.total_size == 16
