@@ -15,8 +15,12 @@
 import re
 import subprocess
 
-from setup.setup_cleanup import create_bq_dataset, create_bq_table, \
-    delete_bq_table, upload_data_to_bq_table
+from setup.setup_cleanup import (
+    create_bq_dataset,
+    create_bq_table,
+    delete_bq_table,
+    upload_data_to_bq_table,
+)
 
 
 def test_import_products_bq():
@@ -27,15 +31,15 @@ def test_import_products_bq():
 
     create_bq_dataset(dataset)
     create_bq_table(dataset, valid_products_table, product_schema)
-    upload_data_to_bq_table(dataset, valid_products_table,
-                            valid_products_source_file, product_schema)
-
-    output = str(
-        subprocess.check_output("python import_products_big_query_table.py",
-                                shell=True)
+    upload_data_to_bq_table(
+        dataset, valid_products_table, valid_products_source_file, product_schema
     )
 
-    delete_bq_table(dataset,valid_products_table)
+    output = str(
+        subprocess.check_output("python import_products_big_query_table.py", shell=True)
+    )
+
+    delete_bq_table(dataset, valid_products_table)
 
     assert re.match(".*import products from big query table request.*", output)
     assert re.match(".*the operation was started.*", output)
