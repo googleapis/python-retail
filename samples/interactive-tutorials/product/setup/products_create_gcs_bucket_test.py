@@ -15,7 +15,7 @@
 import re
 import subprocess
 
-from products_delete_gcs_bucket import delete_bucket_by_name
+from setup_cleanup import delete_bucket
 
 
 def test_create_gcs_bucket():
@@ -25,9 +25,7 @@ def test_create_gcs_bucket():
             shell=True))
 
     bucket_name = re.search('The gcs bucket (.+?) was created', output).group(1)
-    delete_bucket_by_name(bucket_name)
-
-    print("bucket_name = {}".format(bucket_name))
+    delete_bucket(bucket_name)
 
     assert re.match(
         '.*Creating new bucket.*', output)

@@ -16,7 +16,12 @@ import os
 import re
 import subprocess
 
+from setup_cleanup import delete_bq_table
+
 project_id = os.environ["GOOGLE_CLOUD_PROJECT"]
+dataset = "products"
+valid_products_table = "products"
+invalid_products_table = "products_some_invalid"
 
 
 def test_create_bigquery_table():
@@ -24,16 +29,22 @@ def test_create_bigquery_table():
         subprocess.check_output(
             'python setup/products_create_bigquery_table.py',
             shell=True))
+    delete_bq_table(dataset, valid_products_table)
+    delete_bq_table(dataset, invalid_products_table)
+
     assert re.match(
         f'.*Creating dataset {project_id}.products.*', output)
     assert re.match(
-        f'(.*dataset {project_id}.products already exists.*|.*dataset is created.*)', output)
+        f'(.*dataset {project_id}.products already exists.*|.*dataset is created.*)',
+        output)
     assert re.match(
         f'.*Creating BigQuery table {project_id}.products.products.*', output)
     assert re.match(
-        f'(.*table {project_id}.products.products already exists.*|.*table is created.*)', output)
+        f'(.*table {project_id}.products.products already exists.*|.*table is created.*)',
+        output)
     assert re.match(
-        f'.*Uploading data from ../resources/products.json to the table {project_id}.products.products.*', output)
+        f'.*Uploading data from ../resources/products.json to the table {project_id}.products.products.*',
+        output)
     assert re.match(
         f'.*Creating BigQuery table {project_id}.products.products_some_invalid.*',
         output)
