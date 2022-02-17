@@ -36,7 +36,10 @@ def test_import_products_bq(table_id_prefix):
     )
 
     output = str(
-        subprocess.check_output(f"python import_products_big_query_table.py {dataset} {valid_products_table}", shell=True)
+        subprocess.check_output(
+            f"python import_products_big_query_table.py {dataset} {valid_products_table}",
+            shell=True,
+        )
     )
 
     delete_bq_table(dataset, valid_products_table)

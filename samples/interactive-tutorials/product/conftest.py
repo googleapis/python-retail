@@ -15,7 +15,9 @@
 import pytest
 import test_utils.prefixer
 
-prefixer = test_utils.prefixer.Prefixer("python-retail", "samples/interactive-tutorials/product")
+prefixer = test_utils.prefixer.Prefixer(
+    "python-retail", "samples/interactive-tutorials/product"
+)
 
 
 @pytest.fixture(scope="session")
