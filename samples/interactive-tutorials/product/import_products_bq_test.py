@@ -23,9 +23,9 @@ from setup_product.setup_cleanup import (
 )
 
 
-def test_import_products_bq():
+def test_import_products_bq(table_id_prefix):
     dataset = "products"
-    valid_products_table = "products"
+    valid_products_table = f"{table_id_prefix}products"
     product_schema = "../resources/product_schema.json"
     valid_products_source_file = "../resources/products.json"
 
@@ -36,7 +36,7 @@ def test_import_products_bq():
     )
 
     output = str(
-        subprocess.check_output("python import_products_big_query_table.py", shell=True)
+        subprocess.check_output(f"python import_products_big_query_table.py {dataset} {valid_products_table}", shell=True)
     )
 
     delete_bq_table(dataset, valid_products_table)
