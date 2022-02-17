@@ -23,12 +23,13 @@ from google.cloud.retail import PurgeUserEventsRequest, UserEventServiceClient
 
 from setup.setup_cleanup import write_user_event
 
-project_id = os.getenv('GOOGLE_CLOUD_PROJECT')
+project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
 
 endpoint = "retail.googleapis.com"
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog".format(
-    project_id)
-visitor_id = 'test_visitor_id'
+    project_id
+)
+visitor_id = "test_visitor_id"
 
 
 # get user events service client
@@ -52,7 +53,8 @@ def get_purge_user_event_request():
 # call the Retail API to purge user event
 def call_purge_user_events():
     purge_operation = get_user_events_service_client().purge_user_events(
-        get_purge_user_event_request())
+        get_purge_user_event_request()
+    )
 
     print("---the purge operation was started:----")
     print(purge_operation.operation.name)
