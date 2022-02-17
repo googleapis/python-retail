@@ -21,18 +21,17 @@ import time
 
 from google.api_core.client_options import ClientOptions
 
-from google.cloud.retail import AddFulfillmentPlacesRequest, \
-    ProductServiceClient
+from google.cloud.retail import AddFulfillmentPlacesRequest, ProductServiceClient
 from setup.setup_cleanup import create_product, delete_product, get_product
 
 project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
 endpoint = "retail.googleapis.com"
 product_id = "".join(random.sample(string.ascii_lowercase, 8))
 product_name = (
-        "projects/"
-        + project_id
-        + "/locations/global/catalogs/default_catalog/branches/default_branch/products/"
-        + product_id
+    "projects/"
+    + project_id
+    + "/locations/global/catalogs/default_catalog/branches/default_branch/products/"
+    + product_id
 )
 
 # The request timestamp
@@ -48,7 +47,7 @@ def get_product_service_client():
 
 # add fulfillment request
 def get_add_fulfillment_request(
-        product_name: str, timestamp, place_id
+    product_name: str, timestamp, place_id
 ) -> AddFulfillmentPlacesRequest:
     add_fulfillment_request = AddFulfillmentPlacesRequest()
     add_fulfillment_request.product = product_name
@@ -80,8 +79,7 @@ def add_fulfillment_places(product_name: str, timestamp, place_id):
 
 
 create_product(product_id)
-print("------add fulfilment places with current date: {}-----".format(
-    current_date))
+print("------add fulfilment places with current date: {}-----".format(current_date))
 add_fulfillment_places(product_name, current_date, "store2")
 get_product(product_name)
 print("------add outdated fulfilment places: {}-----".format(outdated_date))
