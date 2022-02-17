@@ -27,7 +27,7 @@ invalid_products_table = "products_some_invalid"
 def test_create_bigquery_table():
     output = str(
         subprocess.check_output(
-            'python setup/products_create_bigquery_table.py',
+            'python setup_product/products_create_bigquery_table.py',
             shell=True))
     delete_bq_table(dataset, valid_products_table)
     delete_bq_table(dataset, invalid_products_table)

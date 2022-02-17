@@ -15,7 +15,7 @@
 import re
 import subprocess
 
-from setup.setup_cleanup import (
+from setup_product.setup_cleanup import (
     create_bq_dataset,
     create_bq_table,
     delete_bq_table,

@@ -16,7 +16,7 @@ import os
 import re
 import subprocess
 
-from setup.setup_cleanup import create_bucket, delete_bucket, upload_blob
+from setup_product.setup_cleanup import create_bucket, delete_bucket, upload_blob
 
 
 def test_import_products_gcs():
