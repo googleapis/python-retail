@@ -29,7 +29,7 @@ from google.cloud.retail import (
 from google.cloud.retail_v2 import Product
 from google.protobuf.field_mask_pb2 import FieldMask
 
-from setup.setup_cleanup import create_product, delete_product, get_product
+from setup_product.setup_cleanup import create_product, delete_product, get_product
 
 project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
 endpoint = "retail.googleapis.com"

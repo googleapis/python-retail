@@ -25,7 +25,7 @@ from google.cloud.retail import CreateProductRequest, Product, ProductServiceCli
 from google.cloud.retail_v2 import PriceInfo
 from google.cloud.retail_v2.types import product
 
-from setup.setup_cleanup import delete_product
+from setup_product.setup_cleanup import delete_product
 
 project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
 default_branch_name = (

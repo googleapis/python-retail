@@ -23,7 +23,7 @@ import string
 from google.api_core.client_options import ClientOptions
 from google.cloud.retail import DeleteProductRequest, ProductServiceClient
 
-from setup.setup_cleanup import create_product
+from setup_product.setup_cleanup import create_product
 
 project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
 endpoint = "retail.googleapis.com"

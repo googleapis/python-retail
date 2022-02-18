@@ -29,7 +29,7 @@ from google.cloud.retail_v2 import (
 )
 from google.cloud.retail_v2.types import product
 
-from setup.setup_cleanup import create_product, delete_product
+from setup_product.setup_cleanup import create_product, delete_product
 
 # from google.protobuf.field_mask_pb2 import FieldMask
 # from google.protobuf.field_mask_pb2 import FieldMask
