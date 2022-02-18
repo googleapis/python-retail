@@ -18,7 +18,6 @@ import subprocess
 import pytest
 
 
-@pytest.mark.flaky(max_runs=10, min_passes=1)
 def test_add_fulfillment():
     output = str(
         subprocess.check_output("python remove_fulfillment_places.py", shell=True)
