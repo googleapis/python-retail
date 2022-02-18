@@ -26,7 +26,11 @@ def test_import_products_gcs(bucket_name_prefix):
         create_bucket(bucket_name)
         upload_blob(bucket_name, "../resources/products.json")
 
-        output = str(subprocess.check_output(f"python import_products_gcs.py {bucket_name}", shell=True))
+        output = str(
+            subprocess.check_output(
+                f"python import_products_gcs.py {bucket_name}", shell=True
+            )
+        )
     finally:
         delete_bucket(bucket_name)
 
