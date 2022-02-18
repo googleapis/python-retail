@@ -21,7 +21,7 @@ def test_set_inventory():
     print(output)
     assert re.match(".*product is created.*", output)
     assert re.match(
-        '.*name: "projects/.*/locations/global/catalogs/default_catalog/branches/0/products/inventory_test_product_id".*',
+        '.*name: "projects/.*/locations/global/catalogs/default_catalog/branches/0/products.*',
         output,
     )
     assert re.match(".*set inventory request.*", output)
@@ -34,6 +34,6 @@ def test_set_inventory():
         output,
     )
     assert re.match(
-        ".*product projects/.*/locations/global/catalogs/default_catalog/branches/default_branch/products/inventory_test_product_id was deleted.*",
+        ".*product projects/.*/locations/global/catalogs/default_catalog/branches/default_branch/products.* was deleted.*",
         output,
     )
