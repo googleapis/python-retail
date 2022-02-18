@@ -81,9 +81,7 @@ def get_import_events_gcs_request(gcs_object_name: str):
 # call the Retail API to import user events
 def import_user_events_from_gcs():
     import_gcs_request = get_import_events_gcs_request(gcs_events_object)
-    gcs_operation = UserEventServiceClient().import_user_events(
-        import_gcs_request
-    )
+    gcs_operation = UserEventServiceClient().import_user_events(import_gcs_request)
 
     print("---the operation was started:----")
     print(gcs_operation.operation.name)
