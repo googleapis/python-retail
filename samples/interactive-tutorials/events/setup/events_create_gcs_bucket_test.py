@@ -14,6 +14,7 @@
 
 import re
 import subprocess
+
 from events_delete_gcs_bucket import delete_bucket_by_name
 
 
@@ -31,9 +32,11 @@ def test_create_gcs_bucket():
     assert re.match(
         '.*Creating new bucket.*', output)
     assert re.match(
-        '(.*The gcs bucket.*?was created.*|.*Bucket.*?already exists.*)', output)
+        '(.*The gcs bucket.*?was created.*|.*Bucket.*?already exists.*)',
+        output)
     assert re.match(
-        '.*Uploading data form ../resources/user_events.json to the bucket.*', output)
+        '.*Uploading data form ../resources/user_events.json to the bucket.*',
+        output)
     assert re.match(
         '.*Uploading data form ../resources/user_events_some_invalid.json to the bucket .*',
         output)

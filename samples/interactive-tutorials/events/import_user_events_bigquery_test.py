@@ -18,7 +18,8 @@ import subprocess
 
 def test_create_product():
     output = str(
-        subprocess.check_output("python import_user_events_big_query.py", shell=True)
+        subprocess.check_output("python import_user_events_big_query.py",
+                                shell=True)
     )
 
     assert re.match(

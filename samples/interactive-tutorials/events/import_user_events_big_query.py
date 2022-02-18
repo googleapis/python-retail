@@ -26,7 +26,6 @@ from google.cloud.retail import (
     UserEventInputConfig,
     UserEventServiceClient,
 )
-from setup.setup_cleanup import get_project_id
 
 project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
 

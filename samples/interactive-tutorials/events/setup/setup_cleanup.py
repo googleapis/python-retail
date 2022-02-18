@@ -22,13 +22,14 @@ import subprocess
 
 from google.api_core.client_options import ClientOptions
 from google.api_core.exceptions import NotFound
-from google.protobuf.timestamp_pb2 import Timestamp
 
 from google.cloud import bigquery
 from google.cloud import storage
 from google.cloud.retail import ProductDetail, PurgeUserEventsRequest, \
     UserEvent, UserEventServiceClient, WriteUserEventRequest
 from google.cloud.retail_v2 import Product
+from google.protobuf.timestamp_pb2 import Timestamp
+
 
 project_id = os.getenv('GOOGLE_CLOUD_PROJECT')
 endpoint = "retail.googleapis.com"

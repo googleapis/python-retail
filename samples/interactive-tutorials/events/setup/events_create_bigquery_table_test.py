@@ -24,13 +24,16 @@ def test_create_bigquery_table():
     assert re.match(
         '.*Creating dataset .*?user_events.*', output)
     assert re.match(
-        '(.*dataset .*?user_events already exists.*|.*dataset is created.*)', output)
+        '(.*dataset .*?user_events already exists.*|.*dataset is created.*)',
+        output)
     assert re.match(
         '.*Creating BigQuery table .*?user_events.events.*', output)
     assert re.match(
-        '(.*table .*?user_events.events already exists.*|.*table is created.*)', output)
+        '(.*table .*?user_events.events already exists.*|.*table is created.*)',
+        output)
     assert re.match(
-        '.*Uploading data from ../resources/user_events.json to the table .*?user_events.events.*', output)
+        '.*Uploading data from ../resources/user_events.json to the table .*?user_events.events.*',
+        output)
 
     assert re.match(
         '.*Creating BigQuery table .*?events_some_invalid.*',
