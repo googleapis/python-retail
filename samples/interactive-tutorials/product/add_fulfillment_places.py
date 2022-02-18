@@ -19,13 +19,11 @@ import random
 import string
 import time
 
-from google.api_core.client_options import ClientOptions
-
 from google.cloud.retail import AddFulfillmentPlacesRequest, ProductServiceClient
+
 from setup_product.setup_cleanup import create_product, delete_product, get_product
 
 project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
-endpoint = "retail.googleapis.com"
 product_id = "".join(random.sample(string.ascii_lowercase, 8))
 product_name = (
     "projects/"
@@ -37,12 +35,6 @@ product_name = (
 # The request timestamp
 current_date = datetime.datetime.now()
 outdated_date = datetime.datetime.now() - datetime.timedelta(days=1)
-
-
-# get product service client
-def get_product_service_client():
-    client_options = ClientOptions(endpoint)
-    return ProductServiceClient(client_options=client_options)
 
 
 # add fulfillment request
@@ -67,7 +59,7 @@ def add_fulfillment_places(product_name: str, timestamp, place_id):
     add_fulfillment_request = get_add_fulfillment_request(
         product_name, timestamp, place_id
     )
-    get_product_service_client().add_fulfillment_places(add_fulfillment_request)
+    ProductServiceClient().add_fulfillment_places(add_fulfillment_request)
 
     # This is a long running operation and its result is not immediately present with get operations,
     # thus we simulate wait with sleep method.
