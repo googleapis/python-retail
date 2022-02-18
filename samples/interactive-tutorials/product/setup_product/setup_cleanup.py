@@ -20,7 +20,7 @@ from google.api_core.exceptions import NotFound
 
 from google.cloud import bigquery
 from google.cloud import storage
-from google.cloud.retail_v2 import CreateProductRequest, DeleteProductRequest, \
+from google.cloud.retail import CreateProductRequest, DeleteProductRequest, \
     FulfillmentInfo, GetProductRequest, PriceInfo, Product, ProductServiceClient
 
 project_id = os.environ["GOOGLE_CLOUD_PROJECT"]

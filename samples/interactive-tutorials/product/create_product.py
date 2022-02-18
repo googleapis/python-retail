@@ -22,8 +22,8 @@ import string
 
 from google.api_core.client_options import ClientOptions
 from google.cloud.retail import CreateProductRequest, Product, ProductServiceClient
-from google.cloud.retail_v2 import PriceInfo
-from google.cloud.retail_v2.types import product
+from google.cloud.retail import PriceInfo
+from google.cloud.retail.types import product
 
 from setup_product.setup_cleanup import delete_product
 

@@ -21,13 +21,13 @@ import random
 import string
 
 from google.api_core.client_options import ClientOptions
-from google.cloud.retail_v2 import (
+from google.cloud.retail import (
     PriceInfo,
     Product,
     ProductServiceClient,
     UpdateProductRequest,
 )
-from google.cloud.retail_v2.types import product
+from google.cloud.retail.types import product
 
 from setup_product.setup_cleanup import create_product, delete_product
 
