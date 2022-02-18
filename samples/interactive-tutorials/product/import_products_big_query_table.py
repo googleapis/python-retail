@@ -103,8 +103,7 @@ def main(project_id, dataset_id, table_id):
 
     import_products_from_big_query()
 
-
-# [END retail_import_products_from_big_query]
+    # [END retail_import_products_from_big_query]
 
 
 if __name__ == "__main__":
