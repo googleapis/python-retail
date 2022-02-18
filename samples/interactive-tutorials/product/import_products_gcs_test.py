@@ -21,12 +21,9 @@ from setup_product.setup_cleanup import create_bucket, delete_bucket, upload_blo
 
 def test_import_products_gcs():
     bucket_name = os.environ["BUCKET_NAME"]
-    create_bucket(bucket_name)
     upload_blob(bucket_name, "../resources/products.json")
 
     output = str(subprocess.check_output("python import_products_gcs.py", shell=True))
-
-    delete_bucket(bucket_name)
 
     assert re.match(".*import products from google cloud source request.*", output)
     assert re.match('.*input_uris: "gs://.*/products.json".*', output)
