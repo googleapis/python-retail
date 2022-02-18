@@ -20,8 +20,6 @@ import os
 import random
 import string
 
-from google.api_core.client_options import ClientOptions
-
 from google.cloud.retail import (
     CreateProductRequest,
     DeleteProductRequest,
@@ -34,7 +32,6 @@ from google.cloud.retail import PriceInfo
 from google.cloud.retail_v2.types import product
 
 project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
-endpoint = "retail.googleapis.com"
 default_branch_name = (
     "projects/"
     + project_id
@@ -42,12 +39,6 @@ default_branch_name = (
 )
 product_id = "".join(random.sample(string.ascii_lowercase, 8))
 product_name = "{}/products/{}".format(default_branch_name, product_id)
-
-
-# get product service client
-def get_product_service_client():
-    client_options = ClientOptions(endpoint)
-    return ProductServiceClient(client_options=client_options)
 
 
 # generate product for create
@@ -94,7 +85,7 @@ def create_product() -> object:
     print("---create product request---")
     print(create_product_request)
 
-    product_created = get_product_service_client().create_product(
+    product_created = ProductServiceClient().create_product(
         create_product_request
     )
     print("---created product:---")
@@ -110,7 +101,7 @@ def get_product() -> object:
     print("---get product request---")
     print(get_product_request)
 
-    get_product_response = get_product_service_client().get_product(get_product_request)
+    get_product_response = ProductServiceClient().get_product(get_product_request)
 
     print("---get product response:---")
     print(get_product_response)
@@ -126,7 +117,7 @@ def update_product():
     print("---update product request---")
     print(update_product_request)
 
-    updated_product = get_product_service_client().update_product(
+    updated_product = ProductServiceClient().update_product(
         update_product_request
     )
     print("---updated product---:")
@@ -142,7 +133,7 @@ def delete_product():
     print("---delete product request---")
     print(delete_product_request)
 
-    get_product_service_client().delete_product(delete_product_request)
+    ProductServiceClient().delete_product(delete_product_request)
 
     print("deleting product " + product_name)
     print("---product was deleted:---")

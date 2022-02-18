@@ -19,7 +19,6 @@ import random
 import string
 import time
 
-from google.api_core.client_options import ClientOptions
 from google.cloud.retail import (
     FulfillmentInfo,
     PriceInfo,
@@ -32,7 +31,6 @@ from google.protobuf.field_mask_pb2 import FieldMask
 from setup_product.setup_cleanup import create_product, delete_product, get_product
 
 project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
-endpoint = "retail.googleapis.com"
 product_id = "".join(random.sample(string.ascii_lowercase, 8))
 product_name = (
     "projects/"
@@ -40,12 +38,6 @@ product_name = (
     + "/locations/global/catalogs/default_catalog/branches/default_branch/products/"
     + product_id
 )
-
-
-# get product service client
-def get_product_service_client():
-    client_options = ClientOptions(endpoint)
-    return ProductServiceClient(client_options=client_options)
 
 
 # product inventory info
@@ -94,7 +86,7 @@ def get_set_inventory_request(product_name: str) -> SetInventoryRequest:
 # set inventory to product
 def set_inventory(product_name: str):
     set_inventory_request = get_set_inventory_request(product_name)
-    get_product_service_client().set_inventory(set_inventory_request)
+    ProductServiceClient().set_inventory(set_inventory_request)
 
     # This is a long running operation and its result is not immediately present with get operations,
     # thus we simulate wait with sleep method.

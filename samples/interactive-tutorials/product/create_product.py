@@ -20,7 +20,6 @@ import os
 import random
 import string
 
-from google.api_core.client_options import ClientOptions
 from google.cloud.retail import CreateProductRequest, Product, ProductServiceClient
 from google.cloud.retail import PriceInfo
 from google.cloud.retail_v2.types import product
@@ -33,14 +32,7 @@ default_branch_name = (
     + project_id
     + "/locations/global/catalogs/default_catalog/branches/default_branch"
 )
-endpoint = "retail.googleapis.com"
 generated_product_id = "".join(random.sample(string.ascii_lowercase, 8))
-
-
-# get product service client
-def get_product_service_client():
-    client_options = ClientOptions(endpoint)
-    return ProductServiceClient(client_options=client_options)
 
 
 # generate product to create
@@ -75,7 +67,7 @@ def get_create_product_request(product_to_create: Product, product_id: str) -> o
 # call the Retail API to create product
 def create_product(product_id: str):
     create_product_request = get_create_product_request(generate_product(), product_id)
-    product_created = get_product_service_client().create_product(
+    product_created = ProductServiceClient().create_product(
         create_product_request
     )
 

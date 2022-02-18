@@ -20,25 +20,17 @@ import os
 import random
 import string
 
-from google.api_core.client_options import ClientOptions
 from google.cloud.retail import DeleteProductRequest, ProductServiceClient
 
 from setup_product.setup_cleanup import create_product
 
 project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
-endpoint = "retail.googleapis.com"
 default_branch_name = (
     "projects/"
     + project_id
     + "/locations/global/catalogs/default_catalog/branches/default_branch"
 )
 product_id = "".join(random.sample(string.ascii_lowercase, 8))
-
-
-# get product service client
-def get_product_service_client():
-    client_options = ClientOptions(endpoint)
-    return ProductServiceClient(client_options=client_options)
 
 
 # get delete product request
@@ -55,7 +47,7 @@ def get_delete_product_request(product_name: str):
 # call the Retail API to delete product
 def delete_product(product_name: str):
     delete_product_request = get_delete_product_request(product_name)
-    get_product_service_client().delete_product(delete_product_request)
+    ProductServiceClient().delete_product(delete_product_request)
 
     print("deleting product " + product_name)
     print("---product was deleted:---")

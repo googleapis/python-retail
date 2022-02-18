@@ -20,20 +20,12 @@ import os
 import random
 import string
 
-from google.api_core.client_options import ClientOptions
 from google.cloud.retail import GetProductRequest, ProductServiceClient
 
 from setup_product.setup_cleanup import create_product, delete_product
 
 project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
-endpoint = "retail.googleapis.com"
 product_id = "".join(random.sample(string.ascii_lowercase, 8))
-
-
-# get product service client
-def get_product_service_client():
-    client_options = ClientOptions(endpoint)
-    return ProductServiceClient(client_options=client_options)
 
 
 # get product request
@@ -51,7 +43,7 @@ def get_product_request(product_name: str) -> object:
 def get_product(product_name: str):
     # get a product from catalog
     get_request = get_product_request(product_name)
-    get_product_response = get_product_service_client().get_product(get_request)
+    get_product_response = ProductServiceClient().get_product(get_request)
 
     print("---get product response:---")
     print(get_product_response)

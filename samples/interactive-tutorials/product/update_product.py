@@ -20,7 +20,6 @@ import os
 import random
 import string
 
-from google.api_core.client_options import ClientOptions
 from google.cloud.retail import (
     PriceInfo,
     Product,
@@ -41,14 +40,7 @@ default_branch_name = (
     + project_id
     + "/locations/global/catalogs/default_catalog/branches/default_branch"
 )
-endpoint = "retail.googleapis.com"
 generated_product_id = "".join(random.sample(string.ascii_lowercase, 8))
-
-
-# get product service client
-def get_product_service_client():
-    client_options = ClientOptions(endpoint)
-    return ProductServiceClient(client_options=client_options)
 
 
 # generate product for update
@@ -88,7 +80,7 @@ def get_update_product_request(product_to_update: Product):
 # call the Retail API to update product
 def update_product(original_product: Product):
     # update product
-    updated_product = get_product_service_client().update_product(
+    updated_product = ProductServiceClient().update_product(
         get_update_product_request(generate_product_for_update(original_product.id))
     )
 
