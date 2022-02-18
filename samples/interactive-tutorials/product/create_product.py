@@ -67,9 +67,7 @@ def get_create_product_request(product_to_create: Product, product_id: str) -> o
 # call the Retail API to create product
 def create_product(product_id: str):
     create_product_request = get_create_product_request(generate_product(), product_id)
-    product_created = ProductServiceClient().create_product(
-        create_product_request
-    )
+    product_created = ProductServiceClient().create_product(create_product_request)
 
     print("---created product:---")
     print(product_created)

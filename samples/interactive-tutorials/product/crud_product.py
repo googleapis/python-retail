@@ -85,9 +85,7 @@ def create_product() -> object:
     print("---create product request---")
     print(create_product_request)
 
-    product_created = ProductServiceClient().create_product(
-        create_product_request
-    )
+    product_created = ProductServiceClient().create_product(create_product_request)
     print("---created product:---")
     print(product_created)
     return product_created
@@ -117,9 +115,7 @@ def update_product():
     print("---update product request---")
     print(update_product_request)
 
-    updated_product = ProductServiceClient().update_product(
-        update_product_request
-    )
+    updated_product = ProductServiceClient().update_product(update_product_request)
     print("---updated product---:")
     print(updated_product)
     return updated_product
