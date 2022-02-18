@@ -22,9 +22,6 @@ import random
 import string
 import time
 
-from google.api_core.client_options import ClientOptions
-from google.protobuf.timestamp_pb2 import Timestamp
-
 from google.cloud.retail import (
     ImportUserEventsRequest,
     UserEvent,
@@ -32,19 +29,13 @@ from google.cloud.retail import (
     UserEventInputConfig,
     UserEventServiceClient,
 )
+from google.protobuf.timestamp_pb2 import Timestamp
 
 project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
 
-endpoint = "retail.googleapis.com"
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog".format(
     project_id
 )
-
-
-# get user events service client
-def get_user_events_service_client():
-    client_options = ClientOptions(endpoint)
-    return UserEventServiceClient(client_options=client_options)
 
 
 # get user events for import
@@ -87,7 +78,7 @@ def get_import_events_inline_source_request(user_events_to_import):
 # call the Retail API to import user events
 def import_user_events_from_inline_source():
     import_inline_request = get_import_events_inline_source_request(get_user_events())
-    import_operation = get_user_events_service_client().import_user_events(
+    import_operation = UserEventServiceClient().import_user_events(
         import_inline_request
     )
 

@@ -21,8 +21,6 @@ import shlex
 import subprocess
 import time
 
-from google.api_core.client_options import ClientOptions
-
 from google.cloud.retail import (
     GcsSource,
     ImportErrorsConfig,
@@ -42,7 +40,6 @@ def get_project_id():
     return project_id
 
 
-endpoint = "retail.googleapis.com"
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog".format(
     project_id
 )
@@ -55,12 +52,6 @@ gcs_events_object = "user_events.json"
 
 # TO CHECK ERROR HANDLING USE THE JSON WITH INVALID PRODUCT
 # gcs_events_object = "user_events_some_invalid.json"
-
-
-# get user events service client
-def get_user_events_service_client():
-    client_options = ClientOptions(endpoint)
-    return UserEventServiceClient(client_options=client_options)
 
 
 # get import user events from gcs request
@@ -90,7 +81,7 @@ def get_import_events_gcs_request(gcs_object_name: str):
 # call the Retail API to import user events
 def import_user_events_from_gcs():
     import_gcs_request = get_import_events_gcs_request(gcs_events_object)
-    gcs_operation = get_user_events_service_client().import_user_events(
+    gcs_operation = UserEventServiceClient().import_user_events(
         import_gcs_request
     )
 

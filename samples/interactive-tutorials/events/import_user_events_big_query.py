@@ -18,8 +18,6 @@
 import os
 import time
 
-from google.api_core.client_options import ClientOptions
-
 from google.cloud.retail import (
     BigQuerySource,
     ImportUserEventsRequest,
@@ -29,7 +27,6 @@ from google.cloud.retail import (
 
 project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
 
-endpoint = "retail.googleapis.com"
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog".format(
     project_id
 )
@@ -39,13 +36,6 @@ table_id = "events"
 
 # TO CHECK ERROR HANDLING USE THE TABLE OF INVALID USER EVENTS:
 # table_id = "events_some_invalid"
-
-
-# get user events service client
-def get_user_events_service_client():
-    client_options = ClientOptions(endpoint)
-    return UserEventServiceClient(client_options=client_options)
-
 
 # get import user events from big query request
 def get_import_events_big_query_request():
@@ -73,7 +63,7 @@ def get_import_events_big_query_request():
 # call the Retail API to import user events
 def import_user_events_from_big_query():
     import_big_query_request = get_import_events_big_query_request()
-    big_query_operation = get_user_events_service_client().import_user_events(
+    big_query_operation = UserEventServiceClient().import_user_events(
         import_big_query_request
     )
 

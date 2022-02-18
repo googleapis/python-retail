@@ -20,9 +20,7 @@ import re
 import shlex
 import subprocess
 
-from google.api_core.client_options import ClientOptions
 from google.api_core.exceptions import NotFound
-
 from google.cloud import bigquery
 from google.cloud import storage
 from google.cloud.retail import ProductDetail, PurgeUserEventsRequest, \
@@ -32,15 +30,8 @@ from google.protobuf.timestamp_pb2 import Timestamp
 
 
 project_id = os.getenv('GOOGLE_CLOUD_PROJECT')
-endpoint = "retail.googleapis.com"
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog".format(
     project_id)
-
-
-# get user events service client
-def get_user_events_service_client():
-    client_options = ClientOptions(endpoint)
-    return UserEventServiceClient(client_options=client_options)
 
 
 # get user event
@@ -69,7 +60,7 @@ def write_user_event(visitor_id):
     write_user_event_request = WriteUserEventRequest()
     write_user_event_request.user_event = get_user_event(visitor_id)
     write_user_event_request.parent = default_catalog
-    user_event = get_user_events_service_client().write_user_event(
+    user_event = UserEventServiceClient().write_user_event(
         write_user_event_request)
     print("---the user event is written---")
     print(user_event)
@@ -82,7 +73,7 @@ def purge_user_event(visitor_id):
     purge_user_event_request.filter = 'visitorId="{}"'.format(visitor_id)
     purge_user_event_request.parent = default_catalog
     purge_user_event_request.force = True
-    purge_operation = get_user_events_service_client().purge_user_events(
+    purge_operation = UserEventServiceClient().purge_user_events(
         purge_user_event_request)
 
     print("---the purge operation was started:----")
