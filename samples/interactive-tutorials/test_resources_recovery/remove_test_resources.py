@@ -24,7 +24,6 @@ from google.cloud.storage.bucket import Bucket
 
 
 project_id = os.environ["GOOGLE_CLOUD_PROJECT"]
-project_id = os.environ["GOOGLE_CLOUD_PROJECT"]
 product_bucket_name = os.environ['BUCKET_NAME']
 events_bucket_name = os.environ['EVENTS_BUCKET_NAME']
 
