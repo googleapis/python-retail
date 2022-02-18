@@ -15,8 +15,6 @@
 import re
 import subprocess
 
-import pytest
-
 
 def test_set_inventory():
     output = str(subprocess.check_output("python set_inventory.py", shell=True))

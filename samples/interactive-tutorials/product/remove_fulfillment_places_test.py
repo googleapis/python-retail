@@ -15,8 +15,6 @@
 import re
 import subprocess
 
-import pytest
-
 
 def test_add_fulfillment():
     output = str(
