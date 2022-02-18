@@ -76,7 +76,7 @@ To run a code sample from the Cloud Shell, you need to be authenticated using th
 
 You will run the code samples in your own Google Cloud project. To use the **project_id** in every request to the Retail API, you should first specify them as environment variables.
 
-1. Find the project number and project ID in the Project Info card displayed on **Home/Dashboard**.
+1. Find the project ID in the Project Info card displayed on **Home/Dashboard**.
 
 1. Set the **project_id** with the following command:
     ```bash
