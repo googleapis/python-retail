@@ -31,7 +31,7 @@ from google.cloud.retail import (
     UpdateProductRequest,
 )
 from google.cloud.retail import PriceInfo
-from google.cloud.retail.types import product
+from google.cloud.retail_v2.types import product
 
 project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
 endpoint = "retail.googleapis.com"

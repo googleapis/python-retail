@@ -27,7 +27,7 @@ from google.cloud.retail import (
     ProductServiceClient,
     UpdateProductRequest,
 )
-from google.cloud.retail.types import product
+from google.cloud.retail_v2.types import product
 
 from setup_product.setup_cleanup import create_product, delete_product
 
