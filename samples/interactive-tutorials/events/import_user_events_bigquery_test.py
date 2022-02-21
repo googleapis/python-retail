@@ -34,12 +34,12 @@ def test_import_products_bq(table_id_prefix):
         create_bq_dataset(dataset)
         create_bq_table(dataset, valid_products_table, product_schema)
         upload_data_to_bq_table(
-            dataset, valid_products_table, valid_products_source_file,
-            product_schema
+            dataset, valid_products_table, valid_products_source_file, product_schema
         )
         output = str(
-            subprocess.check_output("python import_user_events_big_query.py",
-                                    shell=True)
+            subprocess.check_output(
+                "python import_user_events_big_query.py", shell=True
+            )
         )
     finally:
         delete_bq_table(dataset, valid_products_table)

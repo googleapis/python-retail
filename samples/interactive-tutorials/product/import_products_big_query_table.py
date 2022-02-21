@@ -108,7 +108,7 @@ def main(project_id, dataset_id, table_id):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('dataset_id', nargs='?', default="products")
-    parser.add_argument('table_id', nargs='?', default="products")
+    parser.add_argument("dataset_id", nargs="?", default="products")
+    parser.add_argument("table_id", nargs="?", default="products")
     args = parser.parse_args()
     main(project_id, args.dataset_id, args.table_id)
