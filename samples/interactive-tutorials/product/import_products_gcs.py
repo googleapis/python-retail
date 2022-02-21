@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import argparse
+import os
 
 
 def main(bucket_name):
@@ -74,8 +75,10 @@ def main(bucket_name):
 
     # call the Retail API to import products
     def import_products_from_gcs():
-        import_gcs_request = get_import_products_gcs_request(gcs_products_object)
-        gcs_operation = ProductServiceClient().import_products(import_gcs_request)
+        import_gcs_request = get_import_products_gcs_request(
+            gcs_products_object)
+        gcs_operation = ProductServiceClient().import_products(
+            import_gcs_request)
 
         print("---the operation was started:----")
         print(gcs_operation.operation.name)
@@ -111,6 +114,7 @@ def main(bucket_name):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("bucket_name")
+    parser.add_argument("bucket_name", nargs='?',
+                        default=os.environ["BUCKET_NAME"])
     args = parser.parse_args()
     main(args.bucket_name)

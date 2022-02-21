@@ -12,17 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import datetime
-import os
+import pytest
+import test_utils.prefixer
 
-from setup_cleanup import create_bucket, upload_blob
+prefixer = test_utils.prefixer.Prefixer(
+    "python-retail", "samples/interactive-tutorials/product"
+)
 
-project_id = os.environ["GOOGLE_CLOUD_PROJECT"]
-timestamp_ = datetime.datetime.now().timestamp().__round__()
-bucket_name = "{}_events_{}".format(project_id, timestamp_)
 
-create_bucket(bucket_name)
-upload_blob(bucket_name, "../resources/user_events.json")
-upload_blob(bucket_name, "../resources/user_events_some_invalid.json")
+@pytest.fixture(scope="session")
+def table_id_prefix() -> str:
+    return prefixer.create_prefix()
 
-print("\nThe gcs bucket {} was created".format(bucket_name))
+
+@pytest.fixture(scope="session")
+def bucket_name_prefix() -> str:
+    return prefixer.create_prefix()

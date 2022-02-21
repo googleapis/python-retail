@@ -31,6 +31,6 @@ TEST_CONFIG_OVERRIDE = {
     "envs": {
         "DATA_LABELING_API_ENDPOINT": "us-central1-autopush-aiplatform.sandbox.googleapis.com",
         "PYTEST_ADDOPTS": "-n=auto",  # Run tests parallel using all available CPUs
-        "EVENTS_BUCKET_NAME": "retail-interactive-tutorials-events",
+        "EVENTS_BUCKET_NAME": "retail-interactive-tutorials-events"
     },
 }

@@ -15,11 +15,33 @@
 import re
 import subprocess
 
+from setup.setup_cleanup import (
+    create_bq_dataset,
+    create_bq_table,
+    delete_bq_table,
+    upload_data_to_bq_table,
+)
 
-def test_create_product():
-    output = str(
-        subprocess.check_output("python import_user_events_big_query.py", shell=True)
-    )
+
+def test_import_products_bq(table_id_prefix):
+    dataset = "user_events"
+    valid_products_table = f"{table_id_prefix}events"
+    product_schema = "../resources/events_schema.json"
+    valid_products_source_file = "../resources/user_events.json"
+
+    try:
+        create_bq_dataset(dataset)
+        create_bq_table(dataset, valid_products_table, product_schema)
+        upload_data_to_bq_table(
+            dataset, valid_products_table, valid_products_source_file,
+            product_schema
+        )
+        output = str(
+            subprocess.check_output("python import_user_events_big_query.py",
+                                    shell=True)
+        )
+    finally:
+        delete_bq_table(dataset, valid_products_table)
 
     assert re.match(
         '.*import user events from BigQuery source request.*?parent: "projects/.*?/locations/global/catalogs/default_catalog.*',

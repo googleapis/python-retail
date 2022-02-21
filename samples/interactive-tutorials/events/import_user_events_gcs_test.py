@@ -15,11 +15,24 @@
 import re
 import subprocess
 
+from setup.setup_cleanup import create_bucket, delete_bucket, upload_blob
 
-def test_create_product():
-    output = str(
-        subprocess.check_output("python import_user_events_gcs.py", shell=True)
-    )
+
+def test_import_events_gcs(bucket_name_prefix):
+    # gcs buckets have a limit of 63 characters. Get the last 60 characters
+    # bucket_name = bucket_name_prefix[63:]
+    bucket_name = bucket_name_prefix
+
+    try:
+        create_bucket(bucket_name)
+        upload_blob(bucket_name, "../resources/user_events.json")
+
+        output = str(
+            subprocess.check_output("python import_user_events_gcs.py",
+                                    shell=True)
+        )
+    finally:
+        delete_bucket(bucket_name)
 
     assert re.match(
         '.*import user events from google cloud source request.*?parent: "projects/.*?/locations/global/catalogs/default_catalog.*',
