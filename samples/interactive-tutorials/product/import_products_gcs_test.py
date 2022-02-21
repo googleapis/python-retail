@@ -15,8 +15,7 @@
 import re
 import subprocess
 
-from setup_product.setup_cleanup import create_bucket, delete_bucket, \
-    upload_blob
+from setup_product.setup_cleanup import create_bucket, delete_bucket, upload_blob
 
 
 def test_import_products_gcs(bucket_name_prefix):
@@ -36,8 +35,7 @@ def test_import_products_gcs(bucket_name_prefix):
     finally:
         delete_bucket(bucket_name)
 
-    assert re.match(".*import products from google cloud source request.*",
-                    output)
+    assert re.match(".*import products from google cloud source request.*", output)
     assert re.match('.*input_uris: "gs://.*/products.json".*', output)
     assert re.match(".*the operation was started.*", output)
     assert re.match(
@@ -45,6 +43,5 @@ def test_import_products_gcs(bucket_name_prefix):
         output,
     )
 
-    assert re.match(".*number of successfully imported products.*?316.*",
-                    output)
+    assert re.match(".*number of successfully imported products.*?316.*", output)
     assert re.match(".*number of failures during the importing.*?0.*", output)

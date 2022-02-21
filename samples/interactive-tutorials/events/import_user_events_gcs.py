@@ -74,8 +74,7 @@ def main(bucket_name):
     # call the Retail API to import user events
     def import_user_events_from_gcs():
         import_gcs_request = get_import_events_gcs_request(gcs_events_object)
-        gcs_operation = UserEventServiceClient().import_user_events(
-            import_gcs_request)
+        gcs_operation = UserEventServiceClient().import_user_events(import_gcs_request)
 
         print("---the operation was started:----")
         print(gcs_operation.operation.name)
@@ -107,7 +106,8 @@ def main(bucket_name):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("bucket_name", nargs='?',
-                        default=os.environ["EVENTS_BUCKET_NAME"])
+    parser.add_argument(
+        "bucket_name", nargs="?", default=os.environ["EVENTS_BUCKET_NAME"]
+    )
     args = parser.parse_args()
     main(args.bucket_name)

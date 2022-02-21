@@ -28,8 +28,7 @@ def test_import_events_gcs(bucket_name_prefix):
         upload_blob(bucket_name, "../resources/user_events.json")
 
         output = str(
-            subprocess.check_output("python import_user_events_gcs.py",
-                                    shell=True)
+            subprocess.check_output("python import_user_events_gcs.py", shell=True)
         )
     finally:
         delete_bucket(bucket_name)

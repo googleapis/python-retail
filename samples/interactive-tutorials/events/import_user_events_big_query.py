@@ -102,7 +102,7 @@ def main(project_id, dataset_id, table_id):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('dataset_id', nargs='?', default="user_events")
-    parser.add_argument('table_id', nargs='?', default="events")
+    parser.add_argument("dataset_id", nargs="?", default="user_events")
+    parser.add_argument("table_id", nargs="?", default="events")
     args = parser.parse_args()
     main(project_id, args.dataset_id, args.table_id)
