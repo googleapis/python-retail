@@ -20,10 +20,10 @@ from setup.setup_cleanup import create_bucket, delete_bucket, upload_blob
 
 def test_import_events_gcs(bucket_name_prefix):
     # gcs buckets have a limit of 63 characters. Get the last 60 characters
-    # bucket_name = bucket_name_prefix[63:]
-    bucket_name = bucket_name_prefix
+    bucket_name = bucket_name_prefix[63:]
 
     try:
+        subprocess.run("python setup/update_user_events_json.py")
         create_bucket(bucket_name)
         upload_blob(bucket_name, "../resources/user_events.json")
 
