@@ -16,21 +16,21 @@
 # Call Retail API to search for a products in a catalog,
 # enabling the query expansion feature to let the Google Retail Search build an automatic query expansion.
 #
-import os
 
 from google.cloud.retail import SearchRequest, SearchServiceClient
+from utils import get_project_id
 
-project_id = os.environ["GOOGLE_CLOUD_PROJECT"]
+project_id = get_project_id()
 
 
 # get search service request:
 def get_search_request(
-    query: str, condition: SearchRequest.QueryExpansionSpec.Condition
+        query: str, condition: SearchRequest.QueryExpansionSpec.Condition
 ):
     default_search_placement = (
-        "projects/"
-        + project_id
-        + "/locations/global/catalogs/default_catalog/placements/default_search"
+            "projects/"
+            + project_id
+            + "/locations/global/catalogs/default_catalog/placements/default_search"
     )
 
     query_expansion_spec = SearchRequest().QueryExpansionSpec()

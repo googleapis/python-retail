@@ -17,19 +17,21 @@
 # limit the number of the products per page and go to the next page using "next_page_token"
 # or jump to chosen page using "offset".
 #
-import os
 
 from google.cloud.retail import SearchRequest, SearchServiceClient
 
-project_id = os.environ["GOOGLE_CLOUD_PROJECT"]
+from utils import get_project_id
+
+project_id = get_project_id()
 
 
 # get search service request:
-def get_search_request(query: str, page_size: int, offset: int, next_page_token: str):
+def get_search_request(query: str, page_size: int, offset: int,
+                       next_page_token: str):
     default_search_placement = (
-        "projects/"
-        + project_id
-        + "/locations/global/catalogs/default_catalog/placements/default_search"
+            "projects/"
+            + project_id
+            + "/locations/global/catalogs/default_catalog/placements/default_search"
     )
 
     search_request = SearchRequest()
@@ -56,7 +58,8 @@ def search():
     search_request_first_page = get_search_request(
         "Hoodie", page_size, offset, page_token
     )
-    search_response_first_page = SearchServiceClient().search(search_request_first_page)
+    search_response_first_page = SearchServiceClient().search(
+        search_request_first_page)
 
     print("---search response---")
     print(search_response_first_page)

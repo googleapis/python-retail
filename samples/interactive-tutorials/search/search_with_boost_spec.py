@@ -16,19 +16,19 @@
 # Call Retail API to search for a products in a catalog, rerank the
 # results boosting or burying the products that match defined condition.
 #
-import os
 
 from google.cloud.retail import SearchRequest, SearchServiceClient
+from utils import get_project_id
 
-project_id = os.environ["GOOGLE_CLOUD_PROJECT"]
+project_id = get_project_id()
 
 
 # get search service request:
 def get_search_request(query: str, condition: str, boost_strength: float):
     default_search_placement = (
-        "projects/"
-        + project_id
-        + "/locations/global/catalogs/default_catalog/placements/default_search"
+            "projects/"
+            + project_id
+            + "/locations/global/catalogs/default_catalog/placements/default_search"
     )
 
     condition_boost_spec = SearchRequest.BoostSpec.ConditionBoostSpec()
