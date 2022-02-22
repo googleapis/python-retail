@@ -25,9 +25,9 @@ project_id = get_project_id()
 # get search service request:
 def get_search_request(query: str, order: str):
     default_search_placement = (
-            "projects/"
-            + project_id
-            + "/locations/global/catalogs/default_catalog/placements/default_search"
+        "projects/"
+        + project_id
+        + "/locations/global/catalogs/default_catalog/placements/default_search"
     )
 
     search_request = SearchRequest()

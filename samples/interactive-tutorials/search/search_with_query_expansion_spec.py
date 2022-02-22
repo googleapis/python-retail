@@ -25,12 +25,12 @@ project_id = get_project_id()
 
 # get search service request:
 def get_search_request(
-        query: str, condition: SearchRequest.QueryExpansionSpec.Condition
+    query: str, condition: SearchRequest.QueryExpansionSpec.Condition
 ):
     default_search_placement = (
-            "projects/"
-            + project_id
-            + "/locations/global/catalogs/default_catalog/placements/default_search"
+        "projects/"
+        + project_id
+        + "/locations/global/catalogs/default_catalog/placements/default_search"
     )
 
     query_expansion_spec = SearchRequest().QueryExpansionSpec()
