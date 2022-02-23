@@ -21,7 +21,7 @@ from setup_product.setup_cleanup import create_bucket, delete_bucket, upload_blo
 def test_import_products_gcs(bucket_name_prefix):
     # gcs buckets have a limit of 63 characters. Get the last 60 characters
     bucket_name = bucket_name_prefix[63:]
-    
+
     try:
         create_bucket(bucket_name)
         upload_blob(bucket_name, "../resources/products.json")
