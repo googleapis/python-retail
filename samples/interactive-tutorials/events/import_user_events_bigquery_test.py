@@ -15,7 +15,7 @@
 import re
 import subprocess
 
-from setup.setup_cleanup import (
+from setup_events.setup_cleanup import (
     create_bq_dataset,
     create_bq_table,
     delete_bq_table,
@@ -30,7 +30,7 @@ def test_import_products_bq(table_id_prefix):
     valid_products_source_file = "../resources/user_events.json"
 
     try:
-        subprocess.run("python setup/update_user_events_json.py")
+        subprocess.run("python setup_events/update_user_events_json.py")
         create_bq_dataset(dataset)
         create_bq_table(dataset, valid_products_table, product_schema)
         upload_data_to_bq_table(
