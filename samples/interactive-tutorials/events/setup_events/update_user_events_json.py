@@ -23,6 +23,3 @@ def update_events_timestamp(json_file):
         file.write(filedata)
     print("The {} is updated".format(json_file))
 
-
-update_events_timestamp('resources/user_events.json')
-update_events_timestamp('resources/user_events_some_invalid.json')

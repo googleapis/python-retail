@@ -21,7 +21,7 @@ from setup_events.setup_cleanup import (
     delete_bq_table,
     upload_data_to_bq_table,
 )
-
+from setup_events.update_user_events_json import update_events_timestamp
 
 def test_import_products_bq(table_id_prefix):
     dataset = "user_events"
@@ -30,7 +30,8 @@ def test_import_products_bq(table_id_prefix):
     valid_products_source_file = "../resources/user_events.json"
 
     try:
-        subprocess.run("python setup_events/update_user_events_json.py")
+        update_events_timestamp('../resources/user_events.json')
+        update_events_timestamp('../resources/user_events_some_invalid.json')
         create_bq_dataset(dataset)
         create_bq_table(dataset, valid_products_table, product_schema)
         upload_data_to_bq_table(

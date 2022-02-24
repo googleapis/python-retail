@@ -16,6 +16,7 @@ import re
 import subprocess
 
 from setup_events.setup_cleanup import create_bucket, delete_bucket, upload_blob
+from setup_events.update_user_events_json import update_events_timestamp
 
 
 def test_import_events_gcs(bucket_name_prefix):
@@ -23,7 +24,8 @@ def test_import_events_gcs(bucket_name_prefix):
     bucket_name = bucket_name_prefix[63:]
 
     try:
-        subprocess.run("python setup_events/update_user_events_json.py")
+        update_events_timestamp('../resources/user_events.json')
+        update_events_timestamp('../resources/user_events_some_invalid.json')
         create_bucket(bucket_name)
         upload_blob(bucket_name, "../resources/user_events.json")
 
