@@ -31,8 +31,8 @@ def test_import_products_bq(table_id_prefix):
     valid_products_source_file = "../resources/user_events.json"
 
     try:
-        update_events_timestamp('../resources/user_events.json')
-        update_events_timestamp('../resources/user_events_some_invalid.json')
+        update_events_timestamp("../resources/user_events.json")
+        update_events_timestamp("../resources/user_events_some_invalid.json")
         create_bq_dataset(dataset)
         create_bq_table(dataset, valid_products_table, product_schema)
         upload_data_to_bq_table(

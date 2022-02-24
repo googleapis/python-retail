@@ -24,8 +24,8 @@ def test_import_events_gcs(bucket_name_prefix):
     bucket_name = bucket_name_prefix[63:]
 
     try:
-        update_events_timestamp('../resources/user_events.json')
-        update_events_timestamp('../resources/user_events_some_invalid.json')
+        update_events_timestamp("../resources/user_events.json")
+        update_events_timestamp("../resources/user_events_some_invalid.json")
         create_bucket(bucket_name)
         upload_blob(bucket_name, "../resources/user_events.json")
 
