@@ -23,6 +23,7 @@ from setup_events.setup_cleanup import (
 )
 from setup_events.update_user_events_json import update_events_timestamp
 
+
 def test_import_products_bq(table_id_prefix):
     dataset = "user_events"
     valid_products_table = f"{table_id_prefix}events"
