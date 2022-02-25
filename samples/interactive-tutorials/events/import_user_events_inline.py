@@ -17,10 +17,12 @@
 # Import user events into a catalog from inline source using Retail API
 #
 import datetime
-import os
 import random
 import string
 import time
+
+import google.auth
+from google.protobuf.timestamp_pb2 import Timestamp
 
 from google.cloud.retail import (
     ImportUserEventsRequest,
@@ -29,9 +31,8 @@ from google.cloud.retail import (
     UserEventInputConfig,
     UserEventServiceClient,
 )
-from google.protobuf.timestamp_pb2 import Timestamp
 
-project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
+project_id = google.auth.default()[1]
 
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog".format(
     project_id
@@ -48,7 +49,9 @@ def get_user_events():
         user_event = UserEvent()
         user_event.event_type = "home-page-view"
         user_event.visitor_id = (
-            "".join(random.sample(string.ascii_lowercase, 4)) + "event_" + str(x)
+                "".join(
+                    random.sample(string.ascii_lowercase, 4)) + "event_" + str(
+            x)
         )
         user_event.event_time = timestamp
         user_events.append(user_event)
@@ -77,7 +80,8 @@ def get_import_events_inline_source_request(user_events_to_import):
 
 # call the Retail API to import user events
 def import_user_events_from_inline_source():
-    import_inline_request = get_import_events_inline_source_request(get_user_events())
+    import_inline_request = get_import_events_inline_source_request(
+        get_user_events())
     import_operation = UserEventServiceClient().import_user_events(
         import_inline_request
     )

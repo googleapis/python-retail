@@ -17,14 +17,15 @@
 # Import user events into a catalog from inline source using Retail API
 #
 import datetime
-import os
 
-from google.cloud.retail import UserEvent, UserEventServiceClient, WriteUserEventRequest
+import google.auth
 from google.protobuf.timestamp_pb2 import Timestamp
 
+from google.cloud.retail import UserEvent, UserEventServiceClient, \
+    WriteUserEventRequest
 from setup_events.setup_cleanup import purge_user_event
 
-project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
+project_id = google.auth.default()[1]
 
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog".format(
     project_id
@@ -64,7 +65,8 @@ def get_write_event_request(user_event):
 # call the Retail API to write user event
 def write_user_event():
     write_user_event_request = get_write_event_request(get_user_event())
-    user_event = UserEventServiceClient().write_user_event(write_user_event_request)
+    user_event = UserEventServiceClient().write_user_event(
+        write_user_event_request)
 
     print("---written user event:---")
     print(user_event)
