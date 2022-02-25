@@ -17,10 +17,11 @@
 # enabling the query expansion feature to let the Google Retail Search build an automatic query expansion.
 #
 
+import google.auth
 from google.cloud.retail import SearchRequest, SearchServiceClient
-from utils import get_project_id
 
-project_id = get_project_id()
+
+project_id = google.auth.default()[1]
 
 
 # get search service request:
