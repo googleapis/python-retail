@@ -21,7 +21,7 @@ import os
 from google.api_core.client_options import ClientOptions
 from google.cloud.retail import RejoinUserEventsRequest, UserEventServiceClient
 
-from setup.setup_cleanup import purge_user_event, write_user_event
+from setup_events.setup_cleanup import purge_user_event, write_user_event
 
 project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
 
