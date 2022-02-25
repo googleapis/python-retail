@@ -12,18 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import datetime
+import pytest
+import test_utils.prefixer
 
-import google.auth
+prefixer = test_utils.prefixer.Prefixer(
+    "python-retail", "samples/interactive-tutorials/product"
+)
 
-from setup_cleanup import create_bucket, upload_blob
 
-project_id = google.auth.default()[1]
-timestamp_ = datetime.datetime.now().timestamp().__round__()
-bucket_name = "{}_products_{}".format(project_id, timestamp_)
+@pytest.fixture(scope="session")
+def table_id_prefix() -> str:
+    return prefixer.create_prefix()
 
-create_bucket(bucket_name)
-upload_blob(bucket_name, "../resources/products.json")
-upload_blob(bucket_name, "../resources/products_some_invalid.json")
 
-print("\nThe gcs bucket {} was created".format(bucket_name))
+@pytest.fixture(scope="session")
+def bucket_name_prefix() -> str:
+    return prefixer.create_prefix()

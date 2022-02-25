@@ -12,88 +12,79 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
+import datetime
 import json
+import os
 import re
+import shlex
+import subprocess
 
 from google.api_core.exceptions import NotFound
-import google.auth
 
 from google.cloud import bigquery
 from google.cloud import storage
-from google.cloud.retail import CreateProductRequest, DeleteProductRequest, \
-    FulfillmentInfo, GetProductRequest, PriceInfo, Product, ProductServiceClient
+from google.cloud.retail import ProductDetail, PurgeUserEventsRequest, \
+    UserEvent, UserEventServiceClient, WriteUserEventRequest
+from google.cloud.retail_v2 import Product
+from google.protobuf.timestamp_pb2 import Timestamp
 
-project_id = google.auth.default()[1]
-default_catalog = f"projects/{project_id}/locations/global/catalogs/default_catalog"
-default_branch_name = f"projects/{project_id}/locations/global/catalogs/default_catalog/branches/default_branch"
-
-
-def generate_product() -> Product:
-    price_info = PriceInfo()
-    price_info.price = 30.0
-    price_info.original_price = 35.5
-    price_info.currency_code = "USD"
-    fulfillment_info = FulfillmentInfo()
-    fulfillment_info.type_ = "pickup-in-store"
-    fulfillment_info.place_ids = ["store0", "store1"]
-    return Product(
-        title='Nest Mini',
-        type_=Product.Type.PRIMARY,
-        categories=['Speakers and displays'],
-        brands=['Google'],
-        price_info=price_info,
-        fulfillment_info=[fulfillment_info],
-        availability="IN_STOCK",
-    )
+project_id = os.getenv('GOOGLE_CLOUD_PROJECT')
+default_catalog = "projects/{0}/locations/global/catalogs/default_catalog".format(
+    project_id)
 
 
-def create_product(product_id: str) -> object:
-    create_product_request = CreateProductRequest()
-    create_product_request.product = generate_product()
-    create_product_request.product_id = product_id
-    create_product_request.parent = default_branch_name
+# get user event
+def get_user_event(visitor_id):
+    timestamp = Timestamp()
+    timestamp.seconds = int(datetime.datetime.now().timestamp())
 
-    created_product = ProductServiceClient().create_product(
-        create_product_request)
-    print("---product is created:---")
-    print(created_product)
+    product = Product()
+    product.id = 'test_id'
 
-    return created_product
+    product_detail = ProductDetail()
+    product_detail.product = product
 
+    user_event = UserEvent()
+    user_event.event_type = "detail-page-view"
+    user_event.visitor_id = visitor_id
+    user_event.event_time = timestamp
+    user_event.product_details = [product_detail]
 
-def delete_product(product_name: str):
-    delete_product_request = DeleteProductRequest()
-    delete_product_request.name = product_name
-    ProductServiceClient().delete_product(delete_product_request)
-
-    print("---product " + product_name + " was deleted:---")
-
-
-def get_product(product_name: str):
-    get_product_request = GetProductRequest()
-    get_product_request.name = product_name
-    try:
-        product = ProductServiceClient().get_product(get_product_request)
-        print("---get product response:---")
-        print(product)
-        return product
-    except NotFound as e:
-        print(e.message)
-        return e.message
+    print(user_event)
+    return user_event
 
 
-def try_to_delete_product_if_exists(product_name: str):
-    get_product_request = GetProductRequest()
-    get_product_request.name = product_name
-    delete_product_request = DeleteProductRequest()
-    delete_product_request.name = product_name
-    print(
-        "---delete product from the catalog, if the product already exists---")
-    try:
-        product = ProductServiceClient().get_product(get_product_request)
-        ProductServiceClient().delete_product(product.name)
-    except NotFound as e:
-        print(e.message)
+# write user event
+def write_user_event(visitor_id):
+    write_user_event_request = WriteUserEventRequest()
+    write_user_event_request.user_event = get_user_event(visitor_id)
+    write_user_event_request.parent = default_catalog
+    user_event = UserEventServiceClient().write_user_event(
+        write_user_event_request)
+    print("---the user event is written---")
+    print(user_event)
+    return user_event
+
+
+# purge user event
+def purge_user_event(visitor_id):
+    purge_user_event_request = PurgeUserEventsRequest()
+    purge_user_event_request.filter = 'visitorId="{}"'.format(visitor_id)
+    purge_user_event_request.parent = default_catalog
+    purge_user_event_request.force = True
+    purge_operation = UserEventServiceClient().purge_user_events(
+        purge_user_event_request)
+
+    print("---the purge operation was started:----")
+    print(purge_operation.operation.name)
+
+
+def get_project_id():
+    get_project_command = "gcloud config get-value project --format json"
+    config = subprocess.check_output(shlex.split(get_project_command))
+    project_id = re.search('\"(.*?)\"', str(config)).group(1)
+    return project_id
 
 
 def create_bucket(bucket_name: str):
@@ -117,8 +108,8 @@ def create_bucket(bucket_name: str):
 
 def delete_bucket(bucket_name: str):
     """Delete a bucket from Cloud Storage"""
-    print(f"Deleting bucket name: {bucket_name}")
     storage_client = storage.Client()
+    print("Deleting bucket:" + bucket_name)
     buckets_in_your_project = list_buckets()
     if bucket_name in buckets_in_your_project:
         blobs = storage_client.list_blobs(bucket_name)
@@ -145,14 +136,13 @@ def upload_blob(bucket_name, source_file_name):
     """Uploads a file to the bucket."""
     # The path to your file to upload
     # source_file_name = "local/path/to/file"
-    print("Uploading data from {} to the bucket {}".format(source_file_name,
+    print("Uploading data form {} to the bucket {}".format(source_file_name,
                                                            bucket_name))
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
     object_name = re.search('resources/(.*?)$', source_file_name).group(1)
     blob = bucket.blob(object_name)
     blob.upload_from_filename(source_file_name)
-
     print(
         "File {} uploaded to {}.".format(
             source_file_name, object_name

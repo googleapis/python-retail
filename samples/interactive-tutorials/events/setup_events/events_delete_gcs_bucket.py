@@ -12,18 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import datetime
+import os
 
-import google.auth
+from setup_cleanup import delete_bucket
 
-from setup_cleanup import create_bucket, upload_blob
 
-project_id = google.auth.default()[1]
-timestamp_ = datetime.datetime.now().timestamp().__round__()
-bucket_name = "{}_products_{}".format(project_id, timestamp_)
-
-create_bucket(bucket_name)
-upload_blob(bucket_name, "../resources/products.json")
-upload_blob(bucket_name, "../resources/products_some_invalid.json")
-
-print("\nThe gcs bucket {} was created".format(bucket_name))
+def delete_bucket_by_name(name: str):
+    if name is None:
+        bucket_name = os.getenv("EVENTS_BUCKET_NAME")
+        delete_bucket(bucket_name)
+    else:
+        delete_bucket(name)
