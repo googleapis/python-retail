@@ -22,7 +22,6 @@ import string
 import time
 
 import google.auth
-from google.protobuf.timestamp_pb2 import Timestamp
 
 from google.cloud.retail import (
     ImportUserEventsRequest,
@@ -31,6 +30,8 @@ from google.cloud.retail import (
     UserEventInputConfig,
     UserEventServiceClient,
 )
+
+from google.protobuf.timestamp_pb2 import Timestamp
 
 project_id = google.auth.default()[1]
 
@@ -51,7 +52,7 @@ def get_user_events():
         user_event.visitor_id = (
                 "".join(
                     random.sample(string.ascii_lowercase, 4)) + "event_" + str(
-            x)
+                    x)
         )
         user_event.event_time = timestamp
         user_events.append(user_event)

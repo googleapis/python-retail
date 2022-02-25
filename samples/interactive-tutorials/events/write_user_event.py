@@ -19,10 +19,12 @@
 import datetime
 
 import google.auth
-from google.protobuf.timestamp_pb2 import Timestamp
 
 from google.cloud.retail import UserEvent, UserEventServiceClient, \
     WriteUserEventRequest
+
+from google.protobuf.timestamp_pb2 import Timestamp
+
 from setup_events.setup_cleanup import purge_user_event
 
 project_id = google.auth.default()[1]

@@ -19,6 +19,7 @@
 import google.auth
 
 from google.cloud.retail import PurgeUserEventsRequest, UserEventServiceClient
+
 from setup_events.setup_cleanup import write_user_event
 
 project_id = google.auth.default()[1]
