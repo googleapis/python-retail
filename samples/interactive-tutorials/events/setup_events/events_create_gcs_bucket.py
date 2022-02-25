@@ -19,7 +19,7 @@ from setup_cleanup import create_bucket, upload_blob
 
 project_id = os.environ["GOOGLE_CLOUD_PROJECT"]
 timestamp_ = datetime.datetime.now().timestamp().__round__()
-bucket_name = "{}_events_{}".format(project_id, timestamp_)
+bucket_name = os.environ["EVENTS_BUCKET_NAME"]
 
 create_bucket(bucket_name)
 upload_blob(bucket_name, "../resources/user_events.json")

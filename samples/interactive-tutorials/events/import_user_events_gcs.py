@@ -33,15 +33,17 @@ def main(bucket_name):
     # Read the project number from the environment variable
     project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
 
+    # Read bucket name from the environment variable
+    bucket_name = os.getenv("EVENTS_BUCKET_NAME")
+
     # TODO: Developer set the bucket_name
-    # bucket_name = os.environ["EVENTS_BUCKET_NAME"]
+    # bucket_name = 'user_events_bucket'
 
     default_catalog = "projects/{0}/locations/global/catalogs/default_catalog".format(
         project_id
     )
 
-    # Read bucket name from the environment variable
-    gcs_bucket = "gs://{}".format(os.getenv("EVENTS_BUCKET_NAME"))
+    gcs_bucket = "gs://{}".format(bucket_name)
     gcs_errors_bucket = "{}/error".format(gcs_bucket)
     gcs_events_object = "user_events.json"
 

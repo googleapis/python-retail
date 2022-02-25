@@ -40,7 +40,7 @@ def test_import_products_bq(table_id_prefix):
         )
         output = str(
             subprocess.check_output(
-                "python import_user_events_big_query.py", shell=True
+                f"python import_user_events_big_query.py {dataset} {valid_products_table}", shell=True
             )
         )
     finally:
