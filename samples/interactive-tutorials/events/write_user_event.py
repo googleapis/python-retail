@@ -64,9 +64,7 @@ def get_write_event_request(user_event):
 # call the Retail API to write user event
 def write_user_event():
     write_user_event_request = get_write_event_request(get_user_event())
-    user_event = UserEventServiceClient().write_user_event(
-        write_user_event_request
-    )
+    user_event = UserEventServiceClient().write_user_event(write_user_event_request)
 
     print("---written user event:---")
     print(user_event)
