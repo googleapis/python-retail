@@ -18,24 +18,16 @@
 #
 import os
 
-from google.api_core.client_options import ClientOptions
 from google.cloud.retail import RejoinUserEventsRequest, UserEventServiceClient
 
 from setup_events.setup_cleanup import purge_user_event, write_user_event
 
 project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
 
-endpoint = "retail.googleapis.com"
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog".format(
     project_id
 )
 visitor_id = "test_visitor_id"
-
-
-# get user events service client
-def get_user_events_service_client():
-    client_options = ClientOptions(endpoint)
-    return UserEventServiceClient(client_options=client_options)
 
 
 # get rejoin user event request
@@ -54,7 +46,7 @@ def get_rejoin_user_event_request():
 
 # call the Retail API to rejoin user event
 def call_rejoin_user_events():
-    rejoin_operation = get_user_events_service_client().rejoin_user_events(
+    rejoin_operation = UserEventServiceClient().rejoin_user_events(
         get_rejoin_user_event_request()
     )
 

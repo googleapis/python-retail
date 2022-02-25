@@ -19,7 +19,6 @@
 import datetime
 import os
 
-from google.api_core.client_options import ClientOptions
 from google.cloud.retail import UserEvent, UserEventServiceClient, WriteUserEventRequest
 from google.protobuf.timestamp_pb2 import Timestamp
 
@@ -27,17 +26,10 @@ from setup_events.setup_cleanup import purge_user_event
 
 project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
 
-endpoint = "retail.googleapis.com"
 default_catalog = "projects/{0}/locations/global/catalogs/default_catalog".format(
     project_id
 )
 visitor_id = "test_visitor_id"
-
-
-# get user events service client
-def get_user_events_service_client():
-    client_options = ClientOptions(endpoint)
-    return UserEventServiceClient(client_options=client_options)
 
 
 # get user event
@@ -72,7 +64,7 @@ def get_write_event_request(user_event):
 # call the Retail API to write user event
 def write_user_event():
     write_user_event_request = get_write_event_request(get_user_event())
-    user_event = get_user_events_service_client().write_user_event(
+    user_event = UserEventServiceClient().write_user_event(
         write_user_event_request
     )
 
