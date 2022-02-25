@@ -19,7 +19,7 @@
 
 TEST_CONFIG_OVERRIDE = {
     # You can opt out from the test for specific Python versions.
-    "ignored_versions": ["2.7", "3.6", "3.8", "3.9"],
+    "ignored_versions": ["2.7", "3.6"],
     # An envvar key for determining the project id to use. Change it
     # to 'PROJECT_NUMBER' if you want to opt in using a
     # build specific Cloud project. You can also use your own string
@@ -30,5 +30,6 @@ TEST_CONFIG_OVERRIDE = {
     "envs": {
         "DATA_LABELING_API_ENDPOINT": "us-central1-autopush-aiplatform.sandbox.googleapis.com",
         "PYTEST_ADDOPTS": "-n=auto",  # Run tests parallel using all available CPUs
+        "EVENTS_BUCKET_NAME": "retail-interactive-tutorials-events",
     },
 }
