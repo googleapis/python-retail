@@ -1,4 +1,27 @@
-# Google Retail API: Python Code Samples
+#Retail Search Interactive Tutorials
+
+##Run tutorials in Cloud Shell
+
+To advance with the interactive tutorials, use Retail Search step-by-step manuals on the right side of the Cloud Shell IDE: 
+![Interactive tutorials](images/tutorial1.png)
+
+The interactive tutorial should open by default. If it didn’t, click on the Tutorial symbol in the menu bar to open the step-by-step manual:
+![Toggle tutorial](images/tutorials2.png)
+
+For more details about the Cloud Shell environment, refer to the [Cloud Shell documentation](https://cloud.google.com/shell/docs).
+
+## Interactive tutorial flow
+
+Interactive guides are intended to help you understand the features provided by Google Cloud Retail Search and test the Retail API in action.
+
+To proceed with the tutorial, choose a language you’ll be deploying your project in:
+![Select a programming language](images/tutorials3.png)
+
+
+To begin with the tutorial workflow, click the Start button:
+![Begin with the tutorial](images/tutorials4.png)
+
+Then, you can use Next and Previous buttons to navigate the tutorial pages.
 
 ## Get started with the Google Cloud Retail API
 
@@ -70,17 +93,6 @@ To run a code sample from the Cloud Shell, you need to be authenticated using th
 1. To request the Retail API, set your service account key JSON file as the GOOGLE_APPLICATION_CREDENTIALS environment variable :
     ```bash
     export GOOGLE_APPLICATION_CREDENTIALS=~/key.json
-    ```
-
-### Set the GOOGLE_CLOUD_PROJECT environment variable
-
-You will run the code samples in your own Google Cloud project. To use the **project_id** in every request to the Retail API, you should first specify them as environment variables.
-
-1. Find the project ID in the Project Info card displayed on **Home/Dashboard**.
-
-1. Set the **project_id** with the following command:
-    ```bash
-    export GOOGLE_CLOUD_PROJECT=<YOUR_PROJECT_ID>
     ```
 
 ### Install Google Cloud Retail libraries
