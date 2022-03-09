@@ -34,8 +34,6 @@ product_name = (
 
 # The request timestamp
 current_date = datetime.datetime.now()
-outdated_date = datetime.datetime.now() - datetime.timedelta(days=1)
-
 
 # add fulfillment request
 def get_add_fulfillment_request(
@@ -64,7 +62,7 @@ def add_fulfillment_places(product_name: str, timestamp, place_id):
     # This is a long running operation and its result is not immediately present with get operations,
     # thus we simulate wait with sleep method.
     print("---add fulfillment places, wait 40 seconds :---")
-    time.sleep(40)
+    time.sleep(70)
 
 
 # [END retail_add_fulfillment_places]
@@ -73,8 +71,5 @@ def add_fulfillment_places(product_name: str, timestamp, place_id):
 create_product(product_id)
 print("------add fulfilment places with current date: {}-----".format(current_date))
 add_fulfillment_places(product_name, current_date, "store2")
-get_product(product_name)
-print("------add outdated fulfilment places: {}-----".format(outdated_date))
-add_fulfillment_places(product_name, outdated_date, "store3")
 get_product(product_name)
 delete_product(product_name)
