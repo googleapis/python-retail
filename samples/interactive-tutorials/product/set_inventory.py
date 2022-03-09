@@ -44,13 +44,13 @@ product_name = (
 def get_product_with_inventory_info(product_name: str) -> Product:
     price_info = PriceInfo()
     price_info.price = 15.0
-    price_info.original_price = 20.0
+    price_info.original_price = 60.0
     price_info.cost = 8.0
     price_info.currency_code = "USD"
 
     fulfillment_info = FulfillmentInfo()
     fulfillment_info.type_ = "pickup-in-store"
-    fulfillment_info.place_ids = ["store1", "store2"]
+    fulfillment_info.place_ids = ["store1", "store3"]
 
     product = Product()
     product.name = product_name
@@ -65,8 +65,6 @@ def get_product_with_inventory_info(product_name: str) -> Product:
 def get_set_inventory_request(product_name: str) -> SetInventoryRequest:
     # The request timestamp
     request_time = datetime.datetime.now()
-    # The out-of-order request timestamp
-    # request_time = datetime.datetime.now() - datetime.timedelta(days=1)
     set_mask = FieldMask(
         paths=["price_info", "availability", "fulfillment_info", "available_quantity"]
     )

@@ -34,7 +34,6 @@ product_name = (
 
 # The request timestamp
 current_date = datetime.datetime.now()
-outdated_date = datetime.datetime.now() - datetime.timedelta(days=1)
 
 
 # remove fulfillment request
@@ -73,8 +72,5 @@ def remove_fulfillment_places(product_name: str, timestamp, store_id):
 create_product(product_id)
 print("------remove fulfilment places with current date: {}-----".format(current_date))
 remove_fulfillment_places(product_name, current_date, "store0")
-get_product(product_name)
-print("------remove outdated fulfilment places: {}-----".format(outdated_date))
-remove_fulfillment_places(product_name, outdated_date, "store1")
 get_product(product_name)
 delete_product(product_name)
