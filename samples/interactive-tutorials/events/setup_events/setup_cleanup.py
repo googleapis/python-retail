@@ -133,7 +133,7 @@ def upload_blob(bucket_name, source_file_name):
     """Uploads a file to the bucket."""
     # The path to your file to upload
     # source_file_name = "local/path/to/file"
-    print(f"Uploading data form {source_file_name} to the bucket {bucket_name}")
+    print(f"Uploading data from {source_file_name} to the bucket {bucket_name}")
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
     object_name = re.search('resources/(.*?)$', source_file_name).group(1)
