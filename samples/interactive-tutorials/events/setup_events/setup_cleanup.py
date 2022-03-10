@@ -178,6 +178,7 @@ def create_bq_table(dataset, table_name, schema_file_path):
     bq.create_table(table)
     print(f"table {full_table_id} is created")
 
+
 def delete_bq_table(dataset, table_name):
     full_table_id = f"{project_id}.{dataset}.{table_name}"
     bq = bigquery.Client()
