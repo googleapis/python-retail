@@ -50,7 +50,7 @@ def get_user_event():
 # get write user event request
 def get_write_event_request(user_event):
     # TO CHECK THE ERROR HANDLING TRY TO PASS INVALID CATALOG:
-    # default_catalog = f"projects/{project_number}/locations/global/catalogs/invalid_catalog"
+    # default_catalog = f"projects/{project_id}/locations/global/catalogs/invalid_catalog"
     write_user_event_request = WriteUserEventRequest()
     write_user_event_request.user_event = user_event
     write_user_event_request.parent = default_catalog
