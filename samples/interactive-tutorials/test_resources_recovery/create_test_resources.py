@@ -57,7 +57,7 @@ def create_bucket(bucket_name: str) -> Bucket:
         bucket.storage_class = "STANDARD"
         new_bucket = storage_client.create_bucket(bucket, location="us")
         print(
-            "Created bucket {new_bucket.name} in {new_bucket.location} with storage class {new_bucket.storage_class}"
+            f"Created bucket {new_bucket.name} in {new_bucket.location} with storage class {new_bucket.storage_class}"
         )
         return new_bucket
 
