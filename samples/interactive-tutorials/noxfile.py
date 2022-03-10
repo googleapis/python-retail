@@ -222,9 +222,7 @@ def py(session: nox.sessions.Session) -> None:
     if session.python in TESTED_VERSIONS:
         _session_tests(session)
     else:
-        session.skip(
-            f"SKIPPED: {session.python} tests are disabled for this sample."
-        )
+        session.skip(f"SKIPPED: {session.python} tests are disabled for this sample.")
 
 
 #

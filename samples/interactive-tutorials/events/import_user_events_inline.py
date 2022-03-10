@@ -38,7 +38,6 @@ project_id = google.auth.default()[1]
 default_catalog = f"projects/{project_id}/locations/global/catalogs/default_catalog"
 
 
-
 # get user events for import
 def get_user_events():
     user_events = []
