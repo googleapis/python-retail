@@ -50,7 +50,7 @@ def get_product_with_inventory_info(product_name: str) -> Product:
 
     fulfillment_info = FulfillmentInfo()
     fulfillment_info.type_ = "pickup-in-store"
-    fulfillment_info.place_ids = ["store1", "store3"]
+    fulfillment_info.place_ids = ["store1", "store2"]
 
     product = Product()
     product.name = product_name
