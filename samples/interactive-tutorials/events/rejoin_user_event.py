@@ -32,7 +32,7 @@ visitor_id = "test_visitor_id"
 # get rejoin user event request
 def get_rejoin_user_event_request():
     # TO CHECK THE ERROR HANDLING TRY TO PASS INVALID CATALOG:
-    # default_catalog = f"projects/{project_number}/locations/global/catalogs/invalid_catalog"
+    # default_catalog = f"projects/{project_id}/locations/global/catalogs/invalid_catalog"
     rejoin_user_event_request = RejoinUserEventsRequest()
     rejoin_user_event_request.parent = default_catalog
     rejoin_user_event_request.user_event_rejoin_scope = (
