@@ -3,8 +3,6 @@
 ## Required environment variables
 
 To successfully import the catalog data for tests, the following environment variables should be set:
- - GOOGLE_CLOUD_PROJECT_NUMBER
- - GOOGLE_CLOUD_PROJECT_ID 
  - BUCKET_NAME
  - EVENTS_BUCKET_NAME
 These values are stored in the Secret Manager and will be submitted as 

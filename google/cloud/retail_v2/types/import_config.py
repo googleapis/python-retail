@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright 2020 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -401,9 +401,10 @@ class CompletionDataInputConfig(proto.Message):
         big_query_source (google.cloud.retail_v2.types.BigQuerySource):
             Required. BigQuery input source.
             Add the IAM permission "BigQuery Data Viewer"
-            for cloud-retail-customer-data-
-            access@system.gserviceaccount.com before using
-            this feature otherwise an error is thrown.
+            for
+            cloud-retail-customer-data-access@system.gserviceaccount.com
+            before using this feature otherwise an error is
+            thrown.
 
             This field is a member of `oneof`_ ``source``.
     """

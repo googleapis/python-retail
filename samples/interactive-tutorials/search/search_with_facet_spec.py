@@ -1,4 +1,4 @@
-# Copyright 2021 Google Inc. All Rights Reserved.
+# Copyright 2022 Google Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,18 +14,18 @@
 
 # [START retail_search_product_with_facet_spec]
 #
-import os
 
+import google.auth
 from google.cloud.retail import SearchRequest, SearchServiceClient
 
-project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
+project_id = google.auth.default()[1]
 
 
 # get search service request:
 def get_search_request(query: str, facet_key_param: str):
     default_search_placement = (
         "projects/"
-        + project_number
+        + project_id
         + "/locations/global/catalogs/default_catalog/placements/default_search"
     )
     # PUT THE INTERVALS HERE:

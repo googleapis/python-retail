@@ -1,4 +1,4 @@
-# Copyright 2021 Google Inc. All Rights Reserved.
+# Copyright 2022 Google Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,23 +16,22 @@ import os
 import shlex
 import subprocess
 
-from google.api_core.exceptions import PermissionDenied
-from google.cloud.storage.bucket import Bucket
-
+from google.api_core.exceptions import NotFound, PermissionDenied
+import google.auth
 from google.cloud import storage
 from google.cloud.retail import DeleteProductRequest, ListProductsRequest, \
     ProductServiceClient
+from google.cloud.storage.bucket import Bucket
 
-project_number = os.environ["GOOGLE_CLOUD_PROJECT_NUMBER"]
+
+project_id = google.auth.default()[1]
 product_bucket_name = os.environ['BUCKET_NAME']
 events_bucket_name = os.environ['EVENTS_BUCKET_NAME']
-project_id = os.environ["GOOGLE_CLOUD_PROJECT_ID"]
 
 product_dataset = "products"
 events_dataset = "user_events"
 
-default_catalog = "projects/{0}/locations/global/catalogs/default_catalog/branches/default_branch".format(
-    project_number)
+default_catalog = f"projects/{project_id}/locations/global/catalogs/default_catalog/branches/default_branch"
 
 storage_client = storage.Client()
 
@@ -41,12 +40,12 @@ def delete_bucket(bucket_name):
     """Delete bucket"""
     try:
         bucket = storage_client.get_bucket(bucket_name)
-    except:
-        print("Bucket {} does not exists".format(bucket_name))
+    except NotFound:
+        print(f"Bucket {bucket_name} does not exists")
     else:
         delete_object_from_bucket(bucket)
         bucket.delete()
-        print("bucket {} is deleted".format(bucket_name))
+        print(f"bucket {bucket_name} is deleted")
 
 
 def delete_object_from_bucket(bucket: Bucket):
@@ -54,7 +53,7 @@ def delete_object_from_bucket(bucket: Bucket):
     blobs = bucket.list_blobs()
     for blob in blobs:
         blob.delete()
-    print("all objects are deleted from GCS bucket {}".format(bucket.name))
+    print(f"all objects are deleted from GCS bucket {bucket.name}")
 
 
 def delete_all_products():
@@ -79,9 +78,10 @@ def delete_all_products():
 
 def delete_bq_dataset_with_tables(dataset):
     """Delete a BigQuery dataset with all tables"""
-    delete_dataset_command = "bq rm -r -d -f {}".format(dataset)
+    delete_dataset_command = f"bq rm -r -d -f {dataset}"
     output = subprocess.check_output(shlex.split(delete_dataset_command))
     print(output)
+
 
 delete_bucket(product_bucket_name)
 delete_bucket(events_bucket_name)

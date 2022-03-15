@@ -1,4 +1,27 @@
-# Google Retail API: Python Code Samples
+#Retail Search Interactive Tutorials
+
+##Run tutorials in Cloud Shell
+
+To advance with the interactive tutorials, use Retail Search step-by-step manuals on the right side of the Cloud Shell IDE: 
+![Interactive tutorials](images/tutorial1.png)
+
+The interactive tutorial should open by default. If it didn’t, click on the Tutorial symbol in the menu bar to open the step-by-step manual:
+![Toggle tutorial](images/tutorials2.png)
+
+For more details about the Cloud Shell environment, refer to the [Cloud Shell documentation](https://cloud.google.com/shell/docs).
+
+## Interactive tutorial flow
+
+Interactive guides are intended to help you understand the features provided by Google Cloud Retail Search and test the Retail API in action.
+
+To proceed with the tutorial, choose a language you’ll be deploying your project in:
+![Select a programming language](images/tutorials3.png)
+
+
+To begin with the tutorial workflow, click the Start button:
+![Begin with the tutorial](images/tutorials4.png)
+
+Then, you can use Next and Previous buttons to navigate the tutorial pages.
 
 ## Get started with the Google Cloud Retail API
 
@@ -72,21 +95,6 @@ To run a code sample from the Cloud Shell, you need to be authenticated using th
     export GOOGLE_APPLICATION_CREDENTIALS=~/key.json
     ```
 
-### Set the PROJECT_NUMBER and PROJECT_ID environment variables
-
-You will run the code samples in your own Google Cloud project. To use the **project_number** and **project_id** in every request to the Retail API, you should first specify them as environment variables.
-
-1. Find the project number and project ID in the Project Info card displayed on **Home/Dashboard**.
-
-1. Set the **project_number** with the following command:
-    ```bash
-    export PROJECT_NUMBER=<YOUR_PROJECT_NUMBER>
-    ```
-1. Set the **project_id** with the following command:
-    ```bash
-    export PROJECT_ID=<YOUR_PROJECT_ID>
-    ```
-
 ### Install Google Cloud Retail libraries
 
 To run Python code samples for the Retail API tutorial, you need to set up your virtual environment.
@@ -124,7 +132,7 @@ The bucket name must be unique. For convenience, you can name it `<YOUR_PROJECT_
 1. To create the bucket and upload the JSON file, run the following command in the Terminal:
 
     ```bash
-    python product/setup/create_gcs_bucket.py
+    python product/setup_product/create_gcs_bucket.py
     ```
 
     Now you can see the bucket is created in the [Cloud Storage](https://console.cloud.google.com/storage/browser), and the files are uploaded.

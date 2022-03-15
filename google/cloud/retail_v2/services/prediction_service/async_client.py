@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright 2020 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -210,6 +210,30 @@ class PredictionServiceAsyncClient:
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> prediction_service.PredictResponse:
         r"""Makes a recommendation prediction.
+
+        .. code-block:: python
+
+            from google.cloud import retail_v2
+
+            def sample_predict():
+                # Create a client
+                client = retail_v2.PredictionServiceClient()
+
+                # Initialize request argument(s)
+                user_event = retail_v2.UserEvent()
+                user_event.event_type = "event_type_value"
+                user_event.visitor_id = "visitor_id_value"
+
+                request = retail_v2.PredictRequest(
+                    placement="placement_value",
+                    user_event=user_event,
+                )
+
+                # Make the request
+                response = client.predict(request=request)
+
+                # Handle the response
+                print(response)
 
         Args:
             request (Union[google.cloud.retail_v2.types.PredictRequest, dict]):
