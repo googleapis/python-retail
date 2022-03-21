@@ -192,8 +192,6 @@ To import the prepared products to a catalog, open python-retail/samples/interac
 python import_products_gcs.py
 ```
 
-## Your Retail catalog is ready to use!
-
 ## Run your code sample
 
 Run the sample in a terminal with the following command:
