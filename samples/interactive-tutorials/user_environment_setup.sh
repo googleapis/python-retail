@@ -14,21 +14,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# get the project_id from gcloud config
+echo Project ID:
 project_id=$(gcloud config get-value project)
 echo $project_id
 timestamp=$(date +%s)
-echo $timestamp
+echo Service Account:
 service_account_id="service-acc-"$timestamp
+echo $service_account_id
 
 # create service account (your project_id+timestamp)
 gcloud iam service-accounts create $service_account_id
 
 # assign needed roles to your new service account
-for role in {retail.admin,storage.admin,bigquery.admin}
+for role in {retail.admin,editor,bigquery.admin}
   do
     gcloud projects add-iam-policy-binding $project_id --member="serviceAccount:"$service_account_id"@"$project_id".iam.gserviceaccount.com" --role="roles/${role}"
-  done
+done
+sleep 70
 
 # upload your service account key file
 service_acc_email=$service_account_id"@"$project_id".iam.gserviceaccount.com"
@@ -43,6 +45,7 @@ export GOOGLE_APPLICATION_CREDENTIALS=~/key.json
 # install needed Google client libraries
 virtualenv -p python3 myenv
 source myenv/bin/activate
+sleep 2
 
 pip install google
 pip install google-cloud-retail

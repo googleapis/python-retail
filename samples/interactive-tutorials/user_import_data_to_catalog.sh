@@ -14,6 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# activate the python virtual env
+source ~/cloudshell_open/myenv/bin/activate
+
 # Change the working directory
 current_path=$(pwd)
 temp_path="${current_path%cloudshell_open*}"
