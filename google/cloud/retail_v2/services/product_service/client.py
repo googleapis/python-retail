@@ -16,7 +16,7 @@
 from collections import OrderedDict
 import os
 import re
-from typing import Dict, Optional, Sequence, Tuple, Type, Union
+from typing import Dict, Mapping, Optional, Sequence, Tuple, Type, Union
 import pkg_resources
 
 from google.api_core import client_options as client_options_lib
@@ -482,7 +482,7 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import retail_v2
+                    from google.cloud import retail_v2
 
             def sample_create_product():
                 # Create a client
@@ -617,7 +617,7 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import retail_v2
+                    from google.cloud import retail_v2
 
             def sample_get_product():
                 # Create a client
@@ -723,7 +723,7 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import retail_v2
+                    from google.cloud import retail_v2
 
             def sample_list_products():
                 # Create a client
@@ -841,7 +841,7 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import retail_v2
+                    from google.cloud import retail_v2
 
             def sample_update_product():
                 # Create a client
@@ -966,7 +966,7 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import retail_v2
+                    from google.cloud import retail_v2
 
             def sample_delete_product():
                 # Create a client
@@ -1080,7 +1080,7 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import retail_v2
+                    from google.cloud import retail_v2
 
             def sample_import_products():
                 # Create a client
@@ -1223,7 +1223,7 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import retail_v2
+                    from google.cloud import retail_v2
 
             def sample_set_inventory():
                 # Create a client
@@ -1429,7 +1429,7 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import retail_v2
+                    from google.cloud import retail_v2
 
             def sample_add_fulfillment_places():
                 # Create a client
@@ -1564,7 +1564,7 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import retail_v2
+                    from google.cloud import retail_v2
 
             def sample_remove_fulfillment_places():
                 # Create a client
@@ -1710,7 +1710,7 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import retail_v2
+                    from google.cloud import retail_v2
 
             def sample_add_local_inventories():
                 # Create a client
@@ -1849,7 +1849,7 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import retail_v2
+                    from google.cloud import retail_v2
 
             def sample_remove_local_inventories():
                 # Create a client

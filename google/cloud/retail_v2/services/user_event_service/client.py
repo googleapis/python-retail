@@ -16,7 +16,7 @@
 from collections import OrderedDict
 import os
 import re
-from typing import Dict, Optional, Sequence, Tuple, Type, Union
+from typing import Dict, Mapping, Optional, Sequence, Tuple, Type, Union
 import pkg_resources
 
 from google.api_core import client_options as client_options_lib
@@ -474,7 +474,7 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import retail_v2
+                    from google.cloud import retail_v2
 
             def sample_write_user_event():
                 # Create a client
@@ -561,7 +561,7 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import retail_v2
+                    from google.cloud import retail_v2
 
             def sample_collect_user_event():
                 # Create a client
@@ -685,7 +685,7 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import retail_v2
+                    from google.cloud import retail_v2
 
             def sample_purge_user_events():
                 # Create a client
@@ -782,7 +782,7 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import retail_v2
+                    from google.cloud import retail_v2
 
             def sample_import_user_events():
                 # Create a client
@@ -889,7 +889,7 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import retail_v2
+                    from google.cloud import retail_v2
 
             def sample_rejoin_user_events():
                 # Create a client

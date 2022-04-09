@@ -16,7 +16,7 @@
 from collections import OrderedDict
 import os
 import re
-from typing import Dict, Optional, Sequence, Tuple, Type, Union
+from typing import Dict, Mapping, Optional, Sequence, Tuple, Type, Union
 import pkg_resources
 
 from google.api_core import client_options as client_options_lib
@@ -469,7 +469,7 @@ class CatalogServiceClient(metaclass=CatalogServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import retail_v2
+                    from google.cloud import retail_v2
 
             def sample_list_catalogs():
                 # Create a client
@@ -585,7 +585,7 @@ class CatalogServiceClient(metaclass=CatalogServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import retail_v2
+                    from google.cloud import retail_v2
 
             def sample_update_catalog():
                 # Create a client
@@ -740,7 +740,7 @@ class CatalogServiceClient(metaclass=CatalogServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import retail_v2
+                    from google.cloud import retail_v2
 
             def sample_set_default_branch():
                 # Create a client
@@ -825,7 +825,7 @@ class CatalogServiceClient(metaclass=CatalogServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import retail_v2
+                    from google.cloud import retail_v2
 
             def sample_get_default_branch():
                 # Create a client
