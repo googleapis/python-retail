@@ -45,7 +45,7 @@ def get_predict_request(_filter: str, _params: dict):
 
     # create product object
     product = Product()
-    product.id = "55106"  # id of real product
+    product.id = "55106"  # An id of real product
 
     # create product detail object
     product_details = ProductDetail()
@@ -61,7 +61,9 @@ def get_predict_request(_filter: str, _params: dict):
     predict_request.placement = default_predict_placement  # Placement is used to identify the Serving Config name
     predict_request.user_event = user_event
     predict_request.filter = _filter
-    predict_request.params = _params
+    # add `returnProduct` param to return the associated product object
+    predict_request.params = {'returnProduct': True}
+    predict_request.params.update(_params)
 
     print("---predict request---")
     print(predict_request)
@@ -71,10 +73,10 @@ def get_predict_request(_filter: str, _params: dict):
 
 # call the prediction:
 def predict():
-    # TRY DIFFERENT FILTER HERE
+    # TRY DIFFERENT FILTER HERE:
     _filter = 'filterOutOfStockItems'
 
-    # TRY WITH DIFFERENT STATE HERE
+    # TRY TO UPDATE `strictFiltering` HERE:
     _params = {'strictFiltering': True}
 
     predict_request = get_predict_request(_filter, _params)

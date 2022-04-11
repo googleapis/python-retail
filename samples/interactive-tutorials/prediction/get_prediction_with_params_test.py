@@ -11,6 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# Call Retail API to get predictions from Recommendation AI using parameters.
 #
 import re
 import subprocess
@@ -33,5 +35,5 @@ def test_get_prediction_with_params_pass():
 
 def test_get_prediction_with_params_response():
     response = predict()
-
     assert len(response.results) == 20
+    assert re.search(".*metadata.*", str(response.results[0]))

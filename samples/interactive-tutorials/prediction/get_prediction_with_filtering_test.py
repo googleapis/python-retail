@@ -36,4 +36,5 @@ def test_get_prediction_with_filtering_pass():
 def test_get_prediction_with_filtering_response():
     response = predict()
     assert len(response.results) == 20
+    assert re.search(".*metadata.*", str(response.results[0]))
     assert not re.match(".*OUT_OF_STOCK.*", str(response.results))

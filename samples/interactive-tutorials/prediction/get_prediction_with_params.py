@@ -13,6 +13,7 @@
 # limitations under the License.
 
 # [START prediction_for_products_with_params]
+# Call Retail API to get predictions from Recommendation AI using parameters.
 #
 import os
 
@@ -42,22 +43,26 @@ def get_predict_request(_params: dict):
         f'default_catalog/placements/{placement_id}'
     )
 
+    # create product object
     product = Product()
-    product.id = "55106"
+    product.id = "55106"  # An id of real product
 
+    # create product detail object
     product_details = ProductDetail()
     product_details.product = product
 
+    # create user event object
     user_event = UserEvent()
     user_event.event_type = "detail-page-view"
-    user_event.visitor_id = "1234"  # A unique identifier to track visitors
+    user_event.visitor_id = "281790"  # A unique identifier to track visitors
     user_event.product_details = [product_details]
 
     predict_request = PredictRequest()
     predict_request.placement = default_predict_placement  # Placement is used to identify the Serving Config name
     predict_request.user_event = user_event
-    predict_request.params = _params
-
+    # add `returnProduct` param to return the associated product object
+    predict_request.params = {'returnProduct': True}
+    predict_request.params.update(_params)
     print("---predict request---")
     print(predict_request)
 
@@ -65,8 +70,8 @@ def get_predict_request(_params: dict):
 
 
 def predict():
-    # TRY TO SET PARAMETERS `priceRerankLevel` OR `diversityLevel` HERE
-    _params = {}
+    # TRY TO ADD/UPDATE PARAMETERS `priceRerankLevel` OR `diversityLevel` HERE:
+    _params = {'priceRerankLevel': 'low-price-reranking'}
 
     predict_request = get_predict_request(_params)
     predict_response = get_search_service_client().predict(predict_request)

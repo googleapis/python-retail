@@ -44,7 +44,7 @@ def get_predict_request(_params: dict):
 
     # create product object
     product = Product()
-    product.id = "55106"  # id of real product
+    product.id = "55106"  # An id of real product
 
     # create product detail object
     product_details = ProductDetail()
@@ -68,8 +68,8 @@ def get_predict_request(_params: dict):
 
 
 def predict():
-    # TRY TO SET PARAMETERS `returnProduct` OR `returnScore` HERE
-    _params = {}
+    # TRY TO ADD/UPDATE PARAMETERS `returnProduct` OR `returnScore` HERE:
+    _params = {'returnProduct': True}
 
     predict_request = get_predict_request(_params)
     predict_response = get_search_service_client().predict(predict_request)

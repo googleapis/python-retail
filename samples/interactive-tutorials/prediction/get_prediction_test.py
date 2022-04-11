@@ -36,3 +36,4 @@ def test_get_prediction_pass():
 def test_get_prediction_response():
     response = predict()
     assert len(response.results) == 20
+    assert re.search(".*metadata.*", str(response.results[0]))
