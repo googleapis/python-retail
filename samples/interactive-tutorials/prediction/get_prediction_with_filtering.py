@@ -54,7 +54,7 @@ def get_predict_request(_filter: str, _params: dict):
     # create user event object
     user_event = UserEvent()
     user_event.event_type = "detail-page-view"
-    user_event.visitor_id = "1234"  # A unique identifier to track visitors
+    user_event.visitor_id = "281790"  # A unique identifier to track visitors
     user_event.product_details = [product_details]
 
     predict_request = PredictRequest()
@@ -71,7 +71,7 @@ def get_predict_request(_filter: str, _params: dict):
 
 # call the prediction:
 def predict():
-    # TRY DIFFERENT FILTER HERE:
+    # TRY DIFFERENT FILTER HERE
     _filter = 'filterOutOfStockItems'
 
     # TRY WITH DIFFERENT STATE HERE
