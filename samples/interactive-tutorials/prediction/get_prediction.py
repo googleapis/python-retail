@@ -13,6 +13,7 @@
 # limitations under the License.
 
 # [START prediction_for_products]
+# Call Retail API to get predictions from Recommendation AI using simple request.
 #
 import os
 
@@ -41,12 +42,15 @@ def get_predict_request(_params: dict):
         f'default_catalog/placements/{placement_id}'
     )
 
+    # create product object
     product = Product()
-    product.id = "55106"
+    product.id = "55106"  # id of real product
 
+    # create product detail object
     product_details = ProductDetail()
     product_details.product = product
 
+    # create user event object
     user_event = UserEvent()
     user_event.event_type = "detail-page-view"
     user_event.visitor_id = "1234"  # A unique identifier to track visitors
@@ -54,7 +58,7 @@ def get_predict_request(_params: dict):
 
     predict_request = PredictRequest()
     predict_request.placement = default_predict_placement  # Placement is used to identify the Serving Config name
-    predict_request.user_event = user_event
+    predict_request.user_event = user_event  # Context about the user is required for event logging
     predict_request.params = _params
 
     print("---predict request---")

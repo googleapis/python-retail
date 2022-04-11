@@ -11,6 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# Call Retail API to get predictions from Recommendation AI using simple request.
 #
 import re
 import subprocess
@@ -33,5 +35,4 @@ def test_get_prediction_pass():
 
 def test_get_prediction_response():
     response = predict()
-
     assert len(response.results) == 20
