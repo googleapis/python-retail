@@ -13,6 +13,7 @@
 # limitations under the License.
 
 # [START prediction_for_products_with_filter]
+# Call Retail API to get predictions from Recommendation AI using filtering.
 #
 import os
 
@@ -42,12 +43,15 @@ def get_predict_request(_filter: str, _params: dict):
         f'default_catalog/placements/{placement_id}'
     )
 
+    # create product object
     product = Product()
-    product.id = "55106"
+    product.id = "55106"  # id of real product
 
+    # create product detail object
     product_details = ProductDetail()
     product_details.product = product
 
+    # create user event object
     user_event = UserEvent()
     user_event.event_type = "detail-page-view"
     user_event.visitor_id = "1234"  # A unique identifier to track visitors
@@ -67,8 +71,8 @@ def get_predict_request(_filter: str, _params: dict):
 
 # call the prediction:
 def predict():
-    # TRY DIFFERENT FILTER EXPRESSIONS HERE:
-    _filter = 'tag="promotional" filterOutOfStockItems'
+    # TRY DIFFERENT FILTER HERE:
+    _filter = 'filterOutOfStockItems'
 
     # TRY WITH DIFFERENT STATE HERE
     _params = {'strictFiltering': True}
