@@ -22,9 +22,7 @@ from get_prediction_with_filtering import predict
 
 def test_get_prediction_with_filtering_pass():
     output = str(
-        subprocess.check_output(
-            "python get_prediction_with_filtering.py", shell=True
-        )
+        subprocess.check_output("python get_prediction_with_filtering.py", shell=True)
     )
 
     assert re.match(".*predict request.*", output)

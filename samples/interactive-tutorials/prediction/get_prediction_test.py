@@ -21,11 +21,7 @@ from get_prediction import predict
 
 
 def test_get_prediction_pass():
-    output = str(
-        subprocess.check_output(
-            "python get_prediction.py", shell=True
-        )
-    )
+    output = str(subprocess.check_output("python get_prediction.py", shell=True))
 
     assert re.match(".*predict request.*", output)
     assert re.match(".*predict response.*", output)

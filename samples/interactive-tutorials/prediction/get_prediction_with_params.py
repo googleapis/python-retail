@@ -19,8 +19,11 @@ import os
 
 import google.auth
 from google.cloud.retail_v2 import (
-    PredictionServiceClient, UserEvent, ProductDetail,
-    Product, PredictRequest
+    PredictionServiceClient,
+    UserEvent,
+    ProductDetail,
+    Product,
+    PredictRequest,
 )
 from google.api_core.client_options import ClientOptions
 
@@ -39,8 +42,8 @@ def get_search_service_client():
 # get prediction service request:
 def get_predict_request(_params: dict):
     default_predict_placement = (
-        f'projects/{project_id}/locations/global/catalogs/'
-        f'default_catalog/placements/{placement_id}'
+        f"projects/{project_id}/locations/global/catalogs/"
+        f"default_catalog/placements/{placement_id}"
     )
 
     # create product object
@@ -61,7 +64,7 @@ def get_predict_request(_params: dict):
     predict_request.placement = default_predict_placement  # Placement is used to identify the Serving Config name
     predict_request.user_event = user_event
     # add `returnProduct` param to return the associated product object
-    predict_request.params = {'returnProduct': True}
+    predict_request.params = {"returnProduct": True}
     predict_request.params.update(_params)
     print("---predict request---")
     print(predict_request)
@@ -71,7 +74,7 @@ def get_predict_request(_params: dict):
 
 def predict():
     # TRY TO ADD/UPDATE PARAMETERS `priceRerankLevel` OR `diversityLevel` HERE:
-    _params = {'priceRerankLevel': 'low-price-reranking'}
+    _params = {"priceRerankLevel": "low-price-reranking"}
 
     predict_request = get_predict_request(_params)
     predict_response = get_search_service_client().predict(predict_request)
