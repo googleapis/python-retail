@@ -25,18 +25,15 @@ from google.cloud.retail_v2 import (
     Product,
     PredictRequest,
 )
-from google.api_core.client_options import ClientOptions
 
 
 project_id = google.auth.default()[1]
 placement_id = os.environ["GOOGLE_CLOUD_PLACEMENT"]
-ENDPOINT = "retail.googleapis.com"
 
 
 # get prediction service client
 def get_search_service_client():
-    predict_client_options = ClientOptions(ENDPOINT)
-    return PredictionServiceClient(predict_client_options)
+    return PredictionServiceClient()
 
 
 # get prediction service request:
