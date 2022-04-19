@@ -16,7 +16,7 @@
 from collections import OrderedDict
 import functools
 import re
-from typing import Dict, Optional, Sequence, Tuple, Type, Union
+from typing import Dict, Mapping, Optional, Sequence, Tuple, Type, Union
 import pkg_resources
 
 from google.api_core.client_options import ClientOptions
@@ -309,7 +309,6 @@ class UserEventServiceAsyncClient:
         pixel and Google Tag Manager. Users should not call this
         method directly.
 
-
         .. code-block:: python
 
             from google.cloud import retail_v2
@@ -432,7 +431,6 @@ class UserEventServiceAsyncClient:
         or days to complete. To test a filter, use the list
         command first.
 
-
         .. code-block:: python
 
             from google.cloud import retail_v2
@@ -537,7 +535,6 @@ class UserEventServiceAsyncClient:
         it is possible for a subset of the items to be
         successfully inserted. Operation.metadata is of type
         ImportMetadata.
-
 
         .. code-block:: python
 
@@ -653,7 +650,6 @@ class UserEventServiceAsyncClient:
         used to correct events joined with the wrong product
         catalog. A rejoin operation can take hours or days to
         complete.
-
 
         .. code-block:: python
 
