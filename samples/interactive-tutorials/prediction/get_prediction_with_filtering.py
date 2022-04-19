@@ -40,7 +40,7 @@ def get_search_service_client():
 
 
 # get prediction service request:
-def get_predict_request(_filter: str, _params: dict):
+def get_predict_request(_filter: str, params: dict):
     default_predict_placement = (
         f"projects/{project_id}/locations/global/catalogs/"
         f"default_catalog/placements/{placement_id}"
@@ -66,7 +66,7 @@ def get_predict_request(_filter: str, _params: dict):
     predict_request.filter = _filter
     # add `returnProduct` param to return the associated product object
     predict_request.params = {"returnProduct": True}
-    predict_request.params.update(_params)
+    predict_request.params.update(params)
 
     print("---predict request---")
     print(predict_request)
@@ -80,9 +80,9 @@ def predict():
     _filter = "filterOutOfStockItems"
 
     # TRY TO UPDATE `strictFiltering` HERE:
-    _params = {"strictFiltering": True}
+    params = {"strictFiltering": True}
 
-    predict_request = get_predict_request(_filter, _params)
+    predict_request = get_predict_request(_filter, params)
     predict_response = get_search_service_client().predict(predict_request)
 
     print("---predict response---")
