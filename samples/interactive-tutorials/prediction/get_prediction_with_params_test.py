@@ -22,9 +22,7 @@ from get_prediction_with_params import predict
 
 def test_get_prediction_with_params_pass():
     output = str(
-        subprocess.check_output(
-            "python get_prediction_with_params.py", shell=True
-        )
+        subprocess.check_output("python get_prediction_with_params.py", shell=True)
     )
 
     assert re.match(".*predict request.*", output)
