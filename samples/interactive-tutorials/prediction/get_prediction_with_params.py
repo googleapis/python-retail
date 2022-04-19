@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# [START prediction_for_products_with_params]
+# [START retail_prediction_get_prediction_with_params]
 # Call Retail API to get predictions from Recommendation AI using parameters.
 #
 import os
@@ -83,4 +83,4 @@ def predict():
 
 
 predict()
-# [END prediction_for_products_with_params]
+# [END retail_prediction_get_prediction_with_params]
