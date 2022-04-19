@@ -35,7 +35,7 @@ ENDPOINT = "retail.googleapis.com"
 # get prediction service client
 def get_search_service_client():
     predict_client_options = ClientOptions(ENDPOINT)
-    return PredictionServiceClient(client_options=predict_client_options)
+    return PredictionServiceClient(predict_client_options)
 
 
 # get prediction service request:
