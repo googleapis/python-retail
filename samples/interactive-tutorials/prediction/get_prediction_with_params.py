@@ -59,7 +59,9 @@ def get_predict_request(params: dict):
 
     predict_request = PredictRequest()
     predict_request.placement = default_predict_placement  # Placement is used to identify the Serving Config name
-    predict_request.user_event = user_event
+    predict_request.user_event = (
+        user_event  # Context about the user is required for event logging
+    )
     # add `returnProduct` param to return the associated product object
     predict_request.params = {"returnProduct": True}
     predict_request.params.update(params)
