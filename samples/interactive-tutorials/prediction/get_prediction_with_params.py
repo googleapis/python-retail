@@ -32,7 +32,7 @@ placement_id = os.environ["GOOGLE_CLOUD_PLACEMENT"]
 
 
 # get prediction service client
-def get_search_service_client():
+def get_prediction_service_client():
     return PredictionServiceClient()
 
 
@@ -74,7 +74,7 @@ def predict():
     params = {"priceRerankLevel": "low-price-reranking"}
 
     predict_request = get_predict_request(params)
-    predict_response = get_search_service_client().predict(predict_request)
+    predict_response = get_prediction_service_client().predict(predict_request)
 
     print("---predict response---")
     print(predict_response)
