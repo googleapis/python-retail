@@ -20,10 +20,10 @@ import os
 import google.auth
 from google.cloud.retail_v2 import (
     PredictionServiceClient,
-    UserEvent,
-    ProductDetail,
-    Product,
     PredictRequest,
+    Product,
+    ProductDetail,
+    UserEvent
 )
 
 
