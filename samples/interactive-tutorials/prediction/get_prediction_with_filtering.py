@@ -23,7 +23,7 @@ from google.cloud.retail_v2 import (
     PredictRequest,
     Product,
     ProductDetail,
-    UserEvent
+    UserEvent,
 )
 
 
