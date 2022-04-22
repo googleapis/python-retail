@@ -26,7 +26,6 @@ from google.cloud.retail_v2 import (
     UserEvent,
 )
 
-
 project_id = google.auth.default()[1]
 placement_id = os.environ["GOOGLE_CLOUD_PLACEMENT"]
 
