@@ -231,7 +231,7 @@ class AttributesConfig(proto.Message):
         name (str):
             Required. Immutable. The fully qualified resource name of
             the attribute config. Format:
-            "projects/*/locations/*/catalogs/*/attributesConfig".
+            ``projects/*/locations/*/catalogs/*/attributesConfig``
         catalog_attributes (Mapping[str, google.cloud.retail_v2alpha.types.CatalogAttribute]):
             Enable attribute(s) config at catalog level. For example,
             indexable, dynamic_facetable, or searchable for each
@@ -273,7 +273,7 @@ class CompletionConfig(proto.Message):
     Attributes:
         name (str):
             Required. Immutable. Fully qualified name
-            projects/\ */locations/*/catalogs/*/completionConfig
+            ``projects/*/locations/*/catalogs/*/completionConfig``
         matching_order (str):
             Specifies the matching order for autocomplete suggestions,
             e.g., a query consisting of 'sh' with 'out-of-order'
