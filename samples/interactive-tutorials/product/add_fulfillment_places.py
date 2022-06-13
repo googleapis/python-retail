@@ -17,6 +17,7 @@ import datetime
 import random
 import string
 import time
+from datetime import timedelta
 
 import google.auth
 from google.cloud.retail import AddFulfillmentPlacesRequest, ProductServiceClient
@@ -33,7 +34,7 @@ product_name = (
 )
 
 # The request timestamp
-current_date = datetime.datetime.now()
+current_date = datetime.datetime.now() + datetime.timedelta(seconds=5)
 
 
 # add fulfillment request
