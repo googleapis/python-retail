@@ -14,7 +14,6 @@
 
 # [START retail_add_fulfillment_places]
 import datetime
-from datetime import timedelta
 import random
 import string
 import time
