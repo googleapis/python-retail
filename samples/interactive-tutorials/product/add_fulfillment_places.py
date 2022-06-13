@@ -14,10 +14,10 @@
 
 # [START retail_add_fulfillment_places]
 import datetime
+from datetime import timedelta
 import random
 import string
 import time
-from datetime import timedelta
 
 import google.auth
 from google.cloud.retail import AddFulfillmentPlacesRequest, ProductServiceClient
