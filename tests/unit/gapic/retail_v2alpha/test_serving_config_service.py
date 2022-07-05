@@ -3171,7 +3171,6 @@ def test_serving_config_service_transport_auth_adc(transport_class):
     [
         transports.ServingConfigServiceGrpcTransport,
         transports.ServingConfigServiceGrpcAsyncIOTransport,
-        transports.ServingConfigServiceRestTransport,
     ],
 )
 def test_serving_config_service_transport_auth_gdch_credentials(transport_class):

@@ -1261,7 +1261,6 @@ def test_search_service_transport_auth_adc(transport_class):
     [
         transports.SearchServiceGrpcTransport,
         transports.SearchServiceGrpcAsyncIOTransport,
-        transports.SearchServiceRestTransport,
     ],
 )
 def test_search_service_transport_auth_gdch_credentials(transport_class):

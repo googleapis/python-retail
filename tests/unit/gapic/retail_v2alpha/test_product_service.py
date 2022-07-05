@@ -4006,7 +4006,6 @@ def test_product_service_transport_auth_adc(transport_class):
     [
         transports.ProductServiceGrpcTransport,
         transports.ProductServiceGrpcAsyncIOTransport,
-        transports.ProductServiceRestTransport,
     ],
 )
 def test_product_service_transport_auth_gdch_credentials(transport_class):

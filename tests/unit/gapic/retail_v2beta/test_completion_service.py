@@ -1240,7 +1240,6 @@ def test_completion_service_transport_auth_adc(transport_class):
     [
         transports.CompletionServiceGrpcTransport,
         transports.CompletionServiceGrpcAsyncIOTransport,
-        transports.CompletionServiceRestTransport,
     ],
 )
 def test_completion_service_transport_auth_gdch_credentials(transport_class):
