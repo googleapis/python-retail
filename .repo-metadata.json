@@ -12,5 +12,6 @@
     "api_id": "retail.googleapis.com",
     "default_version": "v2",
     "codeowner_team": "@googleapis/cloud-retail-team",
-    "api_shortname": "retail"
+    "api_shortname": "retail",
+    "api_description": "Retail solutions API."
 }
