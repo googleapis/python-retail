@@ -3,7 +3,7 @@ Python Client for Retail API API
 
 |stable| |pypi| |versions|
 
-`Retail API API`_: 
+`Retail API API`_: Retail solutions API.
 
 - `Client Library Documentation`_
 - `Product Documentation`_
