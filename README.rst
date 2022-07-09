@@ -3,7 +3,7 @@ Python Client for Retail API API
 
 |stable| |pypi| |versions|
 
-`Retail API API`_: Retail solutions API.
+`Retail API API`_: Cloud Retail service enables customers to build end-to-end personalized recommendation systems without requiring a high level of expertise in machine learning, recommendation system, or Google Cloud.
 
 - `Client Library Documentation`_
 - `Product Documentation`_
