@@ -18,7 +18,6 @@ import random
 import string
 import time
 
-import google.auth
 from google.cloud.retail import ProductServiceClient, RemoveFulfillmentPlacesRequest
 
 from setup_product.setup_cleanup import create_product, delete_product, get_product
