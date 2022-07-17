@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.6.1](https://github.com/googleapis/python-retail/compare/v1.6.0...v1.6.1) (2022-06-02)
+
+
+### Bug Fixes
+
+* **deps:** require protobuf <4.0.0dev ([#272](https://github.com/googleapis/python-retail/issues/272)) ([83bb41e](https://github.com/googleapis/python-retail/commit/83bb41e71896338c44d526b6b9028ec7a720c6a3))
+
+
+### Documentation
+
+* fix changelog header to consistent size ([#273](https://github.com/googleapis/python-retail/issues/273)) ([6a3646f](https://github.com/googleapis/python-retail/commit/6a3646fc43a4bd69d5b7ce2e5982e5a00339637c))
+
+## [1.6.0](https://github.com/googleapis/python-retail/compare/v1.5.0...v1.6.0) (2022-05-19)
+
+
+### Features
+
+* generate v2alpha/v2beta ([#226](https://github.com/googleapis/python-retail/issues/226)) ([78953f8](https://github.com/googleapis/python-retail/commit/78953f820669aaf9afe592e5c7fc8bed8b5f5e7e))
+
+
+### Documentation
+
+* fix type in docstring for map fields ([#210](https://github.com/googleapis/python-retail/issues/210)) ([b9f4020](https://github.com/googleapis/python-retail/commit/b9f40205d76962408aa0ae492bd5ed3f5ef07790))
+* **samples:** improve the setup scripts ([#207](https://github.com/googleapis/python-retail/issues/207)) ([17dee11](https://github.com/googleapis/python-retail/commit/17dee1119a94392a845cd9855922b6228d25f5d1))
+
 ## [1.5.0](https://github.com/googleapis/python-retail/compare/v1.4.1...v1.5.0) (2022-03-30)
 
 
@@ -20,7 +45,7 @@
 * suggest search users not to send IP and use hashed user id ([8d61976](https://github.com/googleapis/python-retail/commit/8d619760c771750d55de09fd32deb7e05bf75c8c))
 * users can self enroll retail search feature on cloud console ([8d61976](https://github.com/googleapis/python-retail/commit/8d619760c771750d55de09fd32deb7e05bf75c8c))
 
-### [1.4.1](https://github.com/googleapis/python-retail/compare/v1.4.0...v1.4.1) (2022-03-05)
+## [1.4.1](https://github.com/googleapis/python-retail/compare/v1.4.0...v1.4.1) (2022-03-05)
 
 
 ### Bug Fixes
@@ -65,7 +90,7 @@
 
 * update grpc service config settings to reflect correct API deadlines ([#120](https://github.com/googleapis/python-retail/issues/120)) ([e7649c7](https://github.com/googleapis/python-retail/commit/e7649c731ed741e7365dc4b9573dcdd770528929))
 
-### [1.2.1](https://www.github.com/googleapis/python-retail/compare/v1.2.0...v1.2.1) (2021-11-01)
+## [1.2.1](https://www.github.com/googleapis/python-retail/compare/v1.2.0...v1.2.1) (2021-11-01)
 
 
 ### Bug Fixes
@@ -101,14 +126,14 @@
 
 * add context manager support in client ([#101](https://www.github.com/googleapis/python-retail/issues/101)) ([3e68d78](https://www.github.com/googleapis/python-retail/commit/3e68d78e6f0c5d2e65f148935446baa92b5dd8ef))
 
-### [1.0.2](https://www.github.com/googleapis/python-retail/compare/v1.0.1...v1.0.2) (2021-09-30)
+## [1.0.2](https://www.github.com/googleapis/python-retail/compare/v1.0.1...v1.0.2) (2021-09-30)
 
 
 ### Bug Fixes
 
 * improper types in pagers generation ([e82885d](https://www.github.com/googleapis/python-retail/commit/e82885ddcd9926e0b1a5c869e5843c534015b566))
 
-### [1.0.1](https://www.github.com/googleapis/python-retail/compare/v1.0.0...v1.0.1) (2021-09-24)
+## [1.0.1](https://www.github.com/googleapis/python-retail/compare/v1.0.0...v1.0.1) (2021-09-24)
 
 
 ### Bug Fixes
@@ -127,14 +152,14 @@
 
 * Keep the API doc up-to-date ([#80](https://www.github.com/googleapis/python-retail/issues/80)) ([a77f0ea](https://www.github.com/googleapis/python-retail/commit/a77f0ea03ab1d5a2cb976bb2bff3739c15026558))
 
-### [0.4.2](https://www.github.com/googleapis/python-retail/compare/v0.4.1...v0.4.2) (2021-08-04)
+## [0.4.2](https://www.github.com/googleapis/python-retail/compare/v0.4.1...v0.4.2) (2021-08-04)
 
 
 ### Documentation
 
 * **retail:** Quote several literal expressions for better rendering ([#75](https://www.github.com/googleapis/python-retail/issues/75)) ([53ede84](https://www.github.com/googleapis/python-retail/commit/53ede84d0115fc3edfb2deab0203ed9fd9dcbf9d))
 
-### [0.4.1](https://www.github.com/googleapis/python-retail/compare/v0.4.0...v0.4.1) (2021-08-01)
+## [0.4.1](https://www.github.com/googleapis/python-retail/compare/v0.4.0...v0.4.1) (2021-08-01)
 
 
 ### Documentation
@@ -149,7 +174,7 @@
 
 * Add restricted Retail Search features for Retail API v2. ([#68](https://www.github.com/googleapis/python-retail/issues/68)) ([84ba173](https://www.github.com/googleapis/python-retail/commit/84ba173d4eadd75cc5289ce76ee800909b20a5ff))
 
-### [0.3.1](https://www.github.com/googleapis/python-retail/compare/v0.3.0...v0.3.1) (2021-07-26)
+## [0.3.1](https://www.github.com/googleapis/python-retail/compare/v0.3.0...v0.3.1) (2021-07-26)
 
 
 ### Bug Fixes
