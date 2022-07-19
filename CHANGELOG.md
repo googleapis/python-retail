@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1](https://github.com/googleapis/python-retail/compare/v1.7.0...v1.7.1) (2022-07-19)
+
+
+### Bug Fixes
+
+* add an error message on user import data script in case of any errors. ([#288](https://github.com/googleapis/python-retail/issues/288)) ([6ee731f](https://github.com/googleapis/python-retail/commit/6ee731f9c0e7c2554cf820b4e32840d0d296a04f))
+
 ## [1.7.0](https://github.com/googleapis/python-retail/compare/v1.6.1...v1.7.0) (2022-07-17)
 
 
