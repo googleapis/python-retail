@@ -11,11 +11,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import google.auth
+
 from google.cloud import bigquery
 
 import pytest
 
 from setup_cleanup import create_bq_dataset
+
+project_id = google.auth.default()[1]
 
 
 @pytest.fixture()
@@ -36,7 +40,7 @@ def test_bq_dataset_creation(table_id_prefix, dq_dataset_resource, capfd):
 
     output, err = capfd.readouterr()
 
-    assert f'Creating dataset crs-interactive-tutorials.{dataset_name}' in output
+    assert f'Creating dataset {project_id}.{dataset_name}' in output
     assert 'dataset is created' in output
     assert err == ''
 
@@ -51,6 +55,6 @@ def test_repeated_bq_dataset_creation(table_id_prefix, dq_dataset_resource, capf
 
     output, err = capfd.readouterr()
 
-    assert f'Creating dataset crs-interactive-tutorials.{dataset_name}' in output
-    assert f'dataset crs-interactive-tutorials.{dataset_name} already exists' in output
+    assert f'Creating dataset {project_id}.{dataset_name}' in output
+    assert f'dataset {project_id}.{dataset_name} already exists' in output
     assert err == ''
