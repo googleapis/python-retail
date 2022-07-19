@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1](https://github.com/googleapis/python-retail/compare/v1.7.0...v1.7.1) (2022-07-19)
+
+
+### Bug Fixes
+
+* add an error message on user environment setup in case of any errors. ([#292](https://github.com/googleapis/python-retail/issues/292)) ([169c3ce](https://github.com/googleapis/python-retail/commit/169c3ced171b911c3520c58f1698d119383de940))
+
 ## [1.7.0](https://github.com/googleapis/python-retail/compare/v1.6.1...v1.7.0) (2022-07-17)
 
 
