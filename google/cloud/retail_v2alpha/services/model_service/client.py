@@ -34,37 +34,38 @@ try:
 except AttributeError:  # pragma: NO COVER
     OptionalRetry = Union[retries.Retry, object]  # type: ignore
 
+from google.api_core import operation  # type: ignore
+from google.api_core import operation_async  # type: ignore
 from google.protobuf import field_mask_pb2  # type: ignore
+from google.protobuf import timestamp_pb2  # type: ignore
 
-from google.cloud.retail_v2alpha.services.control_service import pagers
+from google.cloud.retail_v2alpha.services.model_service import pagers
 from google.cloud.retail_v2alpha.types import common
-from google.cloud.retail_v2alpha.types import control
-from google.cloud.retail_v2alpha.types import control as gcr_control
-from google.cloud.retail_v2alpha.types import control_service, search_service
+from google.cloud.retail_v2alpha.types import model
+from google.cloud.retail_v2alpha.types import model as gcr_model
+from google.cloud.retail_v2alpha.types import model_service
 
-from .transports.base import DEFAULT_CLIENT_INFO, ControlServiceTransport
-from .transports.grpc import ControlServiceGrpcTransport
-from .transports.grpc_asyncio import ControlServiceGrpcAsyncIOTransport
+from .transports.base import DEFAULT_CLIENT_INFO, ModelServiceTransport
+from .transports.grpc import ModelServiceGrpcTransport
+from .transports.grpc_asyncio import ModelServiceGrpcAsyncIOTransport
 
 
-class ControlServiceClientMeta(type):
-    """Metaclass for the ControlService client.
+class ModelServiceClientMeta(type):
+    """Metaclass for the ModelService client.
 
     This provides class-level methods for building and retrieving
     support objects (e.g. transport) without polluting the client instance
     objects.
     """
 
-    _transport_registry = (
-        OrderedDict()
-    )  # type: Dict[str, Type[ControlServiceTransport]]
-    _transport_registry["grpc"] = ControlServiceGrpcTransport
-    _transport_registry["grpc_asyncio"] = ControlServiceGrpcAsyncIOTransport
+    _transport_registry = OrderedDict()  # type: Dict[str, Type[ModelServiceTransport]]
+    _transport_registry["grpc"] = ModelServiceGrpcTransport
+    _transport_registry["grpc_asyncio"] = ModelServiceGrpcAsyncIOTransport
 
     def get_transport_class(
         cls,
         label: str = None,
-    ) -> Type[ControlServiceTransport]:
+    ) -> Type[ModelServiceTransport]:
         """Returns an appropriate transport class.
 
         Args:
@@ -83,8 +84,20 @@ class ControlServiceClientMeta(type):
         return next(iter(cls._transport_registry.values()))
 
 
-class ControlServiceClient(metaclass=ControlServiceClientMeta):
-    """Service for modifying Control."""
+class ModelServiceClient(metaclass=ModelServiceClientMeta):
+    """Service for performing CRUD operations on models. Recommendation
+    models contain all the metadata necessary to generate a set of
+    models for the Predict() api. A model is queried indirectly via a
+    ServingConfig, which associates a model with a given Placement (e.g.
+    Frequently Bought Together on Home Page).
+
+    This service allows customers to e.g.:
+
+    -  Initiate training of a model.
+    -  Pause training of an existing model.
+    -  List all the available models along with their metadata.
+    -  Control their tuning schedule.
+    """
 
     @staticmethod
     def _get_default_mtls_endpoint(api_endpoint):
@@ -132,7 +145,7 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
             kwargs: Additional arguments to pass to the constructor.
 
         Returns:
-            ControlServiceClient: The constructed client.
+            ModelServiceClient: The constructed client.
         """
         credentials = service_account.Credentials.from_service_account_info(info)
         kwargs["credentials"] = credentials
@@ -150,7 +163,7 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
             kwargs: Additional arguments to pass to the constructor.
 
         Returns:
-            ControlServiceClient: The constructed client.
+            ModelServiceClient: The constructed client.
         """
         credentials = service_account.Credentials.from_service_account_file(filename)
         kwargs["credentials"] = credentials
@@ -159,11 +172,11 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
     from_service_account_json = from_service_account_file
 
     @property
-    def transport(self) -> ControlServiceTransport:
+    def transport(self) -> ModelServiceTransport:
         """Returns the transport used by the client instance.
 
         Returns:
-            ControlServiceTransport: The transport used by the client
+            ModelServiceTransport: The transport used by the client
                 instance.
         """
         return self._transport
@@ -191,25 +204,25 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
         return m.groupdict() if m else {}
 
     @staticmethod
-    def control_path(
+    def model_path(
         project: str,
         location: str,
         catalog: str,
-        control: str,
+        model: str,
     ) -> str:
-        """Returns a fully-qualified control string."""
-        return "projects/{project}/locations/{location}/catalogs/{catalog}/controls/{control}".format(
+        """Returns a fully-qualified model string."""
+        return "projects/{project}/locations/{location}/catalogs/{catalog}/models/{model}".format(
             project=project,
             location=location,
             catalog=catalog,
-            control=control,
+            model=model,
         )
 
     @staticmethod
-    def parse_control_path(path: str) -> Dict[str, str]:
-        """Parses a control path into its component segments."""
+    def parse_model_path(path: str) -> Dict[str, str]:
+        """Parses a model path into its component segments."""
         m = re.match(
-            r"^projects/(?P<project>.+?)/locations/(?P<location>.+?)/catalogs/(?P<catalog>.+?)/controls/(?P<control>.+?)$",
+            r"^projects/(?P<project>.+?)/locations/(?P<location>.+?)/catalogs/(?P<catalog>.+?)/models/(?P<model>.+?)$",
             path,
         )
         return m.groupdict() if m else {}
@@ -362,11 +375,11 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
         self,
         *,
         credentials: Optional[ga_credentials.Credentials] = None,
-        transport: Union[str, ControlServiceTransport, None] = None,
+        transport: Union[str, ModelServiceTransport, None] = None,
         client_options: Optional[client_options_lib.ClientOptions] = None,
         client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
     ) -> None:
-        """Instantiates the control service client.
+        """Instantiates the model service client.
 
         Args:
             credentials (Optional[google.auth.credentials.Credentials]): The
@@ -374,7 +387,7 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
                 credentials identify the application to the service; if none
                 are specified, the client will attempt to ascertain the
                 credentials from the environment.
-            transport (Union[str, ControlServiceTransport]): The
+            transport (Union[str, ModelServiceTransport]): The
                 transport to use. If set to None, a transport is chosen
                 automatically.
             client_options (google.api_core.client_options.ClientOptions): Custom options for the
@@ -421,8 +434,8 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
         # Save or instantiate the transport.
         # Ordinarily, we provide the transport, but allowing a custom transport
         # instance provides an extensibility point for unusual situations.
-        if isinstance(transport, ControlServiceTransport):
-            # transport is a ControlServiceTransport instance.
+        if isinstance(transport, ModelServiceTransport):
+            # transport is a ModelServiceTransport instance.
             if credentials or client_options.credentials_file or api_key_value:
                 raise ValueError(
                     "When providing a transport instance, "
@@ -457,73 +470,64 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
                 api_audience=client_options.api_audience,
             )
 
-    def create_control(
+    def create_model(
         self,
-        request: Union[control_service.CreateControlRequest, dict] = None,
+        request: Union[model_service.CreateModelRequest, dict] = None,
         *,
         parent: str = None,
-        control: gcr_control.Control = None,
-        control_id: str = None,
+        model: gcr_model.Model = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: float = None,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> gcr_control.Control:
-        r"""Creates a Control.
-
-        If the [Control][google.cloud.retail.v2alpha.Control] to create
-        already exists, an ALREADY_EXISTS error is returned.
+    ) -> operation.Operation:
+        r"""Creates a new model.
 
         .. code-block:: python
 
             from google.cloud import retail_v2alpha
 
-            def sample_create_control():
+            def sample_create_model():
                 # Create a client
-                client = retail_v2alpha.ControlServiceClient()
+                client = retail_v2alpha.ModelServiceClient()
 
                 # Initialize request argument(s)
-                control = retail_v2alpha.Control()
-                control.facet_spec.facet_key.key = "key_value"
-                control.display_name = "display_name_value"
-                control.solution_types = "SOLUTION_TYPE_SEARCH"
-                control.search_solution_use_case = "SEARCH_SOLUTION_USE_CASE_BROWSE"
+                model = retail_v2alpha.Model()
+                model.page_optimization_config.page_optimization_event_type = "page_optimization_event_type_value"
+                model.page_optimization_config.panels.candidates.serving_config_id = "serving_config_id_value"
+                model.page_optimization_config.panels.default_candidate.serving_config_id = "serving_config_id_value"
+                model.name = "name_value"
+                model.display_name = "display_name_value"
+                model.type_ = "type__value"
 
-                request = retail_v2alpha.CreateControlRequest(
+                request = retail_v2alpha.CreateModelRequest(
                     parent="parent_value",
-                    control=control,
-                    control_id="control_id_value",
+                    model=model,
                 )
 
                 # Make the request
-                response = client.create_control(request=request)
+                operation = client.create_model(request=request)
+
+                print("Waiting for operation to complete...")
+
+                response = operation.result()
 
                 # Handle the response
                 print(response)
 
         Args:
-            request (Union[google.cloud.retail_v2alpha.types.CreateControlRequest, dict]):
-                The request object. Request for CreateControl method.
+            request (Union[google.cloud.retail_v2alpha.types.CreateModelRequest, dict]):
+                The request object. Request for creating a model.
             parent (str):
-                Required. Full resource name of parent catalog. Format:
-                ``projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}``
+                Required. The parent resource under which to create the
+                model. Format:
+                projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}
 
                 This corresponds to the ``parent`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-            control (google.cloud.retail_v2alpha.types.Control):
-                Required. The Control to create.
-                This corresponds to the ``control`` field
-                on the ``request`` instance; if ``request`` is provided, this
-                should not be set.
-            control_id (str):
-                Required. The ID to use for the Control, which will
-                become the final component of the Control's resource
-                name.
-
-                This value should be 4-63 characters, and valid
-                characters are /[a-z][0-9]-_/.
-
-                This corresponds to the ``control_id`` field
+            model (google.cloud.retail_v2alpha.types.Model):
+                Required. The payload of the [Model] to create.
+                This corresponds to the ``model`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
@@ -533,17 +537,21 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
                 sent along with the request as metadata.
 
         Returns:
-            google.cloud.retail_v2alpha.types.Control:
-                Configures dynamic serving time
-                metadata that is used to pre and post
-                process search/recommendation model
-                results.
+            google.api_core.operation.Operation:
+                An object representing a long-running operation.
+
+                The result type for the operation will be :class:`google.cloud.retail_v2alpha.types.Model` Metadata that describes the training and serving parameters of a
+                   [Model][google.cloud.retail.v2alpha.Model]. A
+                   [Model][google.cloud.retail.v2alpha.Model] can be
+                   associated with a
+                   [ServingConfig][google.cloud.retail.v2alpha.ServingConfig]
+                   and then queried through the Predict api.
 
         """
         # Create or coerce a protobuf request object.
         # Quick check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
-        has_flattened_params = any([parent, control, control_id])
+        has_flattened_params = any([parent, model])
         if request is not None and has_flattened_params:
             raise ValueError(
                 "If the `request` argument is set, then none of "
@@ -551,23 +559,21 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
             )
 
         # Minor optimization to avoid making a copy if the user passes
-        # in a control_service.CreateControlRequest.
+        # in a model_service.CreateModelRequest.
         # There's no risk of modifying the input as we've already verified
         # there are no flattened fields.
-        if not isinstance(request, control_service.CreateControlRequest):
-            request = control_service.CreateControlRequest(request)
+        if not isinstance(request, model_service.CreateModelRequest):
+            request = model_service.CreateModelRequest(request)
             # If we have keyword arguments corresponding to fields on the
             # request, apply these.
             if parent is not None:
                 request.parent = parent
-            if control is not None:
-                request.control = control
-            if control_id is not None:
-                request.control_id = control_id
+            if model is not None:
+                request.model = model
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.create_control]
+        rpc = self._transport._wrapped_methods[self._transport.create_model]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -583,46 +589,249 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
             metadata=metadata,
         )
 
+        # Wrap the response in an operation future.
+        response = operation.from_gapic(
+            response,
+            self._transport.operations_client,
+            gcr_model.Model,
+            metadata_type=model_service.CreateModelMetadata,
+        )
+
         # Done; return the response.
         return response
 
-    def delete_control(
+    def pause_model(
         self,
-        request: Union[control_service.DeleteControlRequest, dict] = None,
+        request: Union[model_service.PauseModelRequest, dict] = None,
+        *,
+        name: str = None,
+        retry: OptionalRetry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> model.Model:
+        r"""Pauses the training of an existing model.
+
+        .. code-block:: python
+
+            from google.cloud import retail_v2alpha
+
+            def sample_pause_model():
+                # Create a client
+                client = retail_v2alpha.ModelServiceClient()
+
+                # Initialize request argument(s)
+                request = retail_v2alpha.PauseModelRequest(
+                    name="name_value",
+                )
+
+                # Make the request
+                response = client.pause_model(request=request)
+
+                # Handle the response
+                print(response)
+
+        Args:
+            request (Union[google.cloud.retail_v2alpha.types.PauseModelRequest, dict]):
+                The request object. Request for pausing training of a
+                model.
+            name (str):
+                Required. The name of the model to pause. Format:
+                projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}
+
+                This corresponds to the ``name`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            retry (google.api_core.retry.Retry): Designation of what errors, if any,
+                should be retried.
+            timeout (float): The timeout for this request.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
+
+        Returns:
+            google.cloud.retail_v2alpha.types.Model:
+                Metadata that describes the training and serving parameters of a
+                   [Model][google.cloud.retail.v2alpha.Model]. A
+                   [Model][google.cloud.retail.v2alpha.Model] can be
+                   associated with a
+                   [ServingConfig][google.cloud.retail.v2alpha.ServingConfig]
+                   and then queried through the Predict api.
+
+        """
+        # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([name])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
+        # Minor optimization to avoid making a copy if the user passes
+        # in a model_service.PauseModelRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, model_service.PauseModelRequest):
+            request = model_service.PauseModelRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if name is not None:
+                request.name = name
+
+        # Wrap the RPC method; this adds retry and timeout information,
+        # and friendly error handling.
+        rpc = self._transport._wrapped_methods[self._transport.pause_model]
+
+        # Certain fields should be provided within the metadata header;
+        # add these here.
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata((("name", request.name),)),
+        )
+
+        # Send the request.
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
+
+        # Done; return the response.
+        return response
+
+    def resume_model(
+        self,
+        request: Union[model_service.ResumeModelRequest, dict] = None,
+        *,
+        name: str = None,
+        retry: OptionalRetry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> model.Model:
+        r"""Resumes the training of an existing model.
+
+        .. code-block:: python
+
+            from google.cloud import retail_v2alpha
+
+            def sample_resume_model():
+                # Create a client
+                client = retail_v2alpha.ModelServiceClient()
+
+                # Initialize request argument(s)
+                request = retail_v2alpha.ResumeModelRequest(
+                    name="name_value",
+                )
+
+                # Make the request
+                response = client.resume_model(request=request)
+
+                # Handle the response
+                print(response)
+
+        Args:
+            request (Union[google.cloud.retail_v2alpha.types.ResumeModelRequest, dict]):
+                The request object. Request for resuming training of a
+                model.
+            name (str):
+                Required. The name of the model to resume. Format:
+                projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}
+
+                This corresponds to the ``name`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            retry (google.api_core.retry.Retry): Designation of what errors, if any,
+                should be retried.
+            timeout (float): The timeout for this request.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
+
+        Returns:
+            google.cloud.retail_v2alpha.types.Model:
+                Metadata that describes the training and serving parameters of a
+                   [Model][google.cloud.retail.v2alpha.Model]. A
+                   [Model][google.cloud.retail.v2alpha.Model] can be
+                   associated with a
+                   [ServingConfig][google.cloud.retail.v2alpha.ServingConfig]
+                   and then queried through the Predict api.
+
+        """
+        # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([name])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
+        # Minor optimization to avoid making a copy if the user passes
+        # in a model_service.ResumeModelRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, model_service.ResumeModelRequest):
+            request = model_service.ResumeModelRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if name is not None:
+                request.name = name
+
+        # Wrap the RPC method; this adds retry and timeout information,
+        # and friendly error handling.
+        rpc = self._transport._wrapped_methods[self._transport.resume_model]
+
+        # Certain fields should be provided within the metadata header;
+        # add these here.
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata((("name", request.name),)),
+        )
+
+        # Send the request.
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
+
+        # Done; return the response.
+        return response
+
+    def delete_model(
+        self,
+        request: Union[model_service.DeleteModelRequest, dict] = None,
         *,
         name: str = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: float = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> None:
-        r"""Deletes a Control.
-
-        If the [Control][google.cloud.retail.v2alpha.Control] to delete
-        does not exist, a NOT_FOUND error is returned.
+        r"""Deletes an existing model.
 
         .. code-block:: python
 
             from google.cloud import retail_v2alpha
 
-            def sample_delete_control():
+            def sample_delete_model():
                 # Create a client
-                client = retail_v2alpha.ControlServiceClient()
+                client = retail_v2alpha.ModelServiceClient()
 
                 # Initialize request argument(s)
-                request = retail_v2alpha.DeleteControlRequest(
+                request = retail_v2alpha.DeleteModelRequest(
                     name="name_value",
                 )
 
                 # Make the request
-                client.delete_control(request=request)
+                client.delete_model(request=request)
 
         Args:
-            request (Union[google.cloud.retail_v2alpha.types.DeleteControlRequest, dict]):
-                The request object. Request for DeleteControl method.
+            request (Union[google.cloud.retail_v2alpha.types.DeleteModelRequest, dict]):
+                The request object. Request for deleting a model.
             name (str):
-                Required. The resource name of the Control to delete.
+                Required. The resource name of the [Model] to delete.
                 Format:
-                ``projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/controls/{control_id}``
+                projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}
 
                 This corresponds to the ``name`` field
                 on the ``request`` instance; if ``request`` is provided, this
@@ -644,11 +853,11 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
             )
 
         # Minor optimization to avoid making a copy if the user passes
-        # in a control_service.DeleteControlRequest.
+        # in a model_service.DeleteModelRequest.
         # There's no risk of modifying the input as we've already verified
         # there are no flattened fields.
-        if not isinstance(request, control_service.DeleteControlRequest):
-            request = control_service.DeleteControlRequest(request)
+        if not isinstance(request, model_service.DeleteModelRequest):
+            request = model_service.DeleteModelRequest(request)
             # If we have keyword arguments corresponding to fields on the
             # request, apply these.
             if name is not None:
@@ -656,7 +865,7 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.delete_control]
+        rpc = self._transport._wrapped_methods[self._transport.delete_model]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -672,262 +881,44 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
             metadata=metadata,
         )
 
-    def update_control(
+    def list_models(
         self,
-        request: Union[control_service.UpdateControlRequest, dict] = None,
-        *,
-        control: gcr_control.Control = None,
-        update_mask: field_mask_pb2.FieldMask = None,
-        retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> gcr_control.Control:
-        r"""Updates a Control.
-
-        [Control][google.cloud.retail.v2alpha.Control] cannot be set to
-        a different oneof field, if so an INVALID_ARGUMENT is returned.
-        If the [Control][google.cloud.retail.v2alpha.Control] to delete
-        does not exist, a NOT_FOUND error is returned.
-
-        .. code-block:: python
-
-            from google.cloud import retail_v2alpha
-
-            def sample_update_control():
-                # Create a client
-                client = retail_v2alpha.ControlServiceClient()
-
-                # Initialize request argument(s)
-                control = retail_v2alpha.Control()
-                control.facet_spec.facet_key.key = "key_value"
-                control.display_name = "display_name_value"
-                control.solution_types = "SOLUTION_TYPE_SEARCH"
-                control.search_solution_use_case = "SEARCH_SOLUTION_USE_CASE_BROWSE"
-
-                request = retail_v2alpha.UpdateControlRequest(
-                    control=control,
-                )
-
-                # Make the request
-                response = client.update_control(request=request)
-
-                # Handle the response
-                print(response)
-
-        Args:
-            request (Union[google.cloud.retail_v2alpha.types.UpdateControlRequest, dict]):
-                The request object. Request for UpdateControl method.
-            control (google.cloud.retail_v2alpha.types.Control):
-                Required. The Control to update.
-                This corresponds to the ``control`` field
-                on the ``request`` instance; if ``request`` is provided, this
-                should not be set.
-            update_mask (google.protobuf.field_mask_pb2.FieldMask):
-                Indicates which fields in the provided
-                [Control][google.cloud.retail.v2alpha.Control] to
-                update. The following are NOT supported:
-
-                -  [Control.name][google.cloud.retail.v2alpha.Control.name]
-
-                If not set or empty, all supported fields are updated.
-
-                This corresponds to the ``update_mask`` field
-                on the ``request`` instance; if ``request`` is provided, this
-                should not be set.
-            retry (google.api_core.retry.Retry): Designation of what errors, if any,
-                should be retried.
-            timeout (float): The timeout for this request.
-            metadata (Sequence[Tuple[str, str]]): Strings which should be
-                sent along with the request as metadata.
-
-        Returns:
-            google.cloud.retail_v2alpha.types.Control:
-                Configures dynamic serving time
-                metadata that is used to pre and post
-                process search/recommendation model
-                results.
-
-        """
-        # Create or coerce a protobuf request object.
-        # Quick check: If we got a request object, we should *not* have
-        # gotten any keyword arguments that map to the request.
-        has_flattened_params = any([control, update_mask])
-        if request is not None and has_flattened_params:
-            raise ValueError(
-                "If the `request` argument is set, then none of "
-                "the individual field arguments should be set."
-            )
-
-        # Minor optimization to avoid making a copy if the user passes
-        # in a control_service.UpdateControlRequest.
-        # There's no risk of modifying the input as we've already verified
-        # there are no flattened fields.
-        if not isinstance(request, control_service.UpdateControlRequest):
-            request = control_service.UpdateControlRequest(request)
-            # If we have keyword arguments corresponding to fields on the
-            # request, apply these.
-            if control is not None:
-                request.control = control
-            if update_mask is not None:
-                request.update_mask = update_mask
-
-        # Wrap the RPC method; this adds retry and timeout information,
-        # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.update_control]
-
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata(
-                (("control.name", request.control.name),)
-            ),
-        )
-
-        # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
-
-        # Done; return the response.
-        return response
-
-    def get_control(
-        self,
-        request: Union[control_service.GetControlRequest, dict] = None,
-        *,
-        name: str = None,
-        retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> control.Control:
-        r"""Gets a Control.
-
-        .. code-block:: python
-
-            from google.cloud import retail_v2alpha
-
-            def sample_get_control():
-                # Create a client
-                client = retail_v2alpha.ControlServiceClient()
-
-                # Initialize request argument(s)
-                request = retail_v2alpha.GetControlRequest(
-                    name="name_value",
-                )
-
-                # Make the request
-                response = client.get_control(request=request)
-
-                # Handle the response
-                print(response)
-
-        Args:
-            request (Union[google.cloud.retail_v2alpha.types.GetControlRequest, dict]):
-                The request object. Request for GetControl method.
-            name (str):
-                Required. The resource name of the Control to delete.
-                Format:
-                ``projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/controls/{control_id}``
-
-                This corresponds to the ``name`` field
-                on the ``request`` instance; if ``request`` is provided, this
-                should not be set.
-            retry (google.api_core.retry.Retry): Designation of what errors, if any,
-                should be retried.
-            timeout (float): The timeout for this request.
-            metadata (Sequence[Tuple[str, str]]): Strings which should be
-                sent along with the request as metadata.
-
-        Returns:
-            google.cloud.retail_v2alpha.types.Control:
-                Configures dynamic serving time
-                metadata that is used to pre and post
-                process search/recommendation model
-                results.
-
-        """
-        # Create or coerce a protobuf request object.
-        # Quick check: If we got a request object, we should *not* have
-        # gotten any keyword arguments that map to the request.
-        has_flattened_params = any([name])
-        if request is not None and has_flattened_params:
-            raise ValueError(
-                "If the `request` argument is set, then none of "
-                "the individual field arguments should be set."
-            )
-
-        # Minor optimization to avoid making a copy if the user passes
-        # in a control_service.GetControlRequest.
-        # There's no risk of modifying the input as we've already verified
-        # there are no flattened fields.
-        if not isinstance(request, control_service.GetControlRequest):
-            request = control_service.GetControlRequest(request)
-            # If we have keyword arguments corresponding to fields on the
-            # request, apply these.
-            if name is not None:
-                request.name = name
-
-        # Wrap the RPC method; this adds retry and timeout information,
-        # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.get_control]
-
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata((("name", request.name),)),
-        )
-
-        # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
-
-        # Done; return the response.
-        return response
-
-    def list_controls(
-        self,
-        request: Union[control_service.ListControlsRequest, dict] = None,
+        request: Union[model_service.ListModelsRequest, dict] = None,
         *,
         parent: str = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: float = None,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> pagers.ListControlsPager:
-        r"""Lists all Controls linked to this catalog.
+    ) -> pagers.ListModelsPager:
+        r"""Lists all the models linked to this event store.
 
         .. code-block:: python
 
             from google.cloud import retail_v2alpha
 
-            def sample_list_controls():
+            def sample_list_models():
                 # Create a client
-                client = retail_v2alpha.ControlServiceClient()
+                client = retail_v2alpha.ModelServiceClient()
 
                 # Initialize request argument(s)
-                request = retail_v2alpha.ListControlsRequest(
+                request = retail_v2alpha.ListModelsRequest(
                     parent="parent_value",
                 )
 
                 # Make the request
-                page_result = client.list_controls(request=request)
+                page_result = client.list_models(request=request)
 
                 # Handle the response
                 for response in page_result:
                     print(response)
 
         Args:
-            request (Union[google.cloud.retail_v2alpha.types.ListControlsRequest, dict]):
-                The request object. Request for ListControls method.
+            request (Union[google.cloud.retail_v2alpha.types.ListModelsRequest, dict]):
+                The request object. Request for listing models
+                associated with a resource.
             parent (str):
-                Required. The catalog resource name. Format:
-                ``projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}``
+                Required. The parent for which to list models. Format:
+                projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}
 
                 This corresponds to the ``parent`` field
                 on the ``request`` instance; if ``request`` is provided, this
@@ -939,8 +930,8 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
                 sent along with the request as metadata.
 
         Returns:
-            google.cloud.retail_v2alpha.services.control_service.pagers.ListControlsPager:
-                Response for ListControls method.
+            google.cloud.retail_v2alpha.services.model_service.pagers.ListModelsPager:
+                Response to a ListModelRequest.
                 Iterating over this object will yield
                 results and resolve additional pages
                 automatically.
@@ -957,11 +948,11 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
             )
 
         # Minor optimization to avoid making a copy if the user passes
-        # in a control_service.ListControlsRequest.
+        # in a model_service.ListModelsRequest.
         # There's no risk of modifying the input as we've already verified
         # there are no flattened fields.
-        if not isinstance(request, control_service.ListControlsRequest):
-            request = control_service.ListControlsRequest(request)
+        if not isinstance(request, model_service.ListModelsRequest):
+            request = model_service.ListModelsRequest(request)
             # If we have keyword arguments corresponding to fields on the
             # request, apply these.
             if parent is not None:
@@ -969,7 +960,7 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.list_controls]
+        rpc = self._transport._wrapped_methods[self._transport.list_models]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -987,11 +978,243 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
 
         # This method is paged; wrap the response in a pager, which provides
         # an `__iter__` convenience method.
-        response = pagers.ListControlsPager(
+        response = pagers.ListModelsPager(
             method=rpc,
             request=request,
             response=response,
             metadata=metadata,
+        )
+
+        # Done; return the response.
+        return response
+
+    def update_model(
+        self,
+        request: Union[model_service.UpdateModelRequest, dict] = None,
+        *,
+        model: gcr_model.Model = None,
+        update_mask: field_mask_pb2.FieldMask = None,
+        retry: OptionalRetry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> gcr_model.Model:
+        r"""Update of model metadata. Only fields that currently can be
+        updated are: filtering_option, periodic_tuning_state. If other
+        values are provided, this API method will ignore them.
+
+        .. code-block:: python
+
+            from google.cloud import retail_v2alpha
+
+            def sample_update_model():
+                # Create a client
+                client = retail_v2alpha.ModelServiceClient()
+
+                # Initialize request argument(s)
+                model = retail_v2alpha.Model()
+                model.page_optimization_config.page_optimization_event_type = "page_optimization_event_type_value"
+                model.page_optimization_config.panels.candidates.serving_config_id = "serving_config_id_value"
+                model.page_optimization_config.panels.default_candidate.serving_config_id = "serving_config_id_value"
+                model.name = "name_value"
+                model.display_name = "display_name_value"
+                model.type_ = "type__value"
+
+                request = retail_v2alpha.UpdateModelRequest(
+                    model=model,
+                )
+
+                # Make the request
+                response = client.update_model(request=request)
+
+                # Handle the response
+                print(response)
+
+        Args:
+            request (Union[google.cloud.retail_v2alpha.types.UpdateModelRequest, dict]):
+                The request object. Request for updating an existing
+                model.
+            model (google.cloud.retail_v2alpha.types.Model):
+                Required. The body of the updated [Model].
+                This corresponds to the ``model`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            update_mask (google.protobuf.field_mask_pb2.FieldMask):
+                Optional. Indicates which fields in
+                the provided 'model' to update. If not
+                set, will by default update all fields.
+
+                This corresponds to the ``update_mask`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            retry (google.api_core.retry.Retry): Designation of what errors, if any,
+                should be retried.
+            timeout (float): The timeout for this request.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
+
+        Returns:
+            google.cloud.retail_v2alpha.types.Model:
+                Metadata that describes the training and serving parameters of a
+                   [Model][google.cloud.retail.v2alpha.Model]. A
+                   [Model][google.cloud.retail.v2alpha.Model] can be
+                   associated with a
+                   [ServingConfig][google.cloud.retail.v2alpha.ServingConfig]
+                   and then queried through the Predict api.
+
+        """
+        # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([model, update_mask])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
+        # Minor optimization to avoid making a copy if the user passes
+        # in a model_service.UpdateModelRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, model_service.UpdateModelRequest):
+            request = model_service.UpdateModelRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if model is not None:
+                request.model = model
+            if update_mask is not None:
+                request.update_mask = update_mask
+
+        # Wrap the RPC method; this adds retry and timeout information,
+        # and friendly error handling.
+        rpc = self._transport._wrapped_methods[self._transport.update_model]
+
+        # Certain fields should be provided within the metadata header;
+        # add these here.
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata(
+                (("model.name", request.model.name),)
+            ),
+        )
+
+        # Send the request.
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
+
+        # Done; return the response.
+        return response
+
+    def tune_model(
+        self,
+        request: Union[model_service.TuneModelRequest, dict] = None,
+        *,
+        name: str = None,
+        retry: OptionalRetry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> operation.Operation:
+        r"""Tunes an existing model.
+
+        .. code-block:: python
+
+            from google.cloud import retail_v2alpha
+
+            def sample_tune_model():
+                # Create a client
+                client = retail_v2alpha.ModelServiceClient()
+
+                # Initialize request argument(s)
+                request = retail_v2alpha.TuneModelRequest(
+                    name="name_value",
+                )
+
+                # Make the request
+                operation = client.tune_model(request=request)
+
+                print("Waiting for operation to complete...")
+
+                response = operation.result()
+
+                # Handle the response
+                print(response)
+
+        Args:
+            request (Union[google.cloud.retail_v2alpha.types.TuneModelRequest, dict]):
+                The request object. Request to manually start a tuning
+                process now (instead of waiting for the periodically
+                scheduled tuning to happen).
+            name (str):
+                Required. The resource name of the model to tune.
+                Format:
+                projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}
+
+                This corresponds to the ``name`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            retry (google.api_core.retry.Retry): Designation of what errors, if any,
+                should be retried.
+            timeout (float): The timeout for this request.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
+
+        Returns:
+            google.api_core.operation.Operation:
+                An object representing a long-running operation.
+
+                The result type for the operation will be
+                :class:`google.cloud.retail_v2alpha.types.TuneModelResponse`
+                Response associated with a tune operation.
+
+        """
+        # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([name])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
+        # Minor optimization to avoid making a copy if the user passes
+        # in a model_service.TuneModelRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, model_service.TuneModelRequest):
+            request = model_service.TuneModelRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if name is not None:
+                request.name = name
+
+        # Wrap the RPC method; this adds retry and timeout information,
+        # and friendly error handling.
+        rpc = self._transport._wrapped_methods[self._transport.tune_model]
+
+        # Certain fields should be provided within the metadata header;
+        # add these here.
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata((("name", request.name),)),
+        )
+
+        # Send the request.
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
+
+        # Wrap the response in an operation future.
+        response = operation.from_gapic(
+            response,
+            self._transport.operations_client,
+            model_service.TuneModelResponse,
+            metadata_type=model_service.TuneModelMetadata,
         )
 
         # Done; return the response.
@@ -1021,4 +1244,4 @@ except pkg_resources.DistributionNotFound:
     DEFAULT_CLIENT_INFO = gapic_v1.client_info.ClientInfo()
 
 
-__all__ = ("ControlServiceClient",)
+__all__ = ("ModelServiceClient",)

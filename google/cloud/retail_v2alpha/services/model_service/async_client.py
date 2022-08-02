@@ -31,56 +31,65 @@ try:
 except AttributeError:  # pragma: NO COVER
     OptionalRetry = Union[retries.Retry, object]  # type: ignore
 
+from google.api_core import operation  # type: ignore
+from google.api_core import operation_async  # type: ignore
 from google.protobuf import field_mask_pb2  # type: ignore
+from google.protobuf import timestamp_pb2  # type: ignore
 
-from google.cloud.retail_v2alpha.services.serving_config_service import pagers
-from google.cloud.retail_v2alpha.types import serving_config as gcr_serving_config
-from google.cloud.retail_v2alpha.types import common, search_service
-from google.cloud.retail_v2alpha.types import serving_config
-from google.cloud.retail_v2alpha.types import serving_config_service
+from google.cloud.retail_v2alpha.services.model_service import pagers
+from google.cloud.retail_v2alpha.types import common
+from google.cloud.retail_v2alpha.types import model
+from google.cloud.retail_v2alpha.types import model as gcr_model
+from google.cloud.retail_v2alpha.types import model_service
 
-from .client import ServingConfigServiceClient
-from .transports.base import DEFAULT_CLIENT_INFO, ServingConfigServiceTransport
-from .transports.grpc_asyncio import ServingConfigServiceGrpcAsyncIOTransport
+from .client import ModelServiceClient
+from .transports.base import DEFAULT_CLIENT_INFO, ModelServiceTransport
+from .transports.grpc_asyncio import ModelServiceGrpcAsyncIOTransport
 
 
-class ServingConfigServiceAsyncClient:
-    """Service for modifying ServingConfig."""
+class ModelServiceAsyncClient:
+    """Service for performing CRUD operations on models. Recommendation
+    models contain all the metadata necessary to generate a set of
+    models for the Predict() api. A model is queried indirectly via a
+    ServingConfig, which associates a model with a given Placement (e.g.
+    Frequently Bought Together on Home Page).
 
-    _client: ServingConfigServiceClient
+    This service allows customers to e.g.:
 
-    DEFAULT_ENDPOINT = ServingConfigServiceClient.DEFAULT_ENDPOINT
-    DEFAULT_MTLS_ENDPOINT = ServingConfigServiceClient.DEFAULT_MTLS_ENDPOINT
+    -  Initiate training of a model.
+    -  Pause training of an existing model.
+    -  List all the available models along with their metadata.
+    -  Control their tuning schedule.
+    """
 
-    catalog_path = staticmethod(ServingConfigServiceClient.catalog_path)
-    parse_catalog_path = staticmethod(ServingConfigServiceClient.parse_catalog_path)
-    serving_config_path = staticmethod(ServingConfigServiceClient.serving_config_path)
-    parse_serving_config_path = staticmethod(
-        ServingConfigServiceClient.parse_serving_config_path
-    )
+    _client: ModelServiceClient
+
+    DEFAULT_ENDPOINT = ModelServiceClient.DEFAULT_ENDPOINT
+    DEFAULT_MTLS_ENDPOINT = ModelServiceClient.DEFAULT_MTLS_ENDPOINT
+
+    catalog_path = staticmethod(ModelServiceClient.catalog_path)
+    parse_catalog_path = staticmethod(ModelServiceClient.parse_catalog_path)
+    model_path = staticmethod(ModelServiceClient.model_path)
+    parse_model_path = staticmethod(ModelServiceClient.parse_model_path)
     common_billing_account_path = staticmethod(
-        ServingConfigServiceClient.common_billing_account_path
+        ModelServiceClient.common_billing_account_path
     )
     parse_common_billing_account_path = staticmethod(
-        ServingConfigServiceClient.parse_common_billing_account_path
+        ModelServiceClient.parse_common_billing_account_path
     )
-    common_folder_path = staticmethod(ServingConfigServiceClient.common_folder_path)
-    parse_common_folder_path = staticmethod(
-        ServingConfigServiceClient.parse_common_folder_path
-    )
-    common_organization_path = staticmethod(
-        ServingConfigServiceClient.common_organization_path
-    )
+    common_folder_path = staticmethod(ModelServiceClient.common_folder_path)
+    parse_common_folder_path = staticmethod(ModelServiceClient.parse_common_folder_path)
+    common_organization_path = staticmethod(ModelServiceClient.common_organization_path)
     parse_common_organization_path = staticmethod(
-        ServingConfigServiceClient.parse_common_organization_path
+        ModelServiceClient.parse_common_organization_path
     )
-    common_project_path = staticmethod(ServingConfigServiceClient.common_project_path)
+    common_project_path = staticmethod(ModelServiceClient.common_project_path)
     parse_common_project_path = staticmethod(
-        ServingConfigServiceClient.parse_common_project_path
+        ModelServiceClient.parse_common_project_path
     )
-    common_location_path = staticmethod(ServingConfigServiceClient.common_location_path)
+    common_location_path = staticmethod(ModelServiceClient.common_location_path)
     parse_common_location_path = staticmethod(
-        ServingConfigServiceClient.parse_common_location_path
+        ModelServiceClient.parse_common_location_path
     )
 
     @classmethod
@@ -94,9 +103,9 @@ class ServingConfigServiceAsyncClient:
             kwargs: Additional arguments to pass to the constructor.
 
         Returns:
-            ServingConfigServiceAsyncClient: The constructed client.
+            ModelServiceAsyncClient: The constructed client.
         """
-        return ServingConfigServiceClient.from_service_account_info.__func__(ServingConfigServiceAsyncClient, info, *args, **kwargs)  # type: ignore
+        return ModelServiceClient.from_service_account_info.__func__(ModelServiceAsyncClient, info, *args, **kwargs)  # type: ignore
 
     @classmethod
     def from_service_account_file(cls, filename: str, *args, **kwargs):
@@ -110,9 +119,9 @@ class ServingConfigServiceAsyncClient:
             kwargs: Additional arguments to pass to the constructor.
 
         Returns:
-            ServingConfigServiceAsyncClient: The constructed client.
+            ModelServiceAsyncClient: The constructed client.
         """
-        return ServingConfigServiceClient.from_service_account_file.__func__(ServingConfigServiceAsyncClient, filename, *args, **kwargs)  # type: ignore
+        return ModelServiceClient.from_service_account_file.__func__(ModelServiceAsyncClient, filename, *args, **kwargs)  # type: ignore
 
     from_service_account_json = from_service_account_file
 
@@ -150,31 +159,30 @@ class ServingConfigServiceAsyncClient:
         Raises:
             google.auth.exceptions.MutualTLSChannelError: If any errors happen.
         """
-        return ServingConfigServiceClient.get_mtls_endpoint_and_cert_source(client_options)  # type: ignore
+        return ModelServiceClient.get_mtls_endpoint_and_cert_source(client_options)  # type: ignore
 
     @property
-    def transport(self) -> ServingConfigServiceTransport:
+    def transport(self) -> ModelServiceTransport:
         """Returns the transport used by the client instance.
 
         Returns:
-            ServingConfigServiceTransport: The transport used by the client instance.
+            ModelServiceTransport: The transport used by the client instance.
         """
         return self._client.transport
 
     get_transport_class = functools.partial(
-        type(ServingConfigServiceClient).get_transport_class,
-        type(ServingConfigServiceClient),
+        type(ModelServiceClient).get_transport_class, type(ModelServiceClient)
     )
 
     def __init__(
         self,
         *,
         credentials: ga_credentials.Credentials = None,
-        transport: Union[str, ServingConfigServiceTransport] = "grpc_asyncio",
+        transport: Union[str, ModelServiceTransport] = "grpc_asyncio",
         client_options: ClientOptions = None,
         client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
     ) -> None:
-        """Instantiates the serving config service client.
+        """Instantiates the model service client.
 
         Args:
             credentials (Optional[google.auth.credentials.Credentials]): The
@@ -182,7 +190,7 @@ class ServingConfigServiceAsyncClient:
                 credentials identify the application to the service; if none
                 are specified, the client will attempt to ascertain the
                 credentials from the environment.
-            transport (Union[str, ~.ServingConfigServiceTransport]): The
+            transport (Union[str, ~.ModelServiceTransport]): The
                 transport to use. If set to None, a transport is chosen
                 automatically.
             client_options (ClientOptions): Custom options for the client. It
@@ -206,83 +214,71 @@ class ServingConfigServiceAsyncClient:
             google.auth.exceptions.MutualTlsChannelError: If mutual TLS transport
                 creation failed for any reason.
         """
-        self._client = ServingConfigServiceClient(
+        self._client = ModelServiceClient(
             credentials=credentials,
             transport=transport,
             client_options=client_options,
             client_info=client_info,
         )
 
-    async def create_serving_config(
+    async def create_model(
         self,
-        request: Union[serving_config_service.CreateServingConfigRequest, dict] = None,
+        request: Union[model_service.CreateModelRequest, dict] = None,
         *,
         parent: str = None,
-        serving_config: gcr_serving_config.ServingConfig = None,
-        serving_config_id: str = None,
+        model: gcr_model.Model = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: float = None,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> gcr_serving_config.ServingConfig:
-        r"""Creates a ServingConfig.
-
-        A maximum of 100
-        [ServingConfig][google.cloud.retail.v2alpha.ServingConfig]s are
-        allowed in a [Catalog][google.cloud.retail.v2alpha.Catalog],
-        otherwise a FAILED_PRECONDITION error is returned.
+    ) -> operation_async.AsyncOperation:
+        r"""Creates a new model.
 
         .. code-block:: python
 
             from google.cloud import retail_v2alpha
 
-            async def sample_create_serving_config():
+            async def sample_create_model():
                 # Create a client
-                client = retail_v2alpha.ServingConfigServiceAsyncClient()
+                client = retail_v2alpha.ModelServiceAsyncClient()
 
                 # Initialize request argument(s)
-                serving_config = retail_v2alpha.ServingConfig()
-                serving_config.display_name = "display_name_value"
-                serving_config.solution_types = "SOLUTION_TYPE_SEARCH"
+                model = retail_v2alpha.Model()
+                model.page_optimization_config.page_optimization_event_type = "page_optimization_event_type_value"
+                model.page_optimization_config.panels.candidates.serving_config_id = "serving_config_id_value"
+                model.page_optimization_config.panels.default_candidate.serving_config_id = "serving_config_id_value"
+                model.name = "name_value"
+                model.display_name = "display_name_value"
+                model.type_ = "type__value"
 
-                request = retail_v2alpha.CreateServingConfigRequest(
+                request = retail_v2alpha.CreateModelRequest(
                     parent="parent_value",
-                    serving_config=serving_config,
-                    serving_config_id="serving_config_id_value",
+                    model=model,
                 )
 
                 # Make the request
-                response = await client.create_serving_config(request=request)
+                operation = client.create_model(request=request)
+
+                print("Waiting for operation to complete...")
+
+                response = await operation.result()
 
                 # Handle the response
                 print(response)
 
         Args:
-            request (Union[google.cloud.retail_v2alpha.types.CreateServingConfigRequest, dict]):
-                The request object. Request for CreateServingConfig
-                method.
+            request (Union[google.cloud.retail_v2alpha.types.CreateModelRequest, dict]):
+                The request object. Request for creating a model.
             parent (:class:`str`):
-                Required. Full resource name of parent. Format:
-                ``projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}``
+                Required. The parent resource under which to create the
+                model. Format:
+                projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}
 
                 This corresponds to the ``parent`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-            serving_config (:class:`google.cloud.retail_v2alpha.types.ServingConfig`):
-                Required. The ServingConfig to
-                create.
-
-                This corresponds to the ``serving_config`` field
-                on the ``request`` instance; if ``request`` is provided, this
-                should not be set.
-            serving_config_id (:class:`str`):
-                Required. The ID to use for the ServingConfig, which
-                will become the final component of the ServingConfig's
-                resource name.
-
-                This value should be 4-63 characters, and valid
-                characters are /[a-z][0-9]-_/.
-
-                This corresponds to the ``serving_config_id`` field
+            model (:class:`google.cloud.retail_v2alpha.types.Model`):
+                Required. The payload of the [Model] to create.
+                This corresponds to the ``model`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
@@ -292,39 +288,40 @@ class ServingConfigServiceAsyncClient:
                 sent along with the request as metadata.
 
         Returns:
-            google.cloud.retail_v2alpha.types.ServingConfig:
-                Configures metadata that is used to generate serving time results (e.g.
-                   search results or recommendation predictions). The
-                   ServingConfig is passed in the search and predict
-                   request and together with the Catalog.default_branch,
-                   generates results.
+            google.api_core.operation_async.AsyncOperation:
+                An object representing a long-running operation.
+
+                The result type for the operation will be :class:`google.cloud.retail_v2alpha.types.Model` Metadata that describes the training and serving parameters of a
+                   [Model][google.cloud.retail.v2alpha.Model]. A
+                   [Model][google.cloud.retail.v2alpha.Model] can be
+                   associated with a
+                   [ServingConfig][google.cloud.retail.v2alpha.ServingConfig]
+                   and then queried through the Predict api.
 
         """
         # Create or coerce a protobuf request object.
         # Quick check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
-        has_flattened_params = any([parent, serving_config, serving_config_id])
+        has_flattened_params = any([parent, model])
         if request is not None and has_flattened_params:
             raise ValueError(
                 "If the `request` argument is set, then none of "
                 "the individual field arguments should be set."
             )
 
-        request = serving_config_service.CreateServingConfigRequest(request)
+        request = model_service.CreateModelRequest(request)
 
         # If we have keyword arguments corresponding to fields on the
         # request, apply these.
         if parent is not None:
             request.parent = parent
-        if serving_config is not None:
-            request.serving_config = serving_config
-        if serving_config_id is not None:
-            request.serving_config_id = serving_config_id
+        if model is not None:
+            request.model = model
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.create_serving_config,
+            self._client._transport.create_model,
             default_timeout=None,
             client_info=DEFAULT_CLIENT_INFO,
         )
@@ -343,46 +340,249 @@ class ServingConfigServiceAsyncClient:
             metadata=metadata,
         )
 
+        # Wrap the response in an operation future.
+        response = operation_async.from_gapic(
+            response,
+            self._client._transport.operations_client,
+            gcr_model.Model,
+            metadata_type=model_service.CreateModelMetadata,
+        )
+
         # Done; return the response.
         return response
 
-    async def delete_serving_config(
+    async def pause_model(
         self,
-        request: Union[serving_config_service.DeleteServingConfigRequest, dict] = None,
+        request: Union[model_service.PauseModelRequest, dict] = None,
+        *,
+        name: str = None,
+        retry: OptionalRetry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> model.Model:
+        r"""Pauses the training of an existing model.
+
+        .. code-block:: python
+
+            from google.cloud import retail_v2alpha
+
+            async def sample_pause_model():
+                # Create a client
+                client = retail_v2alpha.ModelServiceAsyncClient()
+
+                # Initialize request argument(s)
+                request = retail_v2alpha.PauseModelRequest(
+                    name="name_value",
+                )
+
+                # Make the request
+                response = await client.pause_model(request=request)
+
+                # Handle the response
+                print(response)
+
+        Args:
+            request (Union[google.cloud.retail_v2alpha.types.PauseModelRequest, dict]):
+                The request object. Request for pausing training of a
+                model.
+            name (:class:`str`):
+                Required. The name of the model to pause. Format:
+                projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}
+
+                This corresponds to the ``name`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            retry (google.api_core.retry.Retry): Designation of what errors, if any,
+                should be retried.
+            timeout (float): The timeout for this request.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
+
+        Returns:
+            google.cloud.retail_v2alpha.types.Model:
+                Metadata that describes the training and serving parameters of a
+                   [Model][google.cloud.retail.v2alpha.Model]. A
+                   [Model][google.cloud.retail.v2alpha.Model] can be
+                   associated with a
+                   [ServingConfig][google.cloud.retail.v2alpha.ServingConfig]
+                   and then queried through the Predict api.
+
+        """
+        # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([name])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
+        request = model_service.PauseModelRequest(request)
+
+        # If we have keyword arguments corresponding to fields on the
+        # request, apply these.
+        if name is not None:
+            request.name = name
+
+        # Wrap the RPC method; this adds retry and timeout information,
+        # and friendly error handling.
+        rpc = gapic_v1.method_async.wrap_method(
+            self._client._transport.pause_model,
+            default_timeout=None,
+            client_info=DEFAULT_CLIENT_INFO,
+        )
+
+        # Certain fields should be provided within the metadata header;
+        # add these here.
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata((("name", request.name),)),
+        )
+
+        # Send the request.
+        response = await rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
+
+        # Done; return the response.
+        return response
+
+    async def resume_model(
+        self,
+        request: Union[model_service.ResumeModelRequest, dict] = None,
+        *,
+        name: str = None,
+        retry: OptionalRetry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> model.Model:
+        r"""Resumes the training of an existing model.
+
+        .. code-block:: python
+
+            from google.cloud import retail_v2alpha
+
+            async def sample_resume_model():
+                # Create a client
+                client = retail_v2alpha.ModelServiceAsyncClient()
+
+                # Initialize request argument(s)
+                request = retail_v2alpha.ResumeModelRequest(
+                    name="name_value",
+                )
+
+                # Make the request
+                response = await client.resume_model(request=request)
+
+                # Handle the response
+                print(response)
+
+        Args:
+            request (Union[google.cloud.retail_v2alpha.types.ResumeModelRequest, dict]):
+                The request object. Request for resuming training of a
+                model.
+            name (:class:`str`):
+                Required. The name of the model to resume. Format:
+                projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}
+
+                This corresponds to the ``name`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            retry (google.api_core.retry.Retry): Designation of what errors, if any,
+                should be retried.
+            timeout (float): The timeout for this request.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
+
+        Returns:
+            google.cloud.retail_v2alpha.types.Model:
+                Metadata that describes the training and serving parameters of a
+                   [Model][google.cloud.retail.v2alpha.Model]. A
+                   [Model][google.cloud.retail.v2alpha.Model] can be
+                   associated with a
+                   [ServingConfig][google.cloud.retail.v2alpha.ServingConfig]
+                   and then queried through the Predict api.
+
+        """
+        # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([name])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
+        request = model_service.ResumeModelRequest(request)
+
+        # If we have keyword arguments corresponding to fields on the
+        # request, apply these.
+        if name is not None:
+            request.name = name
+
+        # Wrap the RPC method; this adds retry and timeout information,
+        # and friendly error handling.
+        rpc = gapic_v1.method_async.wrap_method(
+            self._client._transport.resume_model,
+            default_timeout=None,
+            client_info=DEFAULT_CLIENT_INFO,
+        )
+
+        # Certain fields should be provided within the metadata header;
+        # add these here.
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata((("name", request.name),)),
+        )
+
+        # Send the request.
+        response = await rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
+
+        # Done; return the response.
+        return response
+
+    async def delete_model(
+        self,
+        request: Union[model_service.DeleteModelRequest, dict] = None,
         *,
         name: str = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: float = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> None:
-        r"""Deletes a ServingConfig.
-        Returns a NotFound error if the ServingConfig does not
-        exist.
+        r"""Deletes an existing model.
 
         .. code-block:: python
 
             from google.cloud import retail_v2alpha
 
-            async def sample_delete_serving_config():
+            async def sample_delete_model():
                 # Create a client
-                client = retail_v2alpha.ServingConfigServiceAsyncClient()
+                client = retail_v2alpha.ModelServiceAsyncClient()
 
                 # Initialize request argument(s)
-                request = retail_v2alpha.DeleteServingConfigRequest(
+                request = retail_v2alpha.DeleteModelRequest(
                     name="name_value",
                 )
 
                 # Make the request
-                await client.delete_serving_config(request=request)
+                await client.delete_model(request=request)
 
         Args:
-            request (Union[google.cloud.retail_v2alpha.types.DeleteServingConfigRequest, dict]):
-                The request object. Request for DeleteServingConfig
-                method.
+            request (Union[google.cloud.retail_v2alpha.types.DeleteModelRequest, dict]):
+                The request object. Request for deleting a model.
             name (:class:`str`):
-                Required. The resource name of the ServingConfig to
-                delete. Format:
-                projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}
+                Required. The resource name of the [Model] to delete.
+                Format:
+                projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}
 
                 This corresponds to the ``name`` field
                 on the ``request`` instance; if ``request`` is provided, this
@@ -403,7 +603,7 @@ class ServingConfigServiceAsyncClient:
                 "the individual field arguments should be set."
             )
 
-        request = serving_config_service.DeleteServingConfigRequest(request)
+        request = model_service.DeleteModelRequest(request)
 
         # If we have keyword arguments corresponding to fields on the
         # request, apply these.
@@ -413,7 +613,7 @@ class ServingConfigServiceAsyncClient:
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.delete_serving_config,
+            self._client._transport.delete_model,
             default_timeout=None,
             client_info=DEFAULT_CLIENT_INFO,
         )
@@ -432,262 +632,43 @@ class ServingConfigServiceAsyncClient:
             metadata=metadata,
         )
 
-    async def update_serving_config(
+    async def list_models(
         self,
-        request: Union[serving_config_service.UpdateServingConfigRequest, dict] = None,
-        *,
-        serving_config: gcr_serving_config.ServingConfig = None,
-        update_mask: field_mask_pb2.FieldMask = None,
-        retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> gcr_serving_config.ServingConfig:
-        r"""Updates a ServingConfig.
-
-        .. code-block:: python
-
-            from google.cloud import retail_v2alpha
-
-            async def sample_update_serving_config():
-                # Create a client
-                client = retail_v2alpha.ServingConfigServiceAsyncClient()
-
-                # Initialize request argument(s)
-                serving_config = retail_v2alpha.ServingConfig()
-                serving_config.display_name = "display_name_value"
-                serving_config.solution_types = "SOLUTION_TYPE_SEARCH"
-
-                request = retail_v2alpha.UpdateServingConfigRequest(
-                    serving_config=serving_config,
-                )
-
-                # Make the request
-                response = await client.update_serving_config(request=request)
-
-                # Handle the response
-                print(response)
-
-        Args:
-            request (Union[google.cloud.retail_v2alpha.types.UpdateServingConfigRequest, dict]):
-                The request object. Request for UpdateServingConfig
-                method.
-            serving_config (:class:`google.cloud.retail_v2alpha.types.ServingConfig`):
-                Required. The ServingConfig to
-                update.
-
-                This corresponds to the ``serving_config`` field
-                on the ``request`` instance; if ``request`` is provided, this
-                should not be set.
-            update_mask (:class:`google.protobuf.field_mask_pb2.FieldMask`):
-                Indicates which fields in the provided
-                [ServingConfig][google.cloud.retail.v2alpha.ServingConfig]
-                to update. The following are NOT supported:
-
-                -  [ServingConfig.name][google.cloud.retail.v2alpha.ServingConfig.name]
-
-                If not set, all supported fields are updated.
-
-                This corresponds to the ``update_mask`` field
-                on the ``request`` instance; if ``request`` is provided, this
-                should not be set.
-            retry (google.api_core.retry.Retry): Designation of what errors, if any,
-                should be retried.
-            timeout (float): The timeout for this request.
-            metadata (Sequence[Tuple[str, str]]): Strings which should be
-                sent along with the request as metadata.
-
-        Returns:
-            google.cloud.retail_v2alpha.types.ServingConfig:
-                Configures metadata that is used to generate serving time results (e.g.
-                   search results or recommendation predictions). The
-                   ServingConfig is passed in the search and predict
-                   request and together with the Catalog.default_branch,
-                   generates results.
-
-        """
-        # Create or coerce a protobuf request object.
-        # Quick check: If we got a request object, we should *not* have
-        # gotten any keyword arguments that map to the request.
-        has_flattened_params = any([serving_config, update_mask])
-        if request is not None and has_flattened_params:
-            raise ValueError(
-                "If the `request` argument is set, then none of "
-                "the individual field arguments should be set."
-            )
-
-        request = serving_config_service.UpdateServingConfigRequest(request)
-
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
-        if serving_config is not None:
-            request.serving_config = serving_config
-        if update_mask is not None:
-            request.update_mask = update_mask
-
-        # Wrap the RPC method; this adds retry and timeout information,
-        # and friendly error handling.
-        rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.update_serving_config,
-            default_timeout=None,
-            client_info=DEFAULT_CLIENT_INFO,
-        )
-
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata(
-                (("serving_config.name", request.serving_config.name),)
-            ),
-        )
-
-        # Send the request.
-        response = await rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
-
-        # Done; return the response.
-        return response
-
-    async def get_serving_config(
-        self,
-        request: Union[serving_config_service.GetServingConfigRequest, dict] = None,
-        *,
-        name: str = None,
-        retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> serving_config.ServingConfig:
-        r"""Gets a ServingConfig.
-        Returns a NotFound error if the ServingConfig does not
-        exist.
-
-        .. code-block:: python
-
-            from google.cloud import retail_v2alpha
-
-            async def sample_get_serving_config():
-                # Create a client
-                client = retail_v2alpha.ServingConfigServiceAsyncClient()
-
-                # Initialize request argument(s)
-                request = retail_v2alpha.GetServingConfigRequest(
-                    name="name_value",
-                )
-
-                # Make the request
-                response = await client.get_serving_config(request=request)
-
-                # Handle the response
-                print(response)
-
-        Args:
-            request (Union[google.cloud.retail_v2alpha.types.GetServingConfigRequest, dict]):
-                The request object. Request for GetServingConfig method.
-            name (:class:`str`):
-                Required. The resource name of the ServingConfig to get.
-                Format:
-                projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}
-
-                This corresponds to the ``name`` field
-                on the ``request`` instance; if ``request`` is provided, this
-                should not be set.
-            retry (google.api_core.retry.Retry): Designation of what errors, if any,
-                should be retried.
-            timeout (float): The timeout for this request.
-            metadata (Sequence[Tuple[str, str]]): Strings which should be
-                sent along with the request as metadata.
-
-        Returns:
-            google.cloud.retail_v2alpha.types.ServingConfig:
-                Configures metadata that is used to generate serving time results (e.g.
-                   search results or recommendation predictions). The
-                   ServingConfig is passed in the search and predict
-                   request and together with the Catalog.default_branch,
-                   generates results.
-
-        """
-        # Create or coerce a protobuf request object.
-        # Quick check: If we got a request object, we should *not* have
-        # gotten any keyword arguments that map to the request.
-        has_flattened_params = any([name])
-        if request is not None and has_flattened_params:
-            raise ValueError(
-                "If the `request` argument is set, then none of "
-                "the individual field arguments should be set."
-            )
-
-        request = serving_config_service.GetServingConfigRequest(request)
-
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
-        if name is not None:
-            request.name = name
-
-        # Wrap the RPC method; this adds retry and timeout information,
-        # and friendly error handling.
-        rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.get_serving_config,
-            default_timeout=None,
-            client_info=DEFAULT_CLIENT_INFO,
-        )
-
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata((("name", request.name),)),
-        )
-
-        # Send the request.
-        response = await rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
-
-        # Done; return the response.
-        return response
-
-    async def list_serving_configs(
-        self,
-        request: Union[serving_config_service.ListServingConfigsRequest, dict] = None,
+        request: Union[model_service.ListModelsRequest, dict] = None,
         *,
         parent: str = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: float = None,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> pagers.ListServingConfigsAsyncPager:
-        r"""Lists all ServingConfigs linked to this catalog.
+    ) -> pagers.ListModelsAsyncPager:
+        r"""Lists all the models linked to this event store.
 
         .. code-block:: python
 
             from google.cloud import retail_v2alpha
 
-            async def sample_list_serving_configs():
+            async def sample_list_models():
                 # Create a client
-                client = retail_v2alpha.ServingConfigServiceAsyncClient()
+                client = retail_v2alpha.ModelServiceAsyncClient()
 
                 # Initialize request argument(s)
-                request = retail_v2alpha.ListServingConfigsRequest(
+                request = retail_v2alpha.ListModelsRequest(
                     parent="parent_value",
                 )
 
                 # Make the request
-                page_result = client.list_serving_configs(request=request)
+                page_result = client.list_models(request=request)
 
                 # Handle the response
                 async for response in page_result:
                     print(response)
 
         Args:
-            request (Union[google.cloud.retail_v2alpha.types.ListServingConfigsRequest, dict]):
-                The request object. Request for ListServingConfigs
-                method.
+            request (Union[google.cloud.retail_v2alpha.types.ListModelsRequest, dict]):
+                The request object. Request for listing models
+                associated with a resource.
             parent (:class:`str`):
-                Required. The catalog resource name. Format:
+                Required. The parent for which to list models. Format:
                 projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}
 
                 This corresponds to the ``parent`` field
@@ -700,9 +681,8 @@ class ServingConfigServiceAsyncClient:
                 sent along with the request as metadata.
 
         Returns:
-            google.cloud.retail_v2alpha.services.serving_config_service.pagers.ListServingConfigsAsyncPager:
-                Response for ListServingConfigs
-                method.
+            google.cloud.retail_v2alpha.services.model_service.pagers.ListModelsAsyncPager:
+                Response to a ListModelRequest.
                 Iterating over this object will yield
                 results and resolve additional pages
                 automatically.
@@ -718,7 +698,7 @@ class ServingConfigServiceAsyncClient:
                 "the individual field arguments should be set."
             )
 
-        request = serving_config_service.ListServingConfigsRequest(request)
+        request = model_service.ListModelsRequest(request)
 
         # If we have keyword arguments corresponding to fields on the
         # request, apply these.
@@ -728,7 +708,7 @@ class ServingConfigServiceAsyncClient:
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.list_serving_configs,
+            self._client._transport.list_models,
             default_timeout=None,
             client_info=DEFAULT_CLIENT_INFO,
         )
@@ -749,7 +729,7 @@ class ServingConfigServiceAsyncClient:
 
         # This method is paged; wrap the response in a pager, which provides
         # an `__aiter__` convenience method.
-        response = pagers.ListServingConfigsAsyncPager(
+        response = pagers.ListModelsAsyncPager(
             method=rpc,
             request=request,
             response=response,
@@ -759,52 +739,62 @@ class ServingConfigServiceAsyncClient:
         # Done; return the response.
         return response
 
-    async def add_control(
+    async def update_model(
         self,
-        request: Union[serving_config_service.AddControlRequest, dict] = None,
+        request: Union[model_service.UpdateModelRequest, dict] = None,
         *,
-        serving_config: str = None,
+        model: gcr_model.Model = None,
+        update_mask: field_mask_pb2.FieldMask = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: float = None,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> gcr_serving_config.ServingConfig:
-        r"""Enables a Control on the specified ServingConfig. The control is
-        added in the last position of the list of controls it belongs to
-        (e.g. if it's a facet spec control it will be applied in the
-        last position of servingConfig.facetSpecIds) Returns a
-        ALREADY_EXISTS error if the control has already been applied.
-        Returns a FAILED_PRECONDITION error if the addition could exceed
-        maximum number of control allowed for that type of control.
+    ) -> gcr_model.Model:
+        r"""Update of model metadata. Only fields that currently can be
+        updated are: filtering_option, periodic_tuning_state. If other
+        values are provided, this API method will ignore them.
 
         .. code-block:: python
 
             from google.cloud import retail_v2alpha
 
-            async def sample_add_control():
+            async def sample_update_model():
                 # Create a client
-                client = retail_v2alpha.ServingConfigServiceAsyncClient()
+                client = retail_v2alpha.ModelServiceAsyncClient()
 
                 # Initialize request argument(s)
-                request = retail_v2alpha.AddControlRequest(
-                    serving_config="serving_config_value",
-                    control_id="control_id_value",
+                model = retail_v2alpha.Model()
+                model.page_optimization_config.page_optimization_event_type = "page_optimization_event_type_value"
+                model.page_optimization_config.panels.candidates.serving_config_id = "serving_config_id_value"
+                model.page_optimization_config.panels.default_candidate.serving_config_id = "serving_config_id_value"
+                model.name = "name_value"
+                model.display_name = "display_name_value"
+                model.type_ = "type__value"
+
+                request = retail_v2alpha.UpdateModelRequest(
+                    model=model,
                 )
 
                 # Make the request
-                response = await client.add_control(request=request)
+                response = await client.update_model(request=request)
 
                 # Handle the response
                 print(response)
 
         Args:
-            request (Union[google.cloud.retail_v2alpha.types.AddControlRequest, dict]):
-                The request object. Request for AddControl method.
-            serving_config (:class:`str`):
-                Required. The source ServingConfig resource name .
-                Format:
-                projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}
+            request (Union[google.cloud.retail_v2alpha.types.UpdateModelRequest, dict]):
+                The request object. Request for updating an existing
+                model.
+            model (:class:`google.cloud.retail_v2alpha.types.Model`):
+                Required. The body of the updated [Model].
+                This corresponds to the ``model`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            update_mask (:class:`google.protobuf.field_mask_pb2.FieldMask`):
+                Optional. Indicates which fields in
+                the provided 'model' to update. If not
+                set, will by default update all fields.
 
-                This corresponds to the ``serving_config`` field
+                This corresponds to the ``update_mask`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
@@ -814,35 +804,38 @@ class ServingConfigServiceAsyncClient:
                 sent along with the request as metadata.
 
         Returns:
-            google.cloud.retail_v2alpha.types.ServingConfig:
-                Configures metadata that is used to generate serving time results (e.g.
-                   search results or recommendation predictions). The
-                   ServingConfig is passed in the search and predict
-                   request and together with the Catalog.default_branch,
-                   generates results.
+            google.cloud.retail_v2alpha.types.Model:
+                Metadata that describes the training and serving parameters of a
+                   [Model][google.cloud.retail.v2alpha.Model]. A
+                   [Model][google.cloud.retail.v2alpha.Model] can be
+                   associated with a
+                   [ServingConfig][google.cloud.retail.v2alpha.ServingConfig]
+                   and then queried through the Predict api.
 
         """
         # Create or coerce a protobuf request object.
         # Quick check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
-        has_flattened_params = any([serving_config])
+        has_flattened_params = any([model, update_mask])
         if request is not None and has_flattened_params:
             raise ValueError(
                 "If the `request` argument is set, then none of "
                 "the individual field arguments should be set."
             )
 
-        request = serving_config_service.AddControlRequest(request)
+        request = model_service.UpdateModelRequest(request)
 
         # If we have keyword arguments corresponding to fields on the
         # request, apply these.
-        if serving_config is not None:
-            request.serving_config = serving_config
+        if model is not None:
+            request.model = model
+        if update_mask is not None:
+            request.update_mask = update_mask
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.add_control,
+            self._client._transport.update_model,
             default_timeout=None,
             client_info=DEFAULT_CLIENT_INFO,
         )
@@ -851,7 +844,7 @@ class ServingConfigServiceAsyncClient:
         # add these here.
         metadata = tuple(metadata) + (
             gapic_v1.routing_header.to_grpc_metadata(
-                (("serving_config", request.serving_config),)
+                (("model.name", request.model.name),)
             ),
         )
 
@@ -866,48 +859,51 @@ class ServingConfigServiceAsyncClient:
         # Done; return the response.
         return response
 
-    async def remove_control(
+    async def tune_model(
         self,
-        request: Union[serving_config_service.RemoveControlRequest, dict] = None,
+        request: Union[model_service.TuneModelRequest, dict] = None,
         *,
-        serving_config: str = None,
+        name: str = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: float = None,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> gcr_serving_config.ServingConfig:
-        r"""Disables a Control on the specified ServingConfig. The control
-        is removed from the ServingConfig. Returns a NOT_FOUND error if
-        the Control is not enabled for the ServingConfig.
+    ) -> operation_async.AsyncOperation:
+        r"""Tunes an existing model.
 
         .. code-block:: python
 
             from google.cloud import retail_v2alpha
 
-            async def sample_remove_control():
+            async def sample_tune_model():
                 # Create a client
-                client = retail_v2alpha.ServingConfigServiceAsyncClient()
+                client = retail_v2alpha.ModelServiceAsyncClient()
 
                 # Initialize request argument(s)
-                request = retail_v2alpha.RemoveControlRequest(
-                    serving_config="serving_config_value",
-                    control_id="control_id_value",
+                request = retail_v2alpha.TuneModelRequest(
+                    name="name_value",
                 )
 
                 # Make the request
-                response = await client.remove_control(request=request)
+                operation = client.tune_model(request=request)
+
+                print("Waiting for operation to complete...")
+
+                response = await operation.result()
 
                 # Handle the response
                 print(response)
 
         Args:
-            request (Union[google.cloud.retail_v2alpha.types.RemoveControlRequest, dict]):
-                The request object. Request for RemoveControl method.
-            serving_config (:class:`str`):
-                Required. The source ServingConfig resource name .
+            request (Union[google.cloud.retail_v2alpha.types.TuneModelRequest, dict]):
+                The request object. Request to manually start a tuning
+                process now (instead of waiting for the periodically
+                scheduled tuning to happen).
+            name (:class:`str`):
+                Required. The resource name of the model to tune.
                 Format:
-                projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}
+                projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}
 
-                This corresponds to the ``serving_config`` field
+                This corresponds to the ``name`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
@@ -917,35 +913,35 @@ class ServingConfigServiceAsyncClient:
                 sent along with the request as metadata.
 
         Returns:
-            google.cloud.retail_v2alpha.types.ServingConfig:
-                Configures metadata that is used to generate serving time results (e.g.
-                   search results or recommendation predictions). The
-                   ServingConfig is passed in the search and predict
-                   request and together with the Catalog.default_branch,
-                   generates results.
+            google.api_core.operation_async.AsyncOperation:
+                An object representing a long-running operation.
+
+                The result type for the operation will be
+                :class:`google.cloud.retail_v2alpha.types.TuneModelResponse`
+                Response associated with a tune operation.
 
         """
         # Create or coerce a protobuf request object.
         # Quick check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
-        has_flattened_params = any([serving_config])
+        has_flattened_params = any([name])
         if request is not None and has_flattened_params:
             raise ValueError(
                 "If the `request` argument is set, then none of "
                 "the individual field arguments should be set."
             )
 
-        request = serving_config_service.RemoveControlRequest(request)
+        request = model_service.TuneModelRequest(request)
 
         # If we have keyword arguments corresponding to fields on the
         # request, apply these.
-        if serving_config is not None:
-            request.serving_config = serving_config
+        if name is not None:
+            request.name = name
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.remove_control,
+            self._client._transport.tune_model,
             default_timeout=None,
             client_info=DEFAULT_CLIENT_INFO,
         )
@@ -953,9 +949,7 @@ class ServingConfigServiceAsyncClient:
         # Certain fields should be provided within the metadata header;
         # add these here.
         metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata(
-                (("serving_config", request.serving_config),)
-            ),
+            gapic_v1.routing_header.to_grpc_metadata((("name", request.name),)),
         )
 
         # Send the request.
@@ -964,6 +958,14 @@ class ServingConfigServiceAsyncClient:
             retry=retry,
             timeout=timeout,
             metadata=metadata,
+        )
+
+        # Wrap the response in an operation future.
+        response = operation_async.from_gapic(
+            response,
+            self._client._transport.operations_client,
+            model_service.TuneModelResponse,
+            metadata_type=model_service.TuneModelMetadata,
         )
 
         # Done; return the response.
@@ -986,4 +988,4 @@ except pkg_resources.DistributionNotFound:
     DEFAULT_CLIENT_INFO = gapic_v1.client_info.ClientInfo()
 
 
-__all__ = ("ServingConfigServiceAsyncClient",)
+__all__ = ("ModelServiceAsyncClient",)
