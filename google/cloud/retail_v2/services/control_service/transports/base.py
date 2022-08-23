@@ -26,9 +26,9 @@ from google.oauth2 import service_account  # type: ignore
 from google.protobuf import empty_pb2  # type: ignore
 import pkg_resources
 
-from google.cloud.retail_v2.types import catalog
-from google.cloud.retail_v2.types import catalog as gcr_catalog
-from google.cloud.retail_v2.types import catalog_service
+from google.cloud.retail_v2.types import control
+from google.cloud.retail_v2.types import control as gcr_control
+from google.cloud.retail_v2.types import control_service
 
 try:
     DEFAULT_CLIENT_INFO = gapic_v1.client_info.ClientInfo(
@@ -40,8 +40,8 @@ except pkg_resources.DistributionNotFound:
     DEFAULT_CLIENT_INFO = gapic_v1.client_info.ClientInfo()
 
 
-class CatalogServiceTransport(abc.ABC):
-    """Abstract transport class for CatalogService."""
+class ControlServiceTransport(abc.ABC):
+    """Abstract transport class for ControlService."""
 
     AUTH_SCOPES = ("https://www.googleapis.com/auth/cloud-platform",)
 
@@ -130,58 +130,28 @@ class CatalogServiceTransport(abc.ABC):
     def _prep_wrapped_messages(self, client_info):
         # Precompute the wrapped methods.
         self._wrapped_methods = {
-            self.list_catalogs: gapic_v1.method.wrap_method(
-                self.list_catalogs,
+            self.create_control: gapic_v1.method.wrap_method(
+                self.create_control,
                 default_timeout=None,
                 client_info=client_info,
             ),
-            self.update_catalog: gapic_v1.method.wrap_method(
-                self.update_catalog,
+            self.delete_control: gapic_v1.method.wrap_method(
+                self.delete_control,
                 default_timeout=None,
                 client_info=client_info,
             ),
-            self.set_default_branch: gapic_v1.method.wrap_method(
-                self.set_default_branch,
+            self.update_control: gapic_v1.method.wrap_method(
+                self.update_control,
                 default_timeout=None,
                 client_info=client_info,
             ),
-            self.get_default_branch: gapic_v1.method.wrap_method(
-                self.get_default_branch,
+            self.get_control: gapic_v1.method.wrap_method(
+                self.get_control,
                 default_timeout=None,
                 client_info=client_info,
             ),
-            self.get_completion_config: gapic_v1.method.wrap_method(
-                self.get_completion_config,
-                default_timeout=None,
-                client_info=client_info,
-            ),
-            self.update_completion_config: gapic_v1.method.wrap_method(
-                self.update_completion_config,
-                default_timeout=None,
-                client_info=client_info,
-            ),
-            self.get_attributes_config: gapic_v1.method.wrap_method(
-                self.get_attributes_config,
-                default_timeout=None,
-                client_info=client_info,
-            ),
-            self.update_attributes_config: gapic_v1.method.wrap_method(
-                self.update_attributes_config,
-                default_timeout=None,
-                client_info=client_info,
-            ),
-            self.add_catalog_attribute: gapic_v1.method.wrap_method(
-                self.add_catalog_attribute,
-                default_timeout=None,
-                client_info=client_info,
-            ),
-            self.remove_catalog_attribute: gapic_v1.method.wrap_method(
-                self.remove_catalog_attribute,
-                default_timeout=None,
-                client_info=client_info,
-            ),
-            self.replace_catalog_attribute: gapic_v1.method.wrap_method(
-                self.replace_catalog_attribute,
+            self.list_controls: gapic_v1.method.wrap_method(
+                self.list_controls,
                 default_timeout=None,
                 client_info=client_info,
             ),
@@ -197,107 +167,50 @@ class CatalogServiceTransport(abc.ABC):
         raise NotImplementedError()
 
     @property
-    def list_catalogs(
+    def create_control(
         self,
     ) -> Callable[
-        [catalog_service.ListCatalogsRequest],
-        Union[
-            catalog_service.ListCatalogsResponse,
-            Awaitable[catalog_service.ListCatalogsResponse],
-        ],
+        [control_service.CreateControlRequest],
+        Union[gcr_control.Control, Awaitable[gcr_control.Control]],
     ]:
         raise NotImplementedError()
 
     @property
-    def update_catalog(
+    def delete_control(
         self,
     ) -> Callable[
-        [catalog_service.UpdateCatalogRequest],
-        Union[gcr_catalog.Catalog, Awaitable[gcr_catalog.Catalog]],
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def set_default_branch(
-        self,
-    ) -> Callable[
-        [catalog_service.SetDefaultBranchRequest],
+        [control_service.DeleteControlRequest],
         Union[empty_pb2.Empty, Awaitable[empty_pb2.Empty]],
     ]:
         raise NotImplementedError()
 
     @property
-    def get_default_branch(
+    def update_control(
         self,
     ) -> Callable[
-        [catalog_service.GetDefaultBranchRequest],
+        [control_service.UpdateControlRequest],
+        Union[gcr_control.Control, Awaitable[gcr_control.Control]],
+    ]:
+        raise NotImplementedError()
+
+    @property
+    def get_control(
+        self,
+    ) -> Callable[
+        [control_service.GetControlRequest],
+        Union[control.Control, Awaitable[control.Control]],
+    ]:
+        raise NotImplementedError()
+
+    @property
+    def list_controls(
+        self,
+    ) -> Callable[
+        [control_service.ListControlsRequest],
         Union[
-            catalog_service.GetDefaultBranchResponse,
-            Awaitable[catalog_service.GetDefaultBranchResponse],
+            control_service.ListControlsResponse,
+            Awaitable[control_service.ListControlsResponse],
         ],
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def get_completion_config(
-        self,
-    ) -> Callable[
-        [catalog_service.GetCompletionConfigRequest],
-        Union[catalog.CompletionConfig, Awaitable[catalog.CompletionConfig]],
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def update_completion_config(
-        self,
-    ) -> Callable[
-        [catalog_service.UpdateCompletionConfigRequest],
-        Union[catalog.CompletionConfig, Awaitable[catalog.CompletionConfig]],
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def get_attributes_config(
-        self,
-    ) -> Callable[
-        [catalog_service.GetAttributesConfigRequest],
-        Union[catalog.AttributesConfig, Awaitable[catalog.AttributesConfig]],
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def update_attributes_config(
-        self,
-    ) -> Callable[
-        [catalog_service.UpdateAttributesConfigRequest],
-        Union[catalog.AttributesConfig, Awaitable[catalog.AttributesConfig]],
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def add_catalog_attribute(
-        self,
-    ) -> Callable[
-        [catalog_service.AddCatalogAttributeRequest],
-        Union[catalog.AttributesConfig, Awaitable[catalog.AttributesConfig]],
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def remove_catalog_attribute(
-        self,
-    ) -> Callable[
-        [catalog_service.RemoveCatalogAttributeRequest],
-        Union[catalog.AttributesConfig, Awaitable[catalog.AttributesConfig]],
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def replace_catalog_attribute(
-        self,
-    ) -> Callable[
-        [catalog_service.ReplaceCatalogAttributeRequest],
-        Union[catalog.AttributesConfig, Awaitable[catalog.AttributesConfig]],
     ]:
         raise NotImplementedError()
 
@@ -306,4 +219,4 @@ class CatalogServiceTransport(abc.ABC):
         raise NotImplementedError()
 
 
-__all__ = ("CatalogServiceTransport",)
+__all__ = ("ControlServiceTransport",)

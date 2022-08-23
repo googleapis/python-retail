@@ -34,27 +34,21 @@ try:
 except AttributeError:  # pragma: NO COVER
     OptionalRetry = Union[retries.Retry, object]  # type: ignore
 
-from google.api import httpbody_pb2  # type: ignore
-from google.api_core import operation  # type: ignore
-from google.api_core import operation_async  # type: ignore
-from google.protobuf import any_pb2  # type: ignore
-from google.protobuf import timestamp_pb2  # type: ignore
+from google.protobuf import field_mask_pb2  # type: ignore
 
-from google.cloud.retail_v2.types import (
-    common,
-    import_config,
-    purge_config,
-    user_event,
-    user_event_service,
-)
+from google.cloud.retail_v2.services.control_service import pagers
+from google.cloud.retail_v2.types import common
+from google.cloud.retail_v2.types import control
+from google.cloud.retail_v2.types import control as gcr_control
+from google.cloud.retail_v2.types import control_service
 
-from .transports.base import DEFAULT_CLIENT_INFO, UserEventServiceTransport
-from .transports.grpc import UserEventServiceGrpcTransport
-from .transports.grpc_asyncio import UserEventServiceGrpcAsyncIOTransport
+from .transports.base import DEFAULT_CLIENT_INFO, ControlServiceTransport
+from .transports.grpc import ControlServiceGrpcTransport
+from .transports.grpc_asyncio import ControlServiceGrpcAsyncIOTransport
 
 
-class UserEventServiceClientMeta(type):
-    """Metaclass for the UserEventService client.
+class ControlServiceClientMeta(type):
+    """Metaclass for the ControlService client.
 
     This provides class-level methods for building and retrieving
     support objects (e.g. transport) without polluting the client instance
@@ -63,14 +57,14 @@ class UserEventServiceClientMeta(type):
 
     _transport_registry = (
         OrderedDict()
-    )  # type: Dict[str, Type[UserEventServiceTransport]]
-    _transport_registry["grpc"] = UserEventServiceGrpcTransport
-    _transport_registry["grpc_asyncio"] = UserEventServiceGrpcAsyncIOTransport
+    )  # type: Dict[str, Type[ControlServiceTransport]]
+    _transport_registry["grpc"] = ControlServiceGrpcTransport
+    _transport_registry["grpc_asyncio"] = ControlServiceGrpcAsyncIOTransport
 
     def get_transport_class(
         cls,
         label: str = None,
-    ) -> Type[UserEventServiceTransport]:
+    ) -> Type[ControlServiceTransport]:
         """Returns an appropriate transport class.
 
         Args:
@@ -89,10 +83,8 @@ class UserEventServiceClientMeta(type):
         return next(iter(cls._transport_registry.values()))
 
 
-class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
-    """Service for ingesting end user actions on the customer
-    website.
-    """
+class ControlServiceClient(metaclass=ControlServiceClientMeta):
+    """Service for modifying Control."""
 
     @staticmethod
     def _get_default_mtls_endpoint(api_endpoint):
@@ -140,7 +132,7 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
             kwargs: Additional arguments to pass to the constructor.
 
         Returns:
-            UserEventServiceClient: The constructed client.
+            ControlServiceClient: The constructed client.
         """
         credentials = service_account.Credentials.from_service_account_info(info)
         kwargs["credentials"] = credentials
@@ -158,7 +150,7 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
             kwargs: Additional arguments to pass to the constructor.
 
         Returns:
-            UserEventServiceClient: The constructed client.
+            ControlServiceClient: The constructed client.
         """
         credentials = service_account.Credentials.from_service_account_file(filename)
         kwargs["credentials"] = credentials
@@ -167,11 +159,11 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
     from_service_account_json = from_service_account_file
 
     @property
-    def transport(self) -> UserEventServiceTransport:
+    def transport(self) -> ControlServiceTransport:
         """Returns the transport used by the client instance.
 
         Returns:
-            UserEventServiceTransport: The transport used by the client
+            ControlServiceTransport: The transport used by the client
                 instance.
         """
         return self._transport
@@ -199,27 +191,25 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
         return m.groupdict() if m else {}
 
     @staticmethod
-    def product_path(
+    def control_path(
         project: str,
         location: str,
         catalog: str,
-        branch: str,
-        product: str,
+        control: str,
     ) -> str:
-        """Returns a fully-qualified product string."""
-        return "projects/{project}/locations/{location}/catalogs/{catalog}/branches/{branch}/products/{product}".format(
+        """Returns a fully-qualified control string."""
+        return "projects/{project}/locations/{location}/catalogs/{catalog}/controls/{control}".format(
             project=project,
             location=location,
             catalog=catalog,
-            branch=branch,
-            product=product,
+            control=control,
         )
 
     @staticmethod
-    def parse_product_path(path: str) -> Dict[str, str]:
-        """Parses a product path into its component segments."""
+    def parse_control_path(path: str) -> Dict[str, str]:
+        """Parses a control path into its component segments."""
         m = re.match(
-            r"^projects/(?P<project>.+?)/locations/(?P<location>.+?)/catalogs/(?P<catalog>.+?)/branches/(?P<branch>.+?)/products/(?P<product>.+?)$",
+            r"^projects/(?P<project>.+?)/locations/(?P<location>.+?)/catalogs/(?P<catalog>.+?)/controls/(?P<control>.+?)$",
             path,
         )
         return m.groupdict() if m else {}
@@ -372,11 +362,11 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
         self,
         *,
         credentials: Optional[ga_credentials.Credentials] = None,
-        transport: Union[str, UserEventServiceTransport, None] = None,
+        transport: Union[str, ControlServiceTransport, None] = None,
         client_options: Optional[client_options_lib.ClientOptions] = None,
         client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
     ) -> None:
-        """Instantiates the user event service client.
+        """Instantiates the control service client.
 
         Args:
             credentials (Optional[google.auth.credentials.Credentials]): The
@@ -384,7 +374,7 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
                 credentials identify the application to the service; if none
                 are specified, the client will attempt to ascertain the
                 credentials from the environment.
-            transport (Union[str, UserEventServiceTransport]): The
+            transport (Union[str, ControlServiceTransport]): The
                 transport to use. If set to None, a transport is chosen
                 automatically.
             client_options (google.api_core.client_options.ClientOptions): Custom options for the
@@ -431,8 +421,8 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
         # Save or instantiate the transport.
         # Ordinarily, we provide the transport, but allowing a custom transport
         # instance provides an extensibility point for unusual situations.
-        if isinstance(transport, UserEventServiceTransport):
-            # transport is a UserEventServiceTransport instance.
+        if isinstance(transport, ControlServiceTransport):
+            # transport is a ControlServiceTransport instance.
             if credentials or client_options.credentials_file or api_key_value:
                 raise ValueError(
                     "When providing a transport instance, "
@@ -467,44 +457,73 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
                 api_audience=client_options.api_audience,
             )
 
-    def write_user_event(
+    def create_control(
         self,
-        request: Union[user_event_service.WriteUserEventRequest, dict] = None,
+        request: Union[control_service.CreateControlRequest, dict] = None,
         *,
+        parent: str = None,
+        control: gcr_control.Control = None,
+        control_id: str = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: float = None,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> user_event.UserEvent:
-        r"""Writes a single user event.
+    ) -> gcr_control.Control:
+        r"""Creates a Control.
+
+        If the [Control][google.cloud.retail.v2.Control] to create
+        already exists, an ALREADY_EXISTS error is returned.
 
         .. code-block:: python
 
             from google.cloud import retail_v2
 
-            def sample_write_user_event():
+            def sample_create_control():
                 # Create a client
-                client = retail_v2.UserEventServiceClient()
+                client = retail_v2.ControlServiceClient()
 
                 # Initialize request argument(s)
-                user_event = retail_v2.UserEvent()
-                user_event.event_type = "event_type_value"
-                user_event.visitor_id = "visitor_id_value"
+                control = retail_v2.Control()
+                control.display_name = "display_name_value"
+                control.solution_types = "SOLUTION_TYPE_SEARCH"
 
-                request = retail_v2.WriteUserEventRequest(
+                request = retail_v2.CreateControlRequest(
                     parent="parent_value",
-                    user_event=user_event,
+                    control=control,
+                    control_id="control_id_value",
                 )
 
                 # Make the request
-                response = client.write_user_event(request=request)
+                response = client.create_control(request=request)
 
                 # Handle the response
                 print(response)
 
         Args:
-            request (Union[google.cloud.retail_v2.types.WriteUserEventRequest, dict]):
-                The request object. Request message for WriteUserEvent
-                method.
+            request (Union[google.cloud.retail_v2.types.CreateControlRequest, dict]):
+                The request object. Request for CreateControl method.
+            parent (str):
+                Required. Full resource name of parent catalog. Format:
+                ``projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}``
+
+                This corresponds to the ``parent`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            control (google.cloud.retail_v2.types.Control):
+                Required. The Control to create.
+                This corresponds to the ``control`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            control_id (str):
+                Required. The ID to use for the Control, which will
+                become the final component of the Control's resource
+                name.
+
+                This value should be 4-63 characters, and valid
+                characters are /[a-z][0-9]-_/.
+
+                This corresponds to the ``control_id`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -512,24 +531,41 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
                 sent along with the request as metadata.
 
         Returns:
-            google.cloud.retail_v2.types.UserEvent:
-                UserEvent captures all metadata
-                information Retail API needs to know
-                about how end users interact with
-                customers' website.
+            google.cloud.retail_v2.types.Control:
+                Configures dynamic metadata that can be linked to a
+                   [ServingConfig][google.cloud.retail.v2.ServingConfig]
+                   and affect search or recommendation results at
+                   serving time.
 
         """
         # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([parent, control, control_id])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
         # Minor optimization to avoid making a copy if the user passes
-        # in a user_event_service.WriteUserEventRequest.
+        # in a control_service.CreateControlRequest.
         # There's no risk of modifying the input as we've already verified
         # there are no flattened fields.
-        if not isinstance(request, user_event_service.WriteUserEventRequest):
-            request = user_event_service.WriteUserEventRequest(request)
+        if not isinstance(request, control_service.CreateControlRequest):
+            request = control_service.CreateControlRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if parent is not None:
+                request.parent = parent
+            if control is not None:
+                request.control = control
+            if control_id is not None:
+                request.control_id = control_id
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.write_user_event]
+        rpc = self._transport._wrapped_methods[self._transport.create_control]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -548,45 +584,152 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
         # Done; return the response.
         return response
 
-    def collect_user_event(
+    def delete_control(
         self,
-        request: Union[user_event_service.CollectUserEventRequest, dict] = None,
+        request: Union[control_service.DeleteControlRequest, dict] = None,
         *,
+        name: str = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: float = None,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> httpbody_pb2.HttpBody:
-        r"""Writes a single user event from the browser. This
-        uses a GET request to due to browser restriction of
-        POST-ing to a 3rd party domain.
-        This method is used only by the Retail API JavaScript
-        pixel and Google Tag Manager. Users should not call this
-        method directly.
+    ) -> None:
+        r"""Deletes a Control.
+
+        If the [Control][google.cloud.retail.v2.Control] to delete does
+        not exist, a NOT_FOUND error is returned.
 
         .. code-block:: python
 
             from google.cloud import retail_v2
 
-            def sample_collect_user_event():
+            def sample_delete_control():
                 # Create a client
-                client = retail_v2.UserEventServiceClient()
+                client = retail_v2.ControlServiceClient()
 
                 # Initialize request argument(s)
-                request = retail_v2.CollectUserEventRequest(
-                    parent="parent_value",
-                    user_event="user_event_value",
+                request = retail_v2.DeleteControlRequest(
+                    name="name_value",
                 )
 
                 # Make the request
-                response = client.collect_user_event(request=request)
+                client.delete_control(request=request)
+
+        Args:
+            request (Union[google.cloud.retail_v2.types.DeleteControlRequest, dict]):
+                The request object. Request for DeleteControl method.
+            name (str):
+                Required. The resource name of the Control to delete.
+                Format:
+                ``projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/controls/{control_id}``
+
+                This corresponds to the ``name`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            retry (google.api_core.retry.Retry): Designation of what errors, if any,
+                should be retried.
+            timeout (float): The timeout for this request.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
+        """
+        # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([name])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
+        # Minor optimization to avoid making a copy if the user passes
+        # in a control_service.DeleteControlRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, control_service.DeleteControlRequest):
+            request = control_service.DeleteControlRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if name is not None:
+                request.name = name
+
+        # Wrap the RPC method; this adds retry and timeout information,
+        # and friendly error handling.
+        rpc = self._transport._wrapped_methods[self._transport.delete_control]
+
+        # Certain fields should be provided within the metadata header;
+        # add these here.
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata((("name", request.name),)),
+        )
+
+        # Send the request.
+        rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
+
+    def update_control(
+        self,
+        request: Union[control_service.UpdateControlRequest, dict] = None,
+        *,
+        control: gcr_control.Control = None,
+        update_mask: field_mask_pb2.FieldMask = None,
+        retry: OptionalRetry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> gcr_control.Control:
+        r"""Updates a Control.
+
+        [Control][google.cloud.retail.v2.Control] cannot be set to a
+        different oneof field, if so an INVALID_ARGUMENT is returned. If
+        the [Control][google.cloud.retail.v2.Control] to update does not
+        exist, a NOT_FOUND error is returned.
+
+        .. code-block:: python
+
+            from google.cloud import retail_v2
+
+            def sample_update_control():
+                # Create a client
+                client = retail_v2.ControlServiceClient()
+
+                # Initialize request argument(s)
+                control = retail_v2.Control()
+                control.display_name = "display_name_value"
+                control.solution_types = "SOLUTION_TYPE_SEARCH"
+
+                request = retail_v2.UpdateControlRequest(
+                    control=control,
+                )
+
+                # Make the request
+                response = client.update_control(request=request)
 
                 # Handle the response
                 print(response)
 
         Args:
-            request (Union[google.cloud.retail_v2.types.CollectUserEventRequest, dict]):
-                The request object. Request message for CollectUserEvent
-                method.
+            request (Union[google.cloud.retail_v2.types.UpdateControlRequest, dict]):
+                The request object. Request for UpdateControl method.
+            control (google.cloud.retail_v2.types.Control):
+                Required. The Control to update.
+                This corresponds to the ``control`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            update_mask (google.protobuf.field_mask_pb2.FieldMask):
+                Indicates which fields in the provided
+                [Control][google.cloud.retail.v2.Control] to update. The
+                following are NOT supported:
+
+                -  [Control.name][google.cloud.retail.v2.Control.name]
+
+                If not set or empty, all supported fields are updated.
+
+                This corresponds to the ``update_mask`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -594,71 +737,46 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
                 sent along with the request as metadata.
 
         Returns:
-            google.api.httpbody_pb2.HttpBody:
-                Message that represents an arbitrary HTTP body. It should only be used for
-                   payload formats that can't be represented as JSON,
-                   such as raw binary or an HTML page.
-
-                   This message can be used both in streaming and
-                   non-streaming API methods in the request as well as
-                   the response.
-
-                   It can be used as a top-level request field, which is
-                   convenient if one wants to extract parameters from
-                   either the URL or HTTP template into the request
-                   fields and also want access to the raw HTTP body.
-
-                   Example:
-
-                      message GetResourceRequest {
-                         // A unique request id. string request_id = 1;
-
-                         // The raw HTTP body is bound to this field.
-                         google.api.HttpBody http_body = 2;
-
-                      }
-
-                      service ResourceService {
-                         rpc GetResource(GetResourceRequest)
-                            returns (google.api.HttpBody);
-
-                         rpc UpdateResource(google.api.HttpBody)
-                            returns (google.protobuf.Empty);
-
-                      }
-
-                   Example with streaming methods:
-
-                      service CaldavService {
-                         rpc GetCalendar(stream google.api.HttpBody)
-                            returns (stream google.api.HttpBody);
-
-                         rpc UpdateCalendar(stream google.api.HttpBody)
-                            returns (stream google.api.HttpBody);
-
-                      }
-
-                   Use of this type only changes how the request and
-                   response bodies are handled, all other features will
-                   continue to work unchanged.
+            google.cloud.retail_v2.types.Control:
+                Configures dynamic metadata that can be linked to a
+                   [ServingConfig][google.cloud.retail.v2.ServingConfig]
+                   and affect search or recommendation results at
+                   serving time.
 
         """
         # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([control, update_mask])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
         # Minor optimization to avoid making a copy if the user passes
-        # in a user_event_service.CollectUserEventRequest.
+        # in a control_service.UpdateControlRequest.
         # There's no risk of modifying the input as we've already verified
         # there are no flattened fields.
-        if not isinstance(request, user_event_service.CollectUserEventRequest):
-            request = user_event_service.CollectUserEventRequest(request)
+        if not isinstance(request, control_service.UpdateControlRequest):
+            request = control_service.UpdateControlRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if control is not None:
+                request.control = control
+            if update_mask is not None:
+                request.update_mask = update_mask
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.collect_user_event]
+        rpc = self._transport._wrapped_methods[self._transport.update_control]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
         metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata((("parent", request.parent),)),
+            gapic_v1.routing_header.to_grpc_metadata(
+                (("control.name", request.control.name),)
+            ),
         )
 
         # Send the request.
@@ -672,48 +790,47 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
         # Done; return the response.
         return response
 
-    def purge_user_events(
+    def get_control(
         self,
-        request: Union[purge_config.PurgeUserEventsRequest, dict] = None,
+        request: Union[control_service.GetControlRequest, dict] = None,
         *,
+        name: str = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: float = None,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> operation.Operation:
-        r"""Deletes permanently all user events specified by the
-        filter provided. Depending on the number of events
-        specified by the filter, this operation could take hours
-        or days to complete. To test a filter, use the list
-        command first.
+    ) -> control.Control:
+        r"""Gets a Control.
 
         .. code-block:: python
 
             from google.cloud import retail_v2
 
-            def sample_purge_user_events():
+            def sample_get_control():
                 # Create a client
-                client = retail_v2.UserEventServiceClient()
+                client = retail_v2.ControlServiceClient()
 
                 # Initialize request argument(s)
-                request = retail_v2.PurgeUserEventsRequest(
-                    parent="parent_value",
-                    filter="filter_value",
+                request = retail_v2.GetControlRequest(
+                    name="name_value",
                 )
 
                 # Make the request
-                operation = client.purge_user_events(request=request)
-
-                print("Waiting for operation to complete...")
-
-                response = operation.result()
+                response = client.get_control(request=request)
 
                 # Handle the response
                 print(response)
 
         Args:
-            request (Union[google.cloud.retail_v2.types.PurgeUserEventsRequest, dict]):
-                The request object. Request message for PurgeUserEvents
-                method.
+            request (Union[google.cloud.retail_v2.types.GetControlRequest, dict]):
+                The request object. Request for GetControl method.
+            name (str):
+                Required. The resource name of the Control to get.
+                Format:
+                ``projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/controls/{control_id}``
+
+                This corresponds to the ``name`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -721,30 +838,42 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
                 sent along with the request as metadata.
 
         Returns:
-            google.api_core.operation.Operation:
-                An object representing a long-running operation.
-
-                The result type for the operation will be :class:`google.cloud.retail_v2.types.PurgeUserEventsResponse` Response of the PurgeUserEventsRequest. If the long running operation is
-                   successfully done, then this message is returned by
-                   the google.longrunning.Operations.response field.
+            google.cloud.retail_v2.types.Control:
+                Configures dynamic metadata that can be linked to a
+                   [ServingConfig][google.cloud.retail.v2.ServingConfig]
+                   and affect search or recommendation results at
+                   serving time.
 
         """
         # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([name])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
         # Minor optimization to avoid making a copy if the user passes
-        # in a purge_config.PurgeUserEventsRequest.
+        # in a control_service.GetControlRequest.
         # There's no risk of modifying the input as we've already verified
         # there are no flattened fields.
-        if not isinstance(request, purge_config.PurgeUserEventsRequest):
-            request = purge_config.PurgeUserEventsRequest(request)
+        if not isinstance(request, control_service.GetControlRequest):
+            request = control_service.GetControlRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if name is not None:
+                request.name = name
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.purge_user_events]
+        rpc = self._transport._wrapped_methods[self._transport.get_control]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
         metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata((("parent", request.parent),)),
+            gapic_v1.routing_header.to_grpc_metadata((("name", request.name),)),
         )
 
         # Send the request.
@@ -753,67 +882,53 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
             retry=retry,
             timeout=timeout,
             metadata=metadata,
-        )
-
-        # Wrap the response in an operation future.
-        response = operation.from_gapic(
-            response,
-            self._transport.operations_client,
-            purge_config.PurgeUserEventsResponse,
-            metadata_type=purge_config.PurgeMetadata,
         )
 
         # Done; return the response.
         return response
 
-    def import_user_events(
+    def list_controls(
         self,
-        request: Union[import_config.ImportUserEventsRequest, dict] = None,
+        request: Union[control_service.ListControlsRequest, dict] = None,
         *,
+        parent: str = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: float = None,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> operation.Operation:
-        r"""Bulk import of User events. Request processing might be
-        synchronous. Events that already exist are skipped. Use this
-        method for backfilling historical user events.
-
-        ``Operation.response`` is of type ``ImportResponse``. Note that
-        it is possible for a subset of the items to be successfully
-        inserted. ``Operation.metadata`` is of type ``ImportMetadata``.
+    ) -> pagers.ListControlsPager:
+        r"""Lists all Controls by their parent
+        [Catalog][google.cloud.retail.v2.Catalog].
 
         .. code-block:: python
 
             from google.cloud import retail_v2
 
-            def sample_import_user_events():
+            def sample_list_controls():
                 # Create a client
-                client = retail_v2.UserEventServiceClient()
+                client = retail_v2.ControlServiceClient()
 
                 # Initialize request argument(s)
-                input_config = retail_v2.UserEventInputConfig()
-                input_config.user_event_inline_source.user_events.event_type = "event_type_value"
-                input_config.user_event_inline_source.user_events.visitor_id = "visitor_id_value"
-
-                request = retail_v2.ImportUserEventsRequest(
+                request = retail_v2.ListControlsRequest(
                     parent="parent_value",
-                    input_config=input_config,
                 )
 
                 # Make the request
-                operation = client.import_user_events(request=request)
-
-                print("Waiting for operation to complete...")
-
-                response = operation.result()
+                page_result = client.list_controls(request=request)
 
                 # Handle the response
-                print(response)
+                for response in page_result:
+                    print(response)
 
         Args:
-            request (Union[google.cloud.retail_v2.types.ImportUserEventsRequest, dict]):
-                The request object. Request message for the
-                ImportUserEvents request.
+            request (Union[google.cloud.retail_v2.types.ListControlsRequest, dict]):
+                The request object. Request for ListControls method.
+            parent (str):
+                Required. The catalog resource name. Format:
+                ``projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}``
+
+                This corresponds to the ``parent`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -821,27 +936,37 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
                 sent along with the request as metadata.
 
         Returns:
-            google.api_core.operation.Operation:
-                An object representing a long-running operation.
-
-                The result type for the operation will be :class:`google.cloud.retail_v2.types.ImportUserEventsResponse` Response of the ImportUserEventsRequest. If the long running
-                   operation was successful, then this message is
-                   returned by the
-                   google.longrunning.Operations.response field if the
-                   operation was successful.
+            google.cloud.retail_v2.services.control_service.pagers.ListControlsPager:
+                Response for ListControls method.
+                Iterating over this object will yield
+                results and resolve additional pages
+                automatically.
 
         """
         # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([parent])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
         # Minor optimization to avoid making a copy if the user passes
-        # in a import_config.ImportUserEventsRequest.
+        # in a control_service.ListControlsRequest.
         # There's no risk of modifying the input as we've already verified
         # there are no flattened fields.
-        if not isinstance(request, import_config.ImportUserEventsRequest):
-            request = import_config.ImportUserEventsRequest(request)
+        if not isinstance(request, control_service.ListControlsRequest):
+            request = control_service.ListControlsRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if parent is not None:
+                request.parent = parent
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.import_user_events]
+        rpc = self._transport._wrapped_methods[self._transport.list_controls]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -857,111 +982,13 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
             metadata=metadata,
         )
 
-        # Wrap the response in an operation future.
-        response = operation.from_gapic(
-            response,
-            self._transport.operations_client,
-            import_config.ImportUserEventsResponse,
-            metadata_type=import_config.ImportMetadata,
-        )
-
-        # Done; return the response.
-        return response
-
-    def rejoin_user_events(
-        self,
-        request: Union[user_event_service.RejoinUserEventsRequest, dict] = None,
-        *,
-        retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> operation.Operation:
-        r"""Starts a user event rejoin operation with latest
-        product catalog. Events will not be annotated with
-        detailed product information if product is missing from
-        the catalog at the time the user event is ingested, and
-        these events are stored as unjoined events with a
-        limited usage on training and serving. This method can
-        be used to start a join operation on specified events
-        with latest version of product catalog. It can also be
-        used to correct events joined with the wrong product
-        catalog. A rejoin operation can take hours or days to
-        complete.
-
-        .. code-block:: python
-
-            from google.cloud import retail_v2
-
-            def sample_rejoin_user_events():
-                # Create a client
-                client = retail_v2.UserEventServiceClient()
-
-                # Initialize request argument(s)
-                request = retail_v2.RejoinUserEventsRequest(
-                    parent="parent_value",
-                )
-
-                # Make the request
-                operation = client.rejoin_user_events(request=request)
-
-                print("Waiting for operation to complete...")
-
-                response = operation.result()
-
-                # Handle the response
-                print(response)
-
-        Args:
-            request (Union[google.cloud.retail_v2.types.RejoinUserEventsRequest, dict]):
-                The request object. Request message for RejoinUserEvents
-                method.
-            retry (google.api_core.retry.Retry): Designation of what errors, if any,
-                should be retried.
-            timeout (float): The timeout for this request.
-            metadata (Sequence[Tuple[str, str]]): Strings which should be
-                sent along with the request as metadata.
-
-        Returns:
-            google.api_core.operation.Operation:
-                An object representing a long-running operation.
-
-                The result type for the operation will be
-                :class:`google.cloud.retail_v2.types.RejoinUserEventsResponse`
-                Response message for RejoinUserEvents method.
-
-        """
-        # Create or coerce a protobuf request object.
-        # Minor optimization to avoid making a copy if the user passes
-        # in a user_event_service.RejoinUserEventsRequest.
-        # There's no risk of modifying the input as we've already verified
-        # there are no flattened fields.
-        if not isinstance(request, user_event_service.RejoinUserEventsRequest):
-            request = user_event_service.RejoinUserEventsRequest(request)
-
-        # Wrap the RPC method; this adds retry and timeout information,
-        # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.rejoin_user_events]
-
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata((("parent", request.parent),)),
-        )
-
-        # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
+        # This method is paged; wrap the response in a pager, which provides
+        # an `__iter__` convenience method.
+        response = pagers.ListControlsPager(
+            method=rpc,
+            request=request,
+            response=response,
             metadata=metadata,
-        )
-
-        # Wrap the response in an operation future.
-        response = operation.from_gapic(
-            response,
-            self._transport.operations_client,
-            user_event_service.RejoinUserEventsResponse,
-            metadata_type=user_event_service.RejoinUserEventsMetadata,
         )
 
         # Done; return the response.
@@ -991,4 +1018,4 @@ except pkg_resources.DistributionNotFound:
     DEFAULT_CLIENT_INFO = gapic_v1.client_info.ClientInfo()
 
 
-__all__ = ("UserEventServiceClient",)
+__all__ = ("ControlServiceClient",)
