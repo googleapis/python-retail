@@ -34,43 +34,38 @@ try:
 except AttributeError:  # pragma: NO COVER
     OptionalRetry = Union[retries.Retry, object]  # type: ignore
 
-from google.api import httpbody_pb2  # type: ignore
 from google.api_core import operation  # type: ignore
 from google.api_core import operation_async  # type: ignore
-from google.protobuf import any_pb2  # type: ignore
+from google.protobuf import field_mask_pb2  # type: ignore
 from google.protobuf import timestamp_pb2  # type: ignore
 
-from google.cloud.retail_v2beta.types import (
-    common,
-    import_config,
-    purge_config,
-    user_event,
-    user_event_service,
-)
+from google.cloud.retail_v2beta.services.model_service import pagers
+from google.cloud.retail_v2beta.types import common
+from google.cloud.retail_v2beta.types import model
+from google.cloud.retail_v2beta.types import model as gcr_model
+from google.cloud.retail_v2beta.types import model_service
 
-from .transports.base import DEFAULT_CLIENT_INFO, UserEventServiceTransport
-from .transports.grpc import UserEventServiceGrpcTransport
-from .transports.grpc_asyncio import UserEventServiceGrpcAsyncIOTransport
+from .transports.base import DEFAULT_CLIENT_INFO, ModelServiceTransport
+from .transports.grpc import ModelServiceGrpcTransport
+from .transports.grpc_asyncio import ModelServiceGrpcAsyncIOTransport
 
 
-class UserEventServiceClientMeta(type):
-    """Metaclass for the UserEventService client.
+class ModelServiceClientMeta(type):
+    """Metaclass for the ModelService client.
 
     This provides class-level methods for building and retrieving
     support objects (e.g. transport) without polluting the client instance
     objects.
     """
 
-    _transport_registry = (
-        OrderedDict()
-    )  # type: Dict[str, Type[UserEventServiceTransport]]
-    _transport_registry["grpc"] = UserEventServiceGrpcTransport
-    _transport_registry["grpc_asyncio"] = UserEventServiceGrpcAsyncIOTransport
+    _transport_registry = OrderedDict()  # type: Dict[str, Type[ModelServiceTransport]]
+    _transport_registry["grpc"] = ModelServiceGrpcTransport
+    _transport_registry["grpc_asyncio"] = ModelServiceGrpcAsyncIOTransport
 
     def get_transport_class(
         cls,
         label: str = None,
-    ) -> Type[UserEventServiceTransport]:
+    ) -> Type[ModelServiceTransport]:
         """Returns an appropriate transport class.
 
         Args:
@@ -89,9 +84,19 @@ class UserEventServiceClientMeta(type):
         return next(iter(cls._transport_registry.values()))
 
 
-class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
-    """Service for ingesting end user actions on the customer
-    website.
+class ModelServiceClient(metaclass=ModelServiceClientMeta):
+    """Service for performing CRUD operations on models. Recommendation
+    models contain all the metadata necessary to generate a set of
+    models for the ``Predict()`` API. A model is queried indirectly via
+    a ServingConfig, which associates a model with a given Placement
+    (e.g. Frequently Bought Together on Home Page).
+
+    This service allows you to do the following:
+
+    -  Initiate training of a model.
+    -  Pause training of an existing model.
+    -  List all the available models along with their metadata.
+    -  Control their tuning schedule.
     """
 
     @staticmethod
@@ -140,7 +145,7 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
             kwargs: Additional arguments to pass to the constructor.
 
         Returns:
-            UserEventServiceClient: The constructed client.
+            ModelServiceClient: The constructed client.
         """
         credentials = service_account.Credentials.from_service_account_info(info)
         kwargs["credentials"] = credentials
@@ -158,7 +163,7 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
             kwargs: Additional arguments to pass to the constructor.
 
         Returns:
-            UserEventServiceClient: The constructed client.
+            ModelServiceClient: The constructed client.
         """
         credentials = service_account.Credentials.from_service_account_file(filename)
         kwargs["credentials"] = credentials
@@ -167,11 +172,11 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
     from_service_account_json = from_service_account_file
 
     @property
-    def transport(self) -> UserEventServiceTransport:
+    def transport(self) -> ModelServiceTransport:
         """Returns the transport used by the client instance.
 
         Returns:
-            UserEventServiceTransport: The transport used by the client
+            ModelServiceTransport: The transport used by the client
                 instance.
         """
         return self._transport
@@ -199,27 +204,25 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
         return m.groupdict() if m else {}
 
     @staticmethod
-    def product_path(
+    def model_path(
         project: str,
         location: str,
         catalog: str,
-        branch: str,
-        product: str,
+        model: str,
     ) -> str:
-        """Returns a fully-qualified product string."""
-        return "projects/{project}/locations/{location}/catalogs/{catalog}/branches/{branch}/products/{product}".format(
+        """Returns a fully-qualified model string."""
+        return "projects/{project}/locations/{location}/catalogs/{catalog}/models/{model}".format(
             project=project,
             location=location,
             catalog=catalog,
-            branch=branch,
-            product=product,
+            model=model,
         )
 
     @staticmethod
-    def parse_product_path(path: str) -> Dict[str, str]:
-        """Parses a product path into its component segments."""
+    def parse_model_path(path: str) -> Dict[str, str]:
+        """Parses a model path into its component segments."""
         m = re.match(
-            r"^projects/(?P<project>.+?)/locations/(?P<location>.+?)/catalogs/(?P<catalog>.+?)/branches/(?P<branch>.+?)/products/(?P<product>.+?)$",
+            r"^projects/(?P<project>.+?)/locations/(?P<location>.+?)/catalogs/(?P<catalog>.+?)/models/(?P<model>.+?)$",
             path,
         )
         return m.groupdict() if m else {}
@@ -372,11 +375,11 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
         self,
         *,
         credentials: Optional[ga_credentials.Credentials] = None,
-        transport: Union[str, UserEventServiceTransport, None] = None,
+        transport: Union[str, ModelServiceTransport, None] = None,
         client_options: Optional[client_options_lib.ClientOptions] = None,
         client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
     ) -> None:
-        """Instantiates the user event service client.
+        """Instantiates the model service client.
 
         Args:
             credentials (Optional[google.auth.credentials.Credentials]): The
@@ -384,7 +387,7 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
                 credentials identify the application to the service; if none
                 are specified, the client will attempt to ascertain the
                 credentials from the environment.
-            transport (Union[str, UserEventServiceTransport]): The
+            transport (Union[str, ModelServiceTransport]): The
                 transport to use. If set to None, a transport is chosen
                 automatically.
             client_options (google.api_core.client_options.ClientOptions): Custom options for the
@@ -431,8 +434,8 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
         # Save or instantiate the transport.
         # Ordinarily, we provide the transport, but allowing a custom transport
         # instance provides an extensibility point for unusual situations.
-        if isinstance(transport, UserEventServiceTransport):
-            # transport is a UserEventServiceTransport instance.
+        if isinstance(transport, ModelServiceTransport):
+            # transport is a ModelServiceTransport instance.
             if credentials or client_options.credentials_file or api_key_value:
                 raise ValueError(
                     "When providing a transport instance, "
@@ -467,241 +470,39 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
                 api_audience=client_options.api_audience,
             )
 
-    def write_user_event(
+    def create_model(
         self,
-        request: Union[user_event_service.WriteUserEventRequest, dict] = None,
+        request: Union[model_service.CreateModelRequest, dict] = None,
         *,
-        retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> user_event.UserEvent:
-        r"""Writes a single user event.
-
-        .. code-block:: python
-
-            from google.cloud import retail_v2beta
-
-            def sample_write_user_event():
-                # Create a client
-                client = retail_v2beta.UserEventServiceClient()
-
-                # Initialize request argument(s)
-                user_event = retail_v2beta.UserEvent()
-                user_event.event_type = "event_type_value"
-                user_event.visitor_id = "visitor_id_value"
-
-                request = retail_v2beta.WriteUserEventRequest(
-                    parent="parent_value",
-                    user_event=user_event,
-                )
-
-                # Make the request
-                response = client.write_user_event(request=request)
-
-                # Handle the response
-                print(response)
-
-        Args:
-            request (Union[google.cloud.retail_v2beta.types.WriteUserEventRequest, dict]):
-                The request object. Request message for WriteUserEvent
-                method.
-            retry (google.api_core.retry.Retry): Designation of what errors, if any,
-                should be retried.
-            timeout (float): The timeout for this request.
-            metadata (Sequence[Tuple[str, str]]): Strings which should be
-                sent along with the request as metadata.
-
-        Returns:
-            google.cloud.retail_v2beta.types.UserEvent:
-                UserEvent captures all metadata
-                information Retail API needs to know
-                about how end users interact with
-                customers' website.
-
-        """
-        # Create or coerce a protobuf request object.
-        # Minor optimization to avoid making a copy if the user passes
-        # in a user_event_service.WriteUserEventRequest.
-        # There's no risk of modifying the input as we've already verified
-        # there are no flattened fields.
-        if not isinstance(request, user_event_service.WriteUserEventRequest):
-            request = user_event_service.WriteUserEventRequest(request)
-
-        # Wrap the RPC method; this adds retry and timeout information,
-        # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.write_user_event]
-
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata((("parent", request.parent),)),
-        )
-
-        # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
-
-        # Done; return the response.
-        return response
-
-    def collect_user_event(
-        self,
-        request: Union[user_event_service.CollectUserEventRequest, dict] = None,
-        *,
-        retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> httpbody_pb2.HttpBody:
-        r"""Writes a single user event from the browser. This
-        uses a GET request to due to browser restriction of
-        POST-ing to a 3rd party domain.
-        This method is used only by the Retail API JavaScript
-        pixel and Google Tag Manager. Users should not call this
-        method directly.
-
-        .. code-block:: python
-
-            from google.cloud import retail_v2beta
-
-            def sample_collect_user_event():
-                # Create a client
-                client = retail_v2beta.UserEventServiceClient()
-
-                # Initialize request argument(s)
-                request = retail_v2beta.CollectUserEventRequest(
-                    parent="parent_value",
-                    user_event="user_event_value",
-                )
-
-                # Make the request
-                response = client.collect_user_event(request=request)
-
-                # Handle the response
-                print(response)
-
-        Args:
-            request (Union[google.cloud.retail_v2beta.types.CollectUserEventRequest, dict]):
-                The request object. Request message for CollectUserEvent
-                method.
-            retry (google.api_core.retry.Retry): Designation of what errors, if any,
-                should be retried.
-            timeout (float): The timeout for this request.
-            metadata (Sequence[Tuple[str, str]]): Strings which should be
-                sent along with the request as metadata.
-
-        Returns:
-            google.api.httpbody_pb2.HttpBody:
-                Message that represents an arbitrary HTTP body. It should only be used for
-                   payload formats that can't be represented as JSON,
-                   such as raw binary or an HTML page.
-
-                   This message can be used both in streaming and
-                   non-streaming API methods in the request as well as
-                   the response.
-
-                   It can be used as a top-level request field, which is
-                   convenient if one wants to extract parameters from
-                   either the URL or HTTP template into the request
-                   fields and also want access to the raw HTTP body.
-
-                   Example:
-
-                      message GetResourceRequest {
-                         // A unique request id. string request_id = 1;
-
-                         // The raw HTTP body is bound to this field.
-                         google.api.HttpBody http_body = 2;
-
-                      }
-
-                      service ResourceService {
-                         rpc GetResource(GetResourceRequest)
-                            returns (google.api.HttpBody);
-
-                         rpc UpdateResource(google.api.HttpBody)
-                            returns (google.protobuf.Empty);
-
-                      }
-
-                   Example with streaming methods:
-
-                      service CaldavService {
-                         rpc GetCalendar(stream google.api.HttpBody)
-                            returns (stream google.api.HttpBody);
-
-                         rpc UpdateCalendar(stream google.api.HttpBody)
-                            returns (stream google.api.HttpBody);
-
-                      }
-
-                   Use of this type only changes how the request and
-                   response bodies are handled, all other features will
-                   continue to work unchanged.
-
-        """
-        # Create or coerce a protobuf request object.
-        # Minor optimization to avoid making a copy if the user passes
-        # in a user_event_service.CollectUserEventRequest.
-        # There's no risk of modifying the input as we've already verified
-        # there are no flattened fields.
-        if not isinstance(request, user_event_service.CollectUserEventRequest):
-            request = user_event_service.CollectUserEventRequest(request)
-
-        # Wrap the RPC method; this adds retry and timeout information,
-        # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.collect_user_event]
-
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata((("parent", request.parent),)),
-        )
-
-        # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
-
-        # Done; return the response.
-        return response
-
-    def purge_user_events(
-        self,
-        request: Union[purge_config.PurgeUserEventsRequest, dict] = None,
-        *,
+        parent: str = None,
+        model: gcr_model.Model = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: float = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
-        r"""Deletes permanently all user events specified by the
-        filter provided. Depending on the number of events
-        specified by the filter, this operation could take hours
-        or days to complete. To test a filter, use the list
-        command first.
+        r"""Creates a new model.
 
         .. code-block:: python
 
             from google.cloud import retail_v2beta
 
-            def sample_purge_user_events():
+            def sample_create_model():
                 # Create a client
-                client = retail_v2beta.UserEventServiceClient()
+                client = retail_v2beta.ModelServiceClient()
 
                 # Initialize request argument(s)
-                request = retail_v2beta.PurgeUserEventsRequest(
+                model = retail_v2beta.Model()
+                model.name = "name_value"
+                model.display_name = "display_name_value"
+                model.type_ = "type__value"
+
+                request = retail_v2beta.CreateModelRequest(
                     parent="parent_value",
-                    filter="filter_value",
+                    model=model,
                 )
 
                 # Make the request
-                operation = client.purge_user_events(request=request)
+                operation = client.create_model(request=request)
 
                 print("Waiting for operation to complete...")
 
@@ -711,9 +512,23 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
                 print(response)
 
         Args:
-            request (Union[google.cloud.retail_v2beta.types.PurgeUserEventsRequest, dict]):
-                The request object. Request message for PurgeUserEvents
-                method.
+            request (Union[google.cloud.retail_v2beta.types.CreateModelRequest, dict]):
+                The request object. Request for creating a model.
+            parent (str):
+                Required. The parent resource under which to create the
+                model. Format:
+                ``projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}``
+
+                This corresponds to the ``parent`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            model (google.cloud.retail_v2beta.types.Model):
+                Required. The payload of the
+                [Model][google.cloud.retail.v2beta.Model] to create.
+
+                This corresponds to the ``model`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -724,22 +539,40 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
             google.api_core.operation.Operation:
                 An object representing a long-running operation.
 
-                The result type for the operation will be :class:`google.cloud.retail_v2beta.types.PurgeUserEventsResponse` Response of the PurgeUserEventsRequest. If the long running operation is
-                   successfully done, then this message is returned by
-                   the google.longrunning.Operations.response field.
+                The result type for the operation will be :class:`google.cloud.retail_v2beta.types.Model` Metadata that describes the training and serving parameters of a
+                   [Model][google.cloud.retail.v2beta.Model]. A
+                   [Model][google.cloud.retail.v2beta.Model] can be
+                   associated with a
+                   [ServingConfig][google.cloud.retail.v2beta.ServingConfig]
+                   and then queried through the Predict API.
 
         """
         # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([parent, model])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
         # Minor optimization to avoid making a copy if the user passes
-        # in a purge_config.PurgeUserEventsRequest.
+        # in a model_service.CreateModelRequest.
         # There's no risk of modifying the input as we've already verified
         # there are no flattened fields.
-        if not isinstance(request, purge_config.PurgeUserEventsRequest):
-            request = purge_config.PurgeUserEventsRequest(request)
+        if not isinstance(request, model_service.CreateModelRequest):
+            request = model_service.CreateModelRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if parent is not None:
+                request.parent = parent
+            if model is not None:
+                request.model = model
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.purge_user_events]
+        rpc = self._transport._wrapped_methods[self._transport.create_model]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -759,61 +592,54 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
         response = operation.from_gapic(
             response,
             self._transport.operations_client,
-            purge_config.PurgeUserEventsResponse,
-            metadata_type=purge_config.PurgeMetadata,
+            gcr_model.Model,
+            metadata_type=model_service.CreateModelMetadata,
         )
 
         # Done; return the response.
         return response
 
-    def import_user_events(
+    def pause_model(
         self,
-        request: Union[import_config.ImportUserEventsRequest, dict] = None,
+        request: Union[model_service.PauseModelRequest, dict] = None,
         *,
+        name: str = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: float = None,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> operation.Operation:
-        r"""Bulk import of User events. Request processing might be
-        synchronous. Events that already exist are skipped. Use this
-        method for backfilling historical user events.
-
-        ``Operation.response`` is of type ``ImportResponse``. Note that
-        it is possible for a subset of the items to be successfully
-        inserted. ``Operation.metadata`` is of type ``ImportMetadata``.
+    ) -> model.Model:
+        r"""Pauses the training of an existing model.
 
         .. code-block:: python
 
             from google.cloud import retail_v2beta
 
-            def sample_import_user_events():
+            def sample_pause_model():
                 # Create a client
-                client = retail_v2beta.UserEventServiceClient()
+                client = retail_v2beta.ModelServiceClient()
 
                 # Initialize request argument(s)
-                input_config = retail_v2beta.UserEventInputConfig()
-                input_config.user_event_inline_source.user_events.event_type = "event_type_value"
-                input_config.user_event_inline_source.user_events.visitor_id = "visitor_id_value"
-
-                request = retail_v2beta.ImportUserEventsRequest(
-                    parent="parent_value",
-                    input_config=input_config,
+                request = retail_v2beta.PauseModelRequest(
+                    name="name_value",
                 )
 
                 # Make the request
-                operation = client.import_user_events(request=request)
-
-                print("Waiting for operation to complete...")
-
-                response = operation.result()
+                response = client.pause_model(request=request)
 
                 # Handle the response
                 print(response)
 
         Args:
-            request (Union[google.cloud.retail_v2beta.types.ImportUserEventsRequest, dict]):
-                The request object. Request message for the
-                ImportUserEvents request.
+            request (Union[google.cloud.retail_v2beta.types.PauseModelRequest, dict]):
+                The request object. Request for pausing training of a
+                model.
+            name (str):
+                Required. The name of the model to pause. Format:
+                ``projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}``
+
+                This corresponds to the ``name`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -821,27 +647,320 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
                 sent along with the request as metadata.
 
         Returns:
-            google.api_core.operation.Operation:
-                An object representing a long-running operation.
-
-                The result type for the operation will be :class:`google.cloud.retail_v2beta.types.ImportUserEventsResponse` Response of the ImportUserEventsRequest. If the long running
-                   operation was successful, then this message is
-                   returned by the
-                   google.longrunning.Operations.response field if the
-                   operation was successful.
+            google.cloud.retail_v2beta.types.Model:
+                Metadata that describes the training and serving parameters of a
+                   [Model][google.cloud.retail.v2beta.Model]. A
+                   [Model][google.cloud.retail.v2beta.Model] can be
+                   associated with a
+                   [ServingConfig][google.cloud.retail.v2beta.ServingConfig]
+                   and then queried through the Predict API.
 
         """
         # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([name])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
         # Minor optimization to avoid making a copy if the user passes
-        # in a import_config.ImportUserEventsRequest.
+        # in a model_service.PauseModelRequest.
         # There's no risk of modifying the input as we've already verified
         # there are no flattened fields.
-        if not isinstance(request, import_config.ImportUserEventsRequest):
-            request = import_config.ImportUserEventsRequest(request)
+        if not isinstance(request, model_service.PauseModelRequest):
+            request = model_service.PauseModelRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if name is not None:
+                request.name = name
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.import_user_events]
+        rpc = self._transport._wrapped_methods[self._transport.pause_model]
+
+        # Certain fields should be provided within the metadata header;
+        # add these here.
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata((("name", request.name),)),
+        )
+
+        # Send the request.
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
+
+        # Done; return the response.
+        return response
+
+    def resume_model(
+        self,
+        request: Union[model_service.ResumeModelRequest, dict] = None,
+        *,
+        name: str = None,
+        retry: OptionalRetry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> model.Model:
+        r"""Resumes the training of an existing model.
+
+        .. code-block:: python
+
+            from google.cloud import retail_v2beta
+
+            def sample_resume_model():
+                # Create a client
+                client = retail_v2beta.ModelServiceClient()
+
+                # Initialize request argument(s)
+                request = retail_v2beta.ResumeModelRequest(
+                    name="name_value",
+                )
+
+                # Make the request
+                response = client.resume_model(request=request)
+
+                # Handle the response
+                print(response)
+
+        Args:
+            request (Union[google.cloud.retail_v2beta.types.ResumeModelRequest, dict]):
+                The request object. Request for resuming training of a
+                model.
+            name (str):
+                Required. The name of the model to resume. Format:
+                ``projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}``
+
+                This corresponds to the ``name`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            retry (google.api_core.retry.Retry): Designation of what errors, if any,
+                should be retried.
+            timeout (float): The timeout for this request.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
+
+        Returns:
+            google.cloud.retail_v2beta.types.Model:
+                Metadata that describes the training and serving parameters of a
+                   [Model][google.cloud.retail.v2beta.Model]. A
+                   [Model][google.cloud.retail.v2beta.Model] can be
+                   associated with a
+                   [ServingConfig][google.cloud.retail.v2beta.ServingConfig]
+                   and then queried through the Predict API.
+
+        """
+        # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([name])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
+        # Minor optimization to avoid making a copy if the user passes
+        # in a model_service.ResumeModelRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, model_service.ResumeModelRequest):
+            request = model_service.ResumeModelRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if name is not None:
+                request.name = name
+
+        # Wrap the RPC method; this adds retry and timeout information,
+        # and friendly error handling.
+        rpc = self._transport._wrapped_methods[self._transport.resume_model]
+
+        # Certain fields should be provided within the metadata header;
+        # add these here.
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata((("name", request.name),)),
+        )
+
+        # Send the request.
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
+
+        # Done; return the response.
+        return response
+
+    def delete_model(
+        self,
+        request: Union[model_service.DeleteModelRequest, dict] = None,
+        *,
+        name: str = None,
+        retry: OptionalRetry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> None:
+        r"""Deletes an existing model.
+
+        .. code-block:: python
+
+            from google.cloud import retail_v2beta
+
+            def sample_delete_model():
+                # Create a client
+                client = retail_v2beta.ModelServiceClient()
+
+                # Initialize request argument(s)
+                request = retail_v2beta.DeleteModelRequest(
+                    name="name_value",
+                )
+
+                # Make the request
+                client.delete_model(request=request)
+
+        Args:
+            request (Union[google.cloud.retail_v2beta.types.DeleteModelRequest, dict]):
+                The request object. Request for deleting a model.
+            name (str):
+                Required. The resource name of the
+                [Model][google.cloud.retail.v2beta.Model] to delete.
+                Format:
+                ``projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}``
+
+                This corresponds to the ``name`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            retry (google.api_core.retry.Retry): Designation of what errors, if any,
+                should be retried.
+            timeout (float): The timeout for this request.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
+        """
+        # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([name])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
+        # Minor optimization to avoid making a copy if the user passes
+        # in a model_service.DeleteModelRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, model_service.DeleteModelRequest):
+            request = model_service.DeleteModelRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if name is not None:
+                request.name = name
+
+        # Wrap the RPC method; this adds retry and timeout information,
+        # and friendly error handling.
+        rpc = self._transport._wrapped_methods[self._transport.delete_model]
+
+        # Certain fields should be provided within the metadata header;
+        # add these here.
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata((("name", request.name),)),
+        )
+
+        # Send the request.
+        rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
+
+    def list_models(
+        self,
+        request: Union[model_service.ListModelsRequest, dict] = None,
+        *,
+        parent: str = None,
+        retry: OptionalRetry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> pagers.ListModelsPager:
+        r"""Lists all the models linked to this event store.
+
+        .. code-block:: python
+
+            from google.cloud import retail_v2beta
+
+            def sample_list_models():
+                # Create a client
+                client = retail_v2beta.ModelServiceClient()
+
+                # Initialize request argument(s)
+                request = retail_v2beta.ListModelsRequest(
+                    parent="parent_value",
+                )
+
+                # Make the request
+                page_result = client.list_models(request=request)
+
+                # Handle the response
+                for response in page_result:
+                    print(response)
+
+        Args:
+            request (Union[google.cloud.retail_v2beta.types.ListModelsRequest, dict]):
+                The request object. Request for listing models
+                associated with a resource.
+            parent (str):
+                Required. The parent for which to list models. Format:
+                ``projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}``
+
+                This corresponds to the ``parent`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            retry (google.api_core.retry.Retry): Designation of what errors, if any,
+                should be retried.
+            timeout (float): The timeout for this request.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
+
+        Returns:
+            google.cloud.retail_v2beta.services.model_service.pagers.ListModelsPager:
+                Response to a ListModelRequest.
+                Iterating over this object will yield
+                results and resolve additional pages
+                automatically.
+
+        """
+        # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([parent])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
+        # Minor optimization to avoid making a copy if the user passes
+        # in a model_service.ListModelsRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, model_service.ListModelsRequest):
+            request = model_service.ListModelsRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if parent is not None:
+                request.parent = parent
+
+        # Wrap the RPC method; this adds retry and timeout information,
+        # and friendly error handling.
+        rpc = self._transport._wrapped_methods[self._transport.list_models]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -857,52 +976,163 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
             metadata=metadata,
         )
 
-        # Wrap the response in an operation future.
-        response = operation.from_gapic(
-            response,
-            self._transport.operations_client,
-            import_config.ImportUserEventsResponse,
-            metadata_type=import_config.ImportMetadata,
+        # This method is paged; wrap the response in a pager, which provides
+        # an `__iter__` convenience method.
+        response = pagers.ListModelsPager(
+            method=rpc,
+            request=request,
+            response=response,
+            metadata=metadata,
         )
 
         # Done; return the response.
         return response
 
-    def rejoin_user_events(
+    def update_model(
         self,
-        request: Union[user_event_service.RejoinUserEventsRequest, dict] = None,
+        request: Union[model_service.UpdateModelRequest, dict] = None,
         *,
+        model: gcr_model.Model = None,
+        update_mask: field_mask_pb2.FieldMask = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: float = None,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> operation.Operation:
-        r"""Starts a user-event rejoin operation with latest
-        product catalog. Events are not annotated with detailed
-        product information for products that are missing from
-        the catalog when the user event is ingested. These
-        events are stored as unjoined events with limited usage
-        on training and serving. You can use this method to
-        start a join operation on specified events with the
-        latest version of product catalog. You can also use this
-        method to correct events joined with the wrong product
-        catalog. A rejoin operation can take hours or days to
-        complete.
+    ) -> gcr_model.Model:
+        r"""Update of model metadata. Only fields that currently can be
+        updated are: ``filtering_option`` and ``periodic_tuning_state``.
+        If other values are provided, this API method ignores them.
 
         .. code-block:: python
 
             from google.cloud import retail_v2beta
 
-            def sample_rejoin_user_events():
+            def sample_update_model():
                 # Create a client
-                client = retail_v2beta.UserEventServiceClient()
+                client = retail_v2beta.ModelServiceClient()
 
                 # Initialize request argument(s)
-                request = retail_v2beta.RejoinUserEventsRequest(
-                    parent="parent_value",
+                model = retail_v2beta.Model()
+                model.name = "name_value"
+                model.display_name = "display_name_value"
+                model.type_ = "type__value"
+
+                request = retail_v2beta.UpdateModelRequest(
+                    model=model,
                 )
 
                 # Make the request
-                operation = client.rejoin_user_events(request=request)
+                response = client.update_model(request=request)
+
+                # Handle the response
+                print(response)
+
+        Args:
+            request (Union[google.cloud.retail_v2beta.types.UpdateModelRequest, dict]):
+                The request object. Request for updating an existing
+                model.
+            model (google.cloud.retail_v2beta.types.Model):
+                Required. The body of the updated
+                [Model][google.cloud.retail.v2beta.Model].
+
+                This corresponds to the ``model`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            update_mask (google.protobuf.field_mask_pb2.FieldMask):
+                Optional. Indicates which fields in
+                the provided 'model' to update. If not
+                set, by default updates all fields.
+
+                This corresponds to the ``update_mask`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            retry (google.api_core.retry.Retry): Designation of what errors, if any,
+                should be retried.
+            timeout (float): The timeout for this request.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
+
+        Returns:
+            google.cloud.retail_v2beta.types.Model:
+                Metadata that describes the training and serving parameters of a
+                   [Model][google.cloud.retail.v2beta.Model]. A
+                   [Model][google.cloud.retail.v2beta.Model] can be
+                   associated with a
+                   [ServingConfig][google.cloud.retail.v2beta.ServingConfig]
+                   and then queried through the Predict API.
+
+        """
+        # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([model, update_mask])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
+        # Minor optimization to avoid making a copy if the user passes
+        # in a model_service.UpdateModelRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, model_service.UpdateModelRequest):
+            request = model_service.UpdateModelRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if model is not None:
+                request.model = model
+            if update_mask is not None:
+                request.update_mask = update_mask
+
+        # Wrap the RPC method; this adds retry and timeout information,
+        # and friendly error handling.
+        rpc = self._transport._wrapped_methods[self._transport.update_model]
+
+        # Certain fields should be provided within the metadata header;
+        # add these here.
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata(
+                (("model.name", request.model.name),)
+            ),
+        )
+
+        # Send the request.
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
+
+        # Done; return the response.
+        return response
+
+    def tune_model(
+        self,
+        request: Union[model_service.TuneModelRequest, dict] = None,
+        *,
+        name: str = None,
+        retry: OptionalRetry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> operation.Operation:
+        r"""Tunes an existing model.
+
+        .. code-block:: python
+
+            from google.cloud import retail_v2beta
+
+            def sample_tune_model():
+                # Create a client
+                client = retail_v2beta.ModelServiceClient()
+
+                # Initialize request argument(s)
+                request = retail_v2beta.TuneModelRequest(
+                    name="name_value",
+                )
+
+                # Make the request
+                operation = client.tune_model(request=request)
 
                 print("Waiting for operation to complete...")
 
@@ -912,9 +1142,18 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
                 print(response)
 
         Args:
-            request (Union[google.cloud.retail_v2beta.types.RejoinUserEventsRequest, dict]):
-                The request object. Request message for RejoinUserEvents
-                method.
+            request (Union[google.cloud.retail_v2beta.types.TuneModelRequest, dict]):
+                The request object. Request to manually start a tuning
+                process now (instead of waiting for the periodically
+                scheduled tuning to happen).
+            name (str):
+                Required. The resource name of the model to tune.
+                Format:
+                ``projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}``
+
+                This corresponds to the ``name`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -926,26 +1165,39 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
                 An object representing a long-running operation.
 
                 The result type for the operation will be
-                :class:`google.cloud.retail_v2beta.types.RejoinUserEventsResponse`
-                Response message for RejoinUserEvents method.
+                :class:`google.cloud.retail_v2beta.types.TuneModelResponse`
+                Response associated with a tune operation.
 
         """
         # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([name])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
         # Minor optimization to avoid making a copy if the user passes
-        # in a user_event_service.RejoinUserEventsRequest.
+        # in a model_service.TuneModelRequest.
         # There's no risk of modifying the input as we've already verified
         # there are no flattened fields.
-        if not isinstance(request, user_event_service.RejoinUserEventsRequest):
-            request = user_event_service.RejoinUserEventsRequest(request)
+        if not isinstance(request, model_service.TuneModelRequest):
+            request = model_service.TuneModelRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if name is not None:
+                request.name = name
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.rejoin_user_events]
+        rpc = self._transport._wrapped_methods[self._transport.tune_model]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
         metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata((("parent", request.parent),)),
+            gapic_v1.routing_header.to_grpc_metadata((("name", request.name),)),
         )
 
         # Send the request.
@@ -960,8 +1212,8 @@ class UserEventServiceClient(metaclass=UserEventServiceClientMeta):
         response = operation.from_gapic(
             response,
             self._transport.operations_client,
-            user_event_service.RejoinUserEventsResponse,
-            metadata_type=user_event_service.RejoinUserEventsMetadata,
+            model_service.TuneModelResponse,
+            metadata_type=model_service.TuneModelMetadata,
         )
 
         # Done; return the response.
@@ -991,4 +1243,4 @@ except pkg_resources.DistributionNotFound:
     DEFAULT_CLIENT_INFO = gapic_v1.client_info.ClientInfo()
 
 
-__all__ = ("UserEventServiceClient",)
+__all__ = ("ModelServiceClient",)

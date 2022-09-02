@@ -16,24 +16,36 @@
 from typing import Callable, Dict, Optional, Sequence, Tuple, Union
 import warnings
 
-from google.api_core import gapic_v1, grpc_helpers
+from google.api_core import gapic_v1, grpc_helpers, operations_v1
 import google.auth  # type: ignore
 from google.auth import credentials as ga_credentials  # type: ignore
 from google.auth.transport.grpc import SslCredentials  # type: ignore
+from google.longrunning import operations_pb2  # type: ignore
 from google.protobuf import empty_pb2  # type: ignore
 import grpc  # type: ignore
 
-from google.cloud.retail_v2beta.types import control
-from google.cloud.retail_v2beta.types import control as gcr_control
-from google.cloud.retail_v2beta.types import control_service
+from google.cloud.retail_v2beta.types import model
+from google.cloud.retail_v2beta.types import model as gcr_model
+from google.cloud.retail_v2beta.types import model_service
 
-from .base import DEFAULT_CLIENT_INFO, ControlServiceTransport
+from .base import DEFAULT_CLIENT_INFO, ModelServiceTransport
 
 
-class ControlServiceGrpcTransport(ControlServiceTransport):
-    """gRPC backend transport for ControlService.
+class ModelServiceGrpcTransport(ModelServiceTransport):
+    """gRPC backend transport for ModelService.
 
-    Service for modifying Control.
+    Service for performing CRUD operations on models. Recommendation
+    models contain all the metadata necessary to generate a set of
+    models for the ``Predict()`` API. A model is queried indirectly via
+    a ServingConfig, which associates a model with a given Placement
+    (e.g. Frequently Bought Together on Home Page).
+
+    This service allows you to do the following:
+
+    -  Initiate training of a model.
+    -  Pause training of an existing model.
+    -  List all the available models along with their metadata.
+    -  Control their tuning schedule.
 
     This class defines the same methods as the primary client, so the
     primary client can load the underlying transport implementation
@@ -113,6 +125,7 @@ class ControlServiceGrpcTransport(ControlServiceTransport):
         self._grpc_channel = None
         self._ssl_channel_credentials = ssl_channel_credentials
         self._stubs: Dict[str, Callable] = {}
+        self._operations_client: Optional[operations_v1.OperationsClient] = None
 
         if api_mtls_endpoint:
             warnings.warn("api_mtls_endpoint is deprecated", DeprecationWarning)
@@ -232,19 +245,30 @@ class ControlServiceGrpcTransport(ControlServiceTransport):
         return self._grpc_channel
 
     @property
-    def create_control(
+    def operations_client(self) -> operations_v1.OperationsClient:
+        """Create the client designed to process long-running operations.
+
+        This property caches on the instance; repeated calls return the same
+        client.
+        """
+        # Quick check: Only create a new client if we do not already have one.
+        if self._operations_client is None:
+            self._operations_client = operations_v1.OperationsClient(self.grpc_channel)
+
+        # Return the client from cache.
+        return self._operations_client
+
+    @property
+    def create_model(
         self,
-    ) -> Callable[[control_service.CreateControlRequest], gcr_control.Control]:
-        r"""Return a callable for the create control method over gRPC.
+    ) -> Callable[[model_service.CreateModelRequest], operations_pb2.Operation]:
+        r"""Return a callable for the create model method over gRPC.
 
-        Creates a Control.
-
-        If the [Control][google.cloud.retail.v2beta.Control] to create
-        already exists, an ALREADY_EXISTS error is returned.
+        Creates a new model.
 
         Returns:
-            Callable[[~.CreateControlRequest],
-                    ~.Control]:
+            Callable[[~.CreateModelRequest],
+                    ~.Operation]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -252,27 +276,72 @@ class ControlServiceGrpcTransport(ControlServiceTransport):
         # the request.
         # gRPC handles serialization and deserialization, so we just need
         # to pass in the functions for each.
-        if "create_control" not in self._stubs:
-            self._stubs["create_control"] = self.grpc_channel.unary_unary(
-                "/google.cloud.retail.v2beta.ControlService/CreateControl",
-                request_serializer=control_service.CreateControlRequest.serialize,
-                response_deserializer=gcr_control.Control.deserialize,
+        if "create_model" not in self._stubs:
+            self._stubs["create_model"] = self.grpc_channel.unary_unary(
+                "/google.cloud.retail.v2beta.ModelService/CreateModel",
+                request_serializer=model_service.CreateModelRequest.serialize,
+                response_deserializer=operations_pb2.Operation.FromString,
             )
-        return self._stubs["create_control"]
+        return self._stubs["create_model"]
 
     @property
-    def delete_control(
-        self,
-    ) -> Callable[[control_service.DeleteControlRequest], empty_pb2.Empty]:
-        r"""Return a callable for the delete control method over gRPC.
+    def pause_model(self) -> Callable[[model_service.PauseModelRequest], model.Model]:
+        r"""Return a callable for the pause model method over gRPC.
 
-        Deletes a Control.
-
-        If the [Control][google.cloud.retail.v2beta.Control] to delete
-        does not exist, a NOT_FOUND error is returned.
+        Pauses the training of an existing model.
 
         Returns:
-            Callable[[~.DeleteControlRequest],
+            Callable[[~.PauseModelRequest],
+                    ~.Model]:
+                A function that, when called, will call the underlying RPC
+                on the server.
+        """
+        # Generate a "stub function" on-the-fly which will actually make
+        # the request.
+        # gRPC handles serialization and deserialization, so we just need
+        # to pass in the functions for each.
+        if "pause_model" not in self._stubs:
+            self._stubs["pause_model"] = self.grpc_channel.unary_unary(
+                "/google.cloud.retail.v2beta.ModelService/PauseModel",
+                request_serializer=model_service.PauseModelRequest.serialize,
+                response_deserializer=model.Model.deserialize,
+            )
+        return self._stubs["pause_model"]
+
+    @property
+    def resume_model(self) -> Callable[[model_service.ResumeModelRequest], model.Model]:
+        r"""Return a callable for the resume model method over gRPC.
+
+        Resumes the training of an existing model.
+
+        Returns:
+            Callable[[~.ResumeModelRequest],
+                    ~.Model]:
+                A function that, when called, will call the underlying RPC
+                on the server.
+        """
+        # Generate a "stub function" on-the-fly which will actually make
+        # the request.
+        # gRPC handles serialization and deserialization, so we just need
+        # to pass in the functions for each.
+        if "resume_model" not in self._stubs:
+            self._stubs["resume_model"] = self.grpc_channel.unary_unary(
+                "/google.cloud.retail.v2beta.ModelService/ResumeModel",
+                request_serializer=model_service.ResumeModelRequest.serialize,
+                response_deserializer=model.Model.deserialize,
+            )
+        return self._stubs["resume_model"]
+
+    @property
+    def delete_model(
+        self,
+    ) -> Callable[[model_service.DeleteModelRequest], empty_pb2.Empty]:
+        r"""Return a callable for the delete model method over gRPC.
+
+        Deletes an existing model.
+
+        Returns:
+            Callable[[~.DeleteModelRequest],
                     ~.Empty]:
                 A function that, when called, will call the underlying RPC
                 on the server.
@@ -281,30 +350,25 @@ class ControlServiceGrpcTransport(ControlServiceTransport):
         # the request.
         # gRPC handles serialization and deserialization, so we just need
         # to pass in the functions for each.
-        if "delete_control" not in self._stubs:
-            self._stubs["delete_control"] = self.grpc_channel.unary_unary(
-                "/google.cloud.retail.v2beta.ControlService/DeleteControl",
-                request_serializer=control_service.DeleteControlRequest.serialize,
+        if "delete_model" not in self._stubs:
+            self._stubs["delete_model"] = self.grpc_channel.unary_unary(
+                "/google.cloud.retail.v2beta.ModelService/DeleteModel",
+                request_serializer=model_service.DeleteModelRequest.serialize,
                 response_deserializer=empty_pb2.Empty.FromString,
             )
-        return self._stubs["delete_control"]
+        return self._stubs["delete_model"]
 
     @property
-    def update_control(
+    def list_models(
         self,
-    ) -> Callable[[control_service.UpdateControlRequest], gcr_control.Control]:
-        r"""Return a callable for the update control method over gRPC.
+    ) -> Callable[[model_service.ListModelsRequest], model_service.ListModelsResponse]:
+        r"""Return a callable for the list models method over gRPC.
 
-        Updates a Control.
-
-        [Control][google.cloud.retail.v2beta.Control] cannot be set to a
-        different oneof field, if so an INVALID_ARGUMENT is returned. If
-        the [Control][google.cloud.retail.v2beta.Control] to update does
-        not exist, a NOT_FOUND error is returned.
+        Lists all the models linked to this event store.
 
         Returns:
-            Callable[[~.UpdateControlRequest],
-                    ~.Control]:
+            Callable[[~.ListModelsRequest],
+                    ~.ListModelsResponse]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -312,25 +376,27 @@ class ControlServiceGrpcTransport(ControlServiceTransport):
         # the request.
         # gRPC handles serialization and deserialization, so we just need
         # to pass in the functions for each.
-        if "update_control" not in self._stubs:
-            self._stubs["update_control"] = self.grpc_channel.unary_unary(
-                "/google.cloud.retail.v2beta.ControlService/UpdateControl",
-                request_serializer=control_service.UpdateControlRequest.serialize,
-                response_deserializer=gcr_control.Control.deserialize,
+        if "list_models" not in self._stubs:
+            self._stubs["list_models"] = self.grpc_channel.unary_unary(
+                "/google.cloud.retail.v2beta.ModelService/ListModels",
+                request_serializer=model_service.ListModelsRequest.serialize,
+                response_deserializer=model_service.ListModelsResponse.deserialize,
             )
-        return self._stubs["update_control"]
+        return self._stubs["list_models"]
 
     @property
-    def get_control(
+    def update_model(
         self,
-    ) -> Callable[[control_service.GetControlRequest], control.Control]:
-        r"""Return a callable for the get control method over gRPC.
+    ) -> Callable[[model_service.UpdateModelRequest], gcr_model.Model]:
+        r"""Return a callable for the update model method over gRPC.
 
-        Gets a Control.
+        Update of model metadata. Only fields that currently can be
+        updated are: ``filtering_option`` and ``periodic_tuning_state``.
+        If other values are provided, this API method ignores them.
 
         Returns:
-            Callable[[~.GetControlRequest],
-                    ~.Control]:
+            Callable[[~.UpdateModelRequest],
+                    ~.Model]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -338,28 +404,25 @@ class ControlServiceGrpcTransport(ControlServiceTransport):
         # the request.
         # gRPC handles serialization and deserialization, so we just need
         # to pass in the functions for each.
-        if "get_control" not in self._stubs:
-            self._stubs["get_control"] = self.grpc_channel.unary_unary(
-                "/google.cloud.retail.v2beta.ControlService/GetControl",
-                request_serializer=control_service.GetControlRequest.serialize,
-                response_deserializer=control.Control.deserialize,
+        if "update_model" not in self._stubs:
+            self._stubs["update_model"] = self.grpc_channel.unary_unary(
+                "/google.cloud.retail.v2beta.ModelService/UpdateModel",
+                request_serializer=model_service.UpdateModelRequest.serialize,
+                response_deserializer=gcr_model.Model.deserialize,
             )
-        return self._stubs["get_control"]
+        return self._stubs["update_model"]
 
     @property
-    def list_controls(
+    def tune_model(
         self,
-    ) -> Callable[
-        [control_service.ListControlsRequest], control_service.ListControlsResponse
-    ]:
-        r"""Return a callable for the list controls method over gRPC.
+    ) -> Callable[[model_service.TuneModelRequest], operations_pb2.Operation]:
+        r"""Return a callable for the tune model method over gRPC.
 
-        Lists all Controls by their parent
-        [Catalog][google.cloud.retail.v2beta.Catalog].
+        Tunes an existing model.
 
         Returns:
-            Callable[[~.ListControlsRequest],
-                    ~.ListControlsResponse]:
+            Callable[[~.TuneModelRequest],
+                    ~.Operation]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -367,13 +430,13 @@ class ControlServiceGrpcTransport(ControlServiceTransport):
         # the request.
         # gRPC handles serialization and deserialization, so we just need
         # to pass in the functions for each.
-        if "list_controls" not in self._stubs:
-            self._stubs["list_controls"] = self.grpc_channel.unary_unary(
-                "/google.cloud.retail.v2beta.ControlService/ListControls",
-                request_serializer=control_service.ListControlsRequest.serialize,
-                response_deserializer=control_service.ListControlsResponse.deserialize,
+        if "tune_model" not in self._stubs:
+            self._stubs["tune_model"] = self.grpc_channel.unary_unary(
+                "/google.cloud.retail.v2beta.ModelService/TuneModel",
+                request_serializer=model_service.TuneModelRequest.serialize,
+                response_deserializer=operations_pb2.Operation.FromString,
             )
-        return self._stubs["list_controls"]
+        return self._stubs["tune_model"]
 
     def close(self):
         self.grpc_channel.close()
@@ -383,4 +446,4 @@ class ControlServiceGrpcTransport(ControlServiceTransport):
         return "grpc"
 
 
-__all__ = ("ControlServiceGrpcTransport",)
+__all__ = ("ModelServiceGrpcTransport",)
