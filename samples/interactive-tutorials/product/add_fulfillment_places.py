@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# [START retail_add_fulfillment_places]
 # Adding place IDs using Retail API.
 #
 import datetime
@@ -63,9 +62,6 @@ def add_fulfillment_places(product_name: str, timestamp, place_id):
     # thus we simulate wait with sleep method.
     print("---add fulfillment places, wait 90 seconds :---")
     time.sleep(90)
-
-
-# [END retail_add_fulfillment_places]
 
 
 create_product(product_id)

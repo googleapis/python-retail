@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# [START retail_set_inventory]
 # Updating inventory information using Retail API.
 #
 import datetime
@@ -98,4 +97,3 @@ create_product(product_id)
 set_inventory(product_name)
 get_product(product_name)
 delete_product(product_name)
-# [END retail_set_inventory]

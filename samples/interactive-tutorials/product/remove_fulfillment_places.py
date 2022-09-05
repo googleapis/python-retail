@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# [START retail_remove_fulfillment_places]
 # Remove place IDs using Retail API.
 #
 import datetime
@@ -55,9 +54,6 @@ def remove_fulfillment_places(product_name: str, timestamp, store_id):
     # thus we simulate wait with sleep method.
     print("---remove fulfillment places, wait 90 seconds:---")
     time.sleep(90)
-
-
-# [END retail_remove_fulfillment_places]
 
 
 product = create_product(product_id)
