@@ -20,7 +20,10 @@ import random
 import string
 
 from google.api_core.exceptions import GoogleAPICallError
-from google.cloud.retail import ProductServiceAsyncClient, RemoveFulfillmentPlacesRequest
+from google.cloud.retail import (
+    ProductServiceAsyncClient,
+    RemoveFulfillmentPlacesRequest,
+)
 
 from setup_product.setup_cleanup import create_product, delete_product, get_product
 
@@ -47,7 +50,9 @@ def remove_fulfillment_places(product_name: str, store_id):
     remove_fulfillment_request = get_remove_fulfillment_request(
         product_name, store_id
     )
-    return ProductServiceAsyncClient().remove_fulfillment_places(remove_fulfillment_request)
+    return ProductServiceAsyncClient().remove_fulfillment_places(
+        remove_fulfillment_request
+    )
 
 
 async def remove_places(product_name: str):
@@ -62,6 +67,8 @@ async def remove_places(product_name: str):
     get_product(product_name)
     delete_product(product_name)
 
+
 product = create_product(product_id)
 
 asyncio.run(remove_places(product.name))
+# [END retail_remove_fulfillment_places]

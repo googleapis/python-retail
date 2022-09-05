@@ -19,8 +19,8 @@ import asyncio
 import random
 import string
 
-import google.auth
 from google.api_core.exceptions import GoogleAPICallError
+import google.auth
 from google.cloud.retail import (
     FulfillmentInfo,
     PriceInfo,
@@ -97,5 +97,7 @@ async def set_inventory_and_remove_product(product_name: str):
     get_product(product_name)
     delete_product(product_name)
 
+
 product = create_product(product_id)
 asyncio.run(set_inventory_and_remove_product(product.name))
+# [END retail_set_inventory]

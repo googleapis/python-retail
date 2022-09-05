@@ -19,8 +19,8 @@ import asyncio
 import random
 import string
 
-import google.auth
 from google.api_core.exceptions import GoogleAPICallError
+import google.auth
 from google.cloud.retail import AddFulfillmentPlacesRequest, ProductServiceAsyncClient
 
 from setup_product.setup_cleanup import create_product, delete_product, get_product
@@ -74,3 +74,4 @@ async def add_places(product_name: str):
 create_product(product_id)
 
 asyncio.run(add_places(product_name))
+# [END retail_add_fulfillment_places]
