@@ -23,7 +23,6 @@
 #   python3 -m pip install google-cloud-retail
 
 
-# [START retail_v2beta_generated_CatalogService_SetDefaultBranch_sync]
 from google.cloud import retail_v2beta
 
 
@@ -38,5 +37,3 @@ def sample_set_default_branch():
     # Make the request
     client.set_default_branch(request=request)
 
-
-# [END retail_v2beta_generated_CatalogService_SetDefaultBranch_sync]

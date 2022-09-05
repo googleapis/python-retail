@@ -23,7 +23,6 @@
 #   python3 -m pip install google-cloud-retail
 
 
-# [START retail_v2_generated_CompletionService_CompleteQuery_async]
 from google.cloud import retail_v2
 
 
@@ -42,5 +41,3 @@ async def sample_complete_query():
 
     # Handle the response
     print(response)
-
-# [END retail_v2_generated_CompletionService_CompleteQuery_async]

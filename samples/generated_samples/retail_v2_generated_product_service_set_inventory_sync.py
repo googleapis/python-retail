@@ -23,7 +23,6 @@
 #   python3 -m pip install google-cloud-retail
 
 
-# [START retail_v2_generated_ProductService_SetInventory_sync]
 from google.cloud import retail_v2
 
 
@@ -48,5 +47,3 @@ def sample_set_inventory():
 
     # Handle the response
     print(response)
-
-# [END retail_v2_generated_ProductService_SetInventory_sync]

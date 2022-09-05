@@ -23,7 +23,6 @@
 #   python3 -m pip install google-cloud-retail
 
 
-# [START retail_v2beta_generated_ServingConfigService_UpdateServingConfig_async]
 from google.cloud import retail_v2beta
 
 
@@ -45,5 +44,3 @@ async def sample_update_serving_config():
 
     # Handle the response
     print(response)
-
-# [END retail_v2beta_generated_ServingConfigService_UpdateServingConfig_async]

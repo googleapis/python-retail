@@ -23,7 +23,6 @@
 #   python3 -m pip install google-cloud-retail
 
 
-# [START retail_v2alpha_generated_ServingConfigService_DeleteServingConfig_sync]
 from google.cloud import retail_v2alpha
 
 
@@ -39,5 +38,3 @@ def sample_delete_serving_config():
     # Make the request
     client.delete_serving_config(request=request)
 
-
-# [END retail_v2alpha_generated_ServingConfigService_DeleteServingConfig_sync]

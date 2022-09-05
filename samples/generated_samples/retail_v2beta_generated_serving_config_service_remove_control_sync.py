@@ -23,7 +23,6 @@
 #   python3 -m pip install google-cloud-retail
 
 
-# [START retail_v2beta_generated_ServingConfigService_RemoveControl_sync]
 from google.cloud import retail_v2beta
 
 
@@ -42,5 +41,3 @@ def sample_remove_control():
 
     # Handle the response
     print(response)
-
-# [END retail_v2beta_generated_ServingConfigService_RemoveControl_sync]

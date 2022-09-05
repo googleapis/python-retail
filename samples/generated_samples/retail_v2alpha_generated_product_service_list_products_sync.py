@@ -23,7 +23,6 @@
 #   python3 -m pip install google-cloud-retail
 
 
-# [START retail_v2alpha_generated_ProductService_ListProducts_sync]
 from google.cloud import retail_v2alpha
 
 
@@ -42,5 +41,3 @@ def sample_list_products():
     # Handle the response
     for response in page_result:
         print(response)
-
-# [END retail_v2alpha_generated_ProductService_ListProducts_sync]

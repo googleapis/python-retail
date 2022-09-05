@@ -23,7 +23,6 @@
 #   python3 -m pip install google-cloud-retail
 
 
-# [START retail_v2alpha_generated_ControlService_DeleteControl_sync]
 from google.cloud import retail_v2alpha
 
 
@@ -39,5 +38,3 @@ def sample_delete_control():
     # Make the request
     client.delete_control(request=request)
 
-
-# [END retail_v2alpha_generated_ControlService_DeleteControl_sync]

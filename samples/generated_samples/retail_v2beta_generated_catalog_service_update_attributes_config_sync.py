@@ -23,7 +23,6 @@
 #   python3 -m pip install google-cloud-retail
 
 
-# [START retail_v2beta_generated_CatalogService_UpdateAttributesConfig_sync]
 from google.cloud import retail_v2beta
 
 
@@ -44,5 +43,3 @@ def sample_update_attributes_config():
 
     # Handle the response
     print(response)
-
-# [END retail_v2beta_generated_CatalogService_UpdateAttributesConfig_sync]

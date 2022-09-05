@@ -23,7 +23,6 @@
 #   python3 -m pip install google-cloud-retail
 
 
-# [START retail_v2alpha_generated_UserEventService_PurgeUserEvents_async]
 from google.cloud import retail_v2alpha
 
 
@@ -46,5 +45,3 @@ async def sample_purge_user_events():
 
     # Handle the response
     print(response)
-
-# [END retail_v2alpha_generated_UserEventService_PurgeUserEvents_async]

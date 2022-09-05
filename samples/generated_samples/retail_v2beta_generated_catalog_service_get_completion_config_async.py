@@ -23,7 +23,6 @@
 #   python3 -m pip install google-cloud-retail
 
 
-# [START retail_v2beta_generated_CatalogService_GetCompletionConfig_async]
 from google.cloud import retail_v2beta
 
 
@@ -41,5 +40,3 @@ async def sample_get_completion_config():
 
     # Handle the response
     print(response)
-
-# [END retail_v2beta_generated_CatalogService_GetCompletionConfig_async]

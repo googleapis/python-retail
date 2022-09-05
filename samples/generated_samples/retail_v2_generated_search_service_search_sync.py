@@ -23,7 +23,6 @@
 #   python3 -m pip install google-cloud-retail
 
 
-# [START retail_v2_generated_SearchService_Search_sync]
 from google.cloud import retail_v2
 
 
@@ -43,5 +42,3 @@ def sample_search():
     # Handle the response
     for response in page_result:
         print(response)
-
-# [END retail_v2_generated_SearchService_Search_sync]

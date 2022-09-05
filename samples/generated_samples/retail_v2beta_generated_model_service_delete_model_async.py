@@ -23,7 +23,6 @@
 #   python3 -m pip install google-cloud-retail
 
 
-# [START retail_v2beta_generated_ModelService_DeleteModel_async]
 from google.cloud import retail_v2beta
 
 
@@ -39,5 +38,3 @@ async def sample_delete_model():
     # Make the request
     await client.delete_model(request=request)
 
-
-# [END retail_v2beta_generated_ModelService_DeleteModel_async]

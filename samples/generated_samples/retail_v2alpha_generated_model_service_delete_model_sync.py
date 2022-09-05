@@ -23,7 +23,6 @@
 #   python3 -m pip install google-cloud-retail
 
 
-# [START retail_v2alpha_generated_ModelService_DeleteModel_sync]
 from google.cloud import retail_v2alpha
 
 
@@ -39,5 +38,3 @@ def sample_delete_model():
     # Make the request
     client.delete_model(request=request)
 
-
-# [END retail_v2alpha_generated_ModelService_DeleteModel_sync]
