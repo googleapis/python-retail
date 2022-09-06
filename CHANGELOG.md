@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.1](https://github.com/googleapis/python-retail/compare/v1.10.0...v1.10.1) (2022-09-06)
+
+
+### Bug Fixes
+
+* Remove add_time param from LRO requests. ([#336](https://github.com/googleapis/python-retail/issues/336)) ([59d3217](https://github.com/googleapis/python-retail/commit/59d3217ac6cd196e9b0b350665b9aa206579d20d))
+
 ## [1.10.0](https://github.com/googleapis/python-retail/compare/v1.9.0...v1.10.0) (2022-09-02)
 
 
