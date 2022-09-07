@@ -46,18 +46,14 @@ def get_remove_fulfillment_request(
     return remove_fulfillment_request
 
 
-def remove_fulfillment_places(product_name: str, store_id):
-    remove_fulfillment_request = get_remove_fulfillment_request(
-        product_name, store_id
-    )
-    return ProductServiceAsyncClient().remove_fulfillment_places(
-        remove_fulfillment_request
-    )
-
-
 async def remove_places(product_name: str):
     print(f"------remove fulfillment places-----")
-    operation = await remove_fulfillment_places(product_name, "store0")
+    remove_fulfillment_request = get_remove_fulfillment_request(
+        product_name, "store0"
+    )
+    operation = await ProductServiceAsyncClient().remove_fulfillment_places(
+        remove_fulfillment_request
+    )
     # This operation doesn't have result or errors. So GoogleAPICallError will be raised.
     try:
         await operation.result()

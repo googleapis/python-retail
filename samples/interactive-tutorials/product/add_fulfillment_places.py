@@ -51,16 +51,12 @@ def get_add_fulfillment_request(
     return add_fulfillment_request
 
 
-def add_fulfillment_places(product_name: str, place_id):
-    add_fulfillment_request = get_add_fulfillment_request(
-        product_name, place_id
-    )
-    return ProductServiceAsyncClient().add_fulfillment_places(add_fulfillment_request)
-
-
 async def add_places(product_name: str):
     print(f"------add fulfillment places-----")
-    operation = await add_fulfillment_places(product_name, "store2")
+    add_fulfillment_request = get_add_fulfillment_request(
+        product_name, "store2"
+    )
+    operation = await ProductServiceAsyncClient().add_fulfillment_places(add_fulfillment_request)
     # This operation doesn't have result or errors. So GoogleAPICallError will be raised.
     try:
         await operation.result()
