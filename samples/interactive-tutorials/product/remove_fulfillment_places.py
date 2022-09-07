@@ -47,10 +47,8 @@ def get_remove_fulfillment_request(
 
 
 async def remove_places(product_name: str):
-    print(f"------remove fulfillment places-----")
-    remove_fulfillment_request = get_remove_fulfillment_request(
-        product_name, "store0"
-    )
+    print("------remove fulfillment places-----")
+    remove_fulfillment_request = get_remove_fulfillment_request(product_name, "store0")
     operation = await ProductServiceAsyncClient().remove_fulfillment_places(
         remove_fulfillment_request
     )
