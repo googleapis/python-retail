@@ -23,6 +23,7 @@
 #   python3 -m pip install google-cloud-retail
 
 
+# [START retail_v2beta_generated_CompletionService_ImportCompletionData_sync]
 from google.cloud import retail_v2beta
 
 
@@ -49,3 +50,5 @@ def sample_import_completion_data():
 
     # Handle the response
     print(response)
+
+# [END retail_v2beta_generated_CompletionService_ImportCompletionData_sync]

@@ -23,6 +23,7 @@
 #   python3 -m pip install google-cloud-retail
 
 
+# [START retail_v2_generated_CatalogService_GetAttributesConfig_async]
 from google.cloud import retail_v2
 
 
@@ -40,3 +41,5 @@ async def sample_get_attributes_config():
 
     # Handle the response
     print(response)
+
+# [END retail_v2_generated_CatalogService_GetAttributesConfig_async]

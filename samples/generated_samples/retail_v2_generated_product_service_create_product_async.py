@@ -23,6 +23,7 @@
 #   python3 -m pip install google-cloud-retail
 
 
+# [START retail_v2_generated_ProductService_CreateProduct_async]
 from google.cloud import retail_v2
 
 
@@ -45,3 +46,5 @@ async def sample_create_product():
 
     # Handle the response
     print(response)
+
+# [END retail_v2_generated_ProductService_CreateProduct_async]

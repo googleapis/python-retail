@@ -23,6 +23,7 @@
 #   python3 -m pip install google-cloud-retail
 
 
+# [START retail_v2alpha_generated_PredictionService_Predict_async]
 from google.cloud import retail_v2alpha
 
 
@@ -45,3 +46,5 @@ async def sample_predict():
 
     # Handle the response
     print(response)
+
+# [END retail_v2alpha_generated_PredictionService_Predict_async]

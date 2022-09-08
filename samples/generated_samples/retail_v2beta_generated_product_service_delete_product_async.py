@@ -23,6 +23,7 @@
 #   python3 -m pip install google-cloud-retail
 
 
+# [START retail_v2beta_generated_ProductService_DeleteProduct_async]
 from google.cloud import retail_v2beta
 
 
@@ -38,3 +39,5 @@ async def sample_delete_product():
     # Make the request
     await client.delete_product(request=request)
 
+
+# [END retail_v2beta_generated_ProductService_DeleteProduct_async]

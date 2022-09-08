@@ -23,6 +23,7 @@
 #   python3 -m pip install google-cloud-retail
 
 
+# [START retail_v2_generated_ServingConfigService_DeleteServingConfig_async]
 from google.cloud import retail_v2
 
 
@@ -38,3 +39,5 @@ async def sample_delete_serving_config():
     # Make the request
     await client.delete_serving_config(request=request)
 
+
+# [END retail_v2_generated_ServingConfigService_DeleteServingConfig_async]

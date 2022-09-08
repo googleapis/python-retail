@@ -23,6 +23,7 @@
 #   python3 -m pip install google-cloud-retail
 
 
+# [START retail_v2_generated_ControlService_GetControl_sync]
 from google.cloud import retail_v2
 
 
@@ -40,3 +41,5 @@ def sample_get_control():
 
     # Handle the response
     print(response)
+
+# [END retail_v2_generated_ControlService_GetControl_sync]

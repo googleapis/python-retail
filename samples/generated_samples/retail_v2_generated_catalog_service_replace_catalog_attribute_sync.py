@@ -23,6 +23,7 @@
 #   python3 -m pip install google-cloud-retail
 
 
+# [START retail_v2_generated_CatalogService_ReplaceCatalogAttribute_sync]
 from google.cloud import retail_v2
 
 
@@ -44,3 +45,5 @@ def sample_replace_catalog_attribute():
 
     # Handle the response
     print(response)
+
+# [END retail_v2_generated_CatalogService_ReplaceCatalogAttribute_sync]

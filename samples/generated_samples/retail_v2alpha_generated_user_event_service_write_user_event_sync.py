@@ -23,6 +23,7 @@
 #   python3 -m pip install google-cloud-retail
 
 
+# [START retail_v2alpha_generated_UserEventService_WriteUserEvent_sync]
 from google.cloud import retail_v2alpha
 
 
@@ -45,3 +46,5 @@ def sample_write_user_event():
 
     # Handle the response
     print(response)
+
+# [END retail_v2alpha_generated_UserEventService_WriteUserEvent_sync]

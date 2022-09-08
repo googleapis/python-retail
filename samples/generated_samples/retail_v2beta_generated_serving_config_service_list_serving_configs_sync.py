@@ -23,6 +23,7 @@
 #   python3 -m pip install google-cloud-retail
 
 
+# [START retail_v2beta_generated_ServingConfigService_ListServingConfigs_sync]
 from google.cloud import retail_v2beta
 
 
@@ -41,3 +42,5 @@ def sample_list_serving_configs():
     # Handle the response
     for response in page_result:
         print(response)
+
+# [END retail_v2beta_generated_ServingConfigService_ListServingConfigs_sync]
