@@ -14,12 +14,15 @@
 
 # Remove place IDs using Retail API.
 #
-import datetime
+import asyncio
 import random
 import string
-import time
 
-from google.cloud.retail import ProductServiceClient, RemoveFulfillmentPlacesRequest
+from google.api_core.exceptions import GoogleAPICallError
+from google.cloud.retail import (
+    ProductServiceAsyncClient,
+    RemoveFulfillmentPlacesRequest,
+)
 
 from setup_product.setup_cleanup import create_product, delete_product, get_product
 
@@ -28,13 +31,12 @@ product_id = "".join(random.sample(string.ascii_lowercase, 8))
 
 # remove fulfillment request
 def get_remove_fulfillment_request(
-    product_name: str, timestamp, store_id
+    product_name: str, store_id
 ) -> RemoveFulfillmentPlacesRequest:
     remove_fulfillment_request = RemoveFulfillmentPlacesRequest()
     remove_fulfillment_request.product = product_name
     remove_fulfillment_request.type_ = "pickup-in-store"
     remove_fulfillment_request.place_ids = [store_id]
-    remove_fulfillment_request.remove_time = timestamp
     remove_fulfillment_request.allow_missing = True
 
     print("---remove fulfillment request---")
@@ -43,25 +45,23 @@ def get_remove_fulfillment_request(
     return remove_fulfillment_request
 
 
-# remove fulfillment places to product
-def remove_fulfillment_places(product_name: str, timestamp, store_id):
-    remove_fulfillment_request = get_remove_fulfillment_request(
-        product_name, timestamp, store_id
+async def remove_places(product_name: str):
+    print("------remove fulfillment places-----")
+    remove_fulfillment_request = get_remove_fulfillment_request(product_name, "store0")
+    operation = await ProductServiceAsyncClient().remove_fulfillment_places(
+        remove_fulfillment_request
     )
-    ProductServiceClient().remove_fulfillment_places(remove_fulfillment_request)
+    # This operation doesn't have result or errors. So GoogleAPICallError will be raised.
+    try:
+        await operation.result()
+    except GoogleAPICallError:
+        pass
 
-    # This is a long running operation and its result is not immediately present with get operations,
-    # thus we simulate wait with sleep method.
-    print("---remove fulfillment places, wait 90 seconds:---")
-    time.sleep(90)
+    get_product(product_name)
+    delete_product(product_name)
 
 
 product = create_product(product_id)
 
-# The request timestamp
-current_date = datetime.datetime.now()
-
-print(f"------remove fulfilment places with current date: {current_date}-----")
-remove_fulfillment_places(product.name, current_date, "store0")
-get_product(product.name)
-delete_product(product.name)
+asyncio.run(remove_places(product.name))
+# [END retail_remove_fulfillment_places]
