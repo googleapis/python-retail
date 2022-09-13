@@ -30,7 +30,7 @@ BLACK_VERSION = "black==22.3.0"
 ISORT_VERSION = "isort==5.10.1"
 LINT_PATHS = ["docs", "google", "tests", "noxfile.py", "setup.py"]
 
-DEFAULT_PYTHON_VERSION = "3.9"
+DEFAULT_PYTHON_VERSION = "3.8"
 
 UNIT_TEST_PYTHON_VERSIONS = ["3.7", "3.8", "3.9", "3.10"]
 UNIT_TEST_STANDARD_DEPENDENCIES = [
@@ -46,7 +46,7 @@ UNIT_TEST_DEPENDENCIES = []
 UNIT_TEST_EXTRAS = []
 UNIT_TEST_EXTRAS_BY_PYTHON = {}
 
-SYSTEM_TEST_PYTHON_VERSIONS = ["3.9"]
+SYSTEM_TEST_PYTHON_VERSIONS = ["3.8"]
 SYSTEM_TEST_STANDARD_DEPENDENCIES = [
     "mock",
     "pytest",
@@ -334,7 +334,6 @@ def docfx(session):
 def prerelease_deps(session):
     """Run all tests with prerelease versions of dependencies installed."""
 
-<<<<<<< Updated upstream
     # Install all dependencies
     session.install("-e", ".[all, tests, tracing]")
     unit_deps_all = UNIT_TEST_STANDARD_DEPENDENCIES + UNIT_TEST_EXTERNAL_DEPENDENCIES
@@ -345,37 +344,6 @@ def prerelease_deps(session):
         + SYSTEM_TEST_EXTRAS
     )
     session.install(*system_deps_all)
-=======
-    prerel_deps = [
-        "protobuf",
-        # dependency of grpc
-        "six",
-        "googleapis-common-protos",
-        "google-auth",
-        "grpcio",
-        "grpcio-status",
-        "google-api-core",
-        "proto-plus",
-        # dependencies of google-auth
-        "cryptography",
-        "pyasn1",
-        "google-cloud-testutils",
-        # dependencies of google-cloud-testutils"
-        "click",
-    ]
-
-    for dep in prerel_deps:
-        session.install("--pre", "--no-deps", "--upgrade", dep)
-
-    # Remaining dependencies
-    other_deps = ["requests"]
-    session.install(*other_deps)
-
-    session.install(*UNIT_TEST_STANDARD_DEPENDENCIES)
-    # Don't overwrite prerelease packages.
-    system_deps = [dep for dep in SYSTEM_TEST_STANDARD_DEPENDENCIES if dep not in prerel_deps]
-    session.install(*system_deps)
->>>>>>> Stashed changes
 
     # Because we test minimum dependency versions on the minimum Python
     # version, the first version we test with in the unit tests sessions has a
@@ -396,7 +364,6 @@ def prerelease_deps(session):
         )
     ]
 
-<<<<<<< Updated upstream
     session.install(*constraints_deps)
 
     prerel_deps = [
@@ -423,15 +390,6 @@ def prerelease_deps(session):
         "google-auth",
     ]
     session.install(*other_deps)
-=======
-    # Don't overwrite prerelease packages.
-    deps = [dep for dep in deps if dep not in prerel_deps]
-    # We use --no-deps to ensure that pre-release versions aren't overwritten
-    # by the version ranges in setup.py.
-    if deps:
-        session.install(*deps)
-    session.install("--no-deps", "-e", ".[all]")
->>>>>>> Stashed changes
 
     # Print out prerelease package versions
     session.run(
