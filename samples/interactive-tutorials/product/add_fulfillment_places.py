@@ -44,6 +44,10 @@ def get_add_fulfillment_request(
     add_fulfillment_request.place_ids = [place_id]
     add_fulfillment_request.allow_missing = True
 
+    # To send an out-of-order request assign the invalid add_time here:
+    # import datetime
+    # add_fulfillment_request.add_time = datetime.datetime.now() - datetime.timedelta(days=1)
+
     print("---add fulfillment request---")
     print(add_fulfillment_request)
 

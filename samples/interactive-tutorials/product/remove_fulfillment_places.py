@@ -39,6 +39,10 @@ def get_remove_fulfillment_request(
     remove_fulfillment_request.place_ids = [store_id]
     remove_fulfillment_request.allow_missing = True
 
+    # To send an out-of-order request assign the invalid remove_time here:
+    # import datetime
+    # remove_fulfillment_request.remove_time = datetime.datetime.now() - datetime.timedelta(days=1)
+
     print("---remove fulfillment request---")
     print(remove_fulfillment_request)
 
