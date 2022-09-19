@@ -44,7 +44,7 @@ product_name = (
 # product inventory info
 def get_product_with_inventory_info(product_name: str) -> Product:
     price_info = PriceInfo()
-    price_info.price = 15.0
+    price_info.price = 20.0
     price_info.original_price = 60.0
     price_info.cost = 8.0
     price_info.currency_code = "USD"
@@ -74,8 +74,8 @@ def get_set_inventory_request(product_name: str) -> SetInventoryRequest:
     set_inventory_request.set_mask = set_mask
 
     # To send an out-of-order request assign the invalid set_time here:
-    # import datetime
-    # set_inventory_request.set_time = datetime.datetime.now() - datetime.timedelta(days=1)
+    import datetime
+    set_inventory_request.set_time = datetime.datetime.now() - datetime.timedelta(days=1)
 
     print("---set inventory request---")
     print(set_inventory_request)
@@ -103,4 +103,3 @@ async def set_inventory_and_remove_product(product_name: str):
 
 product = create_product(product_id)
 asyncio.run(set_inventory_and_remove_product(product.name))
-# [END retail_set_inventory]
