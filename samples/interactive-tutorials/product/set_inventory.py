@@ -75,7 +75,10 @@ def get_set_inventory_request(product_name: str) -> SetInventoryRequest:
 
     # To send an out-of-order request assign the invalid set_time here:
     import datetime
-    set_inventory_request.set_time = datetime.datetime.now() - datetime.timedelta(days=1)
+
+    set_inventory_request.set_time = datetime.datetime.now() - datetime.timedelta(
+        days=1
+    )
 
     print("---set inventory request---")
     print(set_inventory_request)
