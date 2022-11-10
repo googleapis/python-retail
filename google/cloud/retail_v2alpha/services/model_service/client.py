@@ -16,7 +16,18 @@
 from collections import OrderedDict
 import os
 import re
-from typing import Dict, Mapping, Optional, Sequence, Tuple, Type, Union, cast
+from typing import (
+    Dict,
+    Mapping,
+    MutableMapping,
+    MutableSequence,
+    Optional,
+    Sequence,
+    Tuple,
+    Type,
+    Union,
+    cast,
+)
 
 from google.api_core import client_options as client_options_lib
 from google.api_core import exceptions as core_exceptions
@@ -64,7 +75,7 @@ class ModelServiceClientMeta(type):
 
     def get_transport_class(
         cls,
-        label: str = None,
+        label: Optional[str] = None,
     ) -> Type[ModelServiceTransport]:
         """Returns an appropriate transport class.
 
@@ -375,7 +386,7 @@ class ModelServiceClient(metaclass=ModelServiceClientMeta):
         self,
         *,
         credentials: Optional[ga_credentials.Credentials] = None,
-        transport: Union[str, ModelServiceTransport, None] = None,
+        transport: Optional[Union[str, ModelServiceTransport]] = None,
         client_options: Optional[Union[client_options_lib.ClientOptions, dict]] = None,
         client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
     ) -> None:
@@ -473,12 +484,12 @@ class ModelServiceClient(metaclass=ModelServiceClientMeta):
 
     def create_model(
         self,
-        request: Union[model_service.CreateModelRequest, dict] = None,
+        request: Optional[Union[model_service.CreateModelRequest, dict]] = None,
         *,
-        parent: str = None,
-        model: gcr_model.Model = None,
+        parent: Optional[str] = None,
+        model: Optional[gcr_model.Model] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Creates a new model.
@@ -610,11 +621,11 @@ class ModelServiceClient(metaclass=ModelServiceClientMeta):
 
     def pause_model(
         self,
-        request: Union[model_service.PauseModelRequest, dict] = None,
+        request: Optional[Union[model_service.PauseModelRequest, dict]] = None,
         *,
-        name: str = None,
+        name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> model.Model:
         r"""Pauses the training of an existing model.
@@ -716,11 +727,11 @@ class ModelServiceClient(metaclass=ModelServiceClientMeta):
 
     def resume_model(
         self,
-        request: Union[model_service.ResumeModelRequest, dict] = None,
+        request: Optional[Union[model_service.ResumeModelRequest, dict]] = None,
         *,
-        name: str = None,
+        name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> model.Model:
         r"""Resumes the training of an existing model.
@@ -822,11 +833,11 @@ class ModelServiceClient(metaclass=ModelServiceClientMeta):
 
     def delete_model(
         self,
-        request: Union[model_service.DeleteModelRequest, dict] = None,
+        request: Optional[Union[model_service.DeleteModelRequest, dict]] = None,
         *,
-        name: str = None,
+        name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> None:
         r"""Deletes an existing model.
@@ -912,11 +923,11 @@ class ModelServiceClient(metaclass=ModelServiceClientMeta):
 
     def list_models(
         self,
-        request: Union[model_service.ListModelsRequest, dict] = None,
+        request: Optional[Union[model_service.ListModelsRequest, dict]] = None,
         *,
-        parent: str = None,
+        parent: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> pagers.ListModelsPager:
         r"""Lists all the models linked to this event store.
@@ -1026,12 +1037,12 @@ class ModelServiceClient(metaclass=ModelServiceClientMeta):
 
     def update_model(
         self,
-        request: Union[model_service.UpdateModelRequest, dict] = None,
+        request: Optional[Union[model_service.UpdateModelRequest, dict]] = None,
         *,
-        model: gcr_model.Model = None,
-        update_mask: field_mask_pb2.FieldMask = None,
+        model: Optional[gcr_model.Model] = None,
+        update_mask: Optional[field_mask_pb2.FieldMask] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> gcr_model.Model:
         r"""Update of model metadata. Only fields that currently can be
@@ -1153,11 +1164,11 @@ class ModelServiceClient(metaclass=ModelServiceClientMeta):
 
     def tune_model(
         self,
-        request: Union[model_service.TuneModelRequest, dict] = None,
+        request: Optional[Union[model_service.TuneModelRequest, dict]] = None,
         *,
-        name: str = None,
+        name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Tunes an existing model.

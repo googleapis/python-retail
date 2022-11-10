@@ -16,7 +16,18 @@
 from collections import OrderedDict
 import os
 import re
-from typing import Dict, Mapping, Optional, Sequence, Tuple, Type, Union, cast
+from typing import (
+    Dict,
+    Mapping,
+    MutableMapping,
+    MutableSequence,
+    Optional,
+    Sequence,
+    Tuple,
+    Type,
+    Union,
+    cast,
+)
 
 from google.api_core import client_options as client_options_lib
 from google.api_core import exceptions as core_exceptions
@@ -63,7 +74,7 @@ class ControlServiceClientMeta(type):
 
     def get_transport_class(
         cls,
-        label: str = None,
+        label: Optional[str] = None,
     ) -> Type[ControlServiceTransport]:
         """Returns an appropriate transport class.
 
@@ -362,7 +373,7 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
         self,
         *,
         credentials: Optional[ga_credentials.Credentials] = None,
-        transport: Union[str, ControlServiceTransport, None] = None,
+        transport: Optional[Union[str, ControlServiceTransport]] = None,
         client_options: Optional[Union[client_options_lib.ClientOptions, dict]] = None,
         client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
     ) -> None:
@@ -460,13 +471,13 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
 
     def create_control(
         self,
-        request: Union[control_service.CreateControlRequest, dict] = None,
+        request: Optional[Union[control_service.CreateControlRequest, dict]] = None,
         *,
-        parent: str = None,
-        control: gcr_control.Control = None,
-        control_id: str = None,
+        parent: Optional[str] = None,
+        control: Optional[gcr_control.Control] = None,
+        control_id: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> gcr_control.Control:
         r"""Creates a Control.
@@ -493,8 +504,8 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
                 control = retail_v2alpha.Control()
                 control.facet_spec.facet_key.key = "key_value"
                 control.display_name = "display_name_value"
-                control.solution_types = "SOLUTION_TYPE_SEARCH"
-                control.search_solution_use_case = "SEARCH_SOLUTION_USE_CASE_BROWSE"
+                control.solution_types = ['SOLUTION_TYPE_SEARCH']
+                control.search_solution_use_case = ['SEARCH_SOLUTION_USE_CASE_BROWSE']
 
                 request = retail_v2alpha.CreateControlRequest(
                     parent="parent_value",
@@ -596,11 +607,11 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
 
     def delete_control(
         self,
-        request: Union[control_service.DeleteControlRequest, dict] = None,
+        request: Optional[Union[control_service.DeleteControlRequest, dict]] = None,
         *,
-        name: str = None,
+        name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> None:
         r"""Deletes a Control.
@@ -689,12 +700,12 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
 
     def update_control(
         self,
-        request: Union[control_service.UpdateControlRequest, dict] = None,
+        request: Optional[Union[control_service.UpdateControlRequest, dict]] = None,
         *,
-        control: gcr_control.Control = None,
-        update_mask: field_mask_pb2.FieldMask = None,
+        control: Optional[gcr_control.Control] = None,
+        update_mask: Optional[field_mask_pb2.FieldMask] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> gcr_control.Control:
         r"""Updates a Control.
@@ -723,8 +734,8 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
                 control = retail_v2alpha.Control()
                 control.facet_spec.facet_key.key = "key_value"
                 control.display_name = "display_name_value"
-                control.solution_types = "SOLUTION_TYPE_SEARCH"
-                control.search_solution_use_case = "SEARCH_SOLUTION_USE_CASE_BROWSE"
+                control.solution_types = ['SOLUTION_TYPE_SEARCH']
+                control.search_solution_use_case = ['SEARCH_SOLUTION_USE_CASE_BROWSE']
 
                 request = retail_v2alpha.UpdateControlRequest(
                     control=control,
@@ -818,11 +829,11 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
 
     def get_control(
         self,
-        request: Union[control_service.GetControlRequest, dict] = None,
+        request: Optional[Union[control_service.GetControlRequest, dict]] = None,
         *,
-        name: str = None,
+        name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> control.Control:
         r"""Gets a Control.
@@ -922,11 +933,11 @@ class ControlServiceClient(metaclass=ControlServiceClientMeta):
 
     def list_controls(
         self,
-        request: Union[control_service.ListControlsRequest, dict] = None,
+        request: Optional[Union[control_service.ListControlsRequest, dict]] = None,
         *,
-        parent: str = None,
+        parent: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> pagers.ListControlsPager:
         r"""Lists all Controls linked to this catalog.

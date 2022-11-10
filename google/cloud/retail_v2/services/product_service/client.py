@@ -16,7 +16,18 @@
 from collections import OrderedDict
 import os
 import re
-from typing import Dict, Mapping, Optional, Sequence, Tuple, Type, Union, cast
+from typing import (
+    Dict,
+    Mapping,
+    MutableMapping,
+    MutableSequence,
+    Optional,
+    Sequence,
+    Tuple,
+    Type,
+    Union,
+    cast,
+)
 
 from google.api_core import client_options as client_options_lib
 from google.api_core import exceptions as core_exceptions
@@ -68,7 +79,7 @@ class ProductServiceClientMeta(type):
 
     def get_transport_class(
         cls,
-        label: str = None,
+        label: Optional[str] = None,
     ) -> Type[ProductServiceTransport]:
         """Returns an appropriate transport class.
 
@@ -373,7 +384,7 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
         self,
         *,
         credentials: Optional[ga_credentials.Credentials] = None,
-        transport: Union[str, ProductServiceTransport, None] = None,
+        transport: Optional[Union[str, ProductServiceTransport]] = None,
         client_options: Optional[Union[client_options_lib.ClientOptions, dict]] = None,
         client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
     ) -> None:
@@ -471,13 +482,13 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
     def create_product(
         self,
-        request: Union[product_service.CreateProductRequest, dict] = None,
+        request: Optional[Union[product_service.CreateProductRequest, dict]] = None,
         *,
-        parent: str = None,
-        product: gcr_product.Product = None,
-        product_id: str = None,
+        parent: Optional[str] = None,
+        product: Optional[gcr_product.Product] = None,
+        product_id: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> gcr_product.Product:
         r"""Creates a [Product][google.cloud.retail.v2.Product].
@@ -616,11 +627,11 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
     def get_product(
         self,
-        request: Union[product_service.GetProductRequest, dict] = None,
+        request: Optional[Union[product_service.GetProductRequest, dict]] = None,
         *,
-        name: str = None,
+        name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> product.Product:
         r"""Gets a [Product][google.cloud.retail.v2.Product].
@@ -730,11 +741,11 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
     def list_products(
         self,
-        request: Union[product_service.ListProductsRequest, dict] = None,
+        request: Optional[Union[product_service.ListProductsRequest, dict]] = None,
         *,
-        parent: str = None,
+        parent: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> pagers.ListProductsPager:
         r"""Gets a list of [Product][google.cloud.retail.v2.Product]s.
@@ -854,12 +865,12 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
     def update_product(
         self,
-        request: Union[product_service.UpdateProductRequest, dict] = None,
+        request: Optional[Union[product_service.UpdateProductRequest, dict]] = None,
         *,
-        product: gcr_product.Product = None,
-        update_mask: field_mask_pb2.FieldMask = None,
+        product: Optional[gcr_product.Product] = None,
+        update_mask: Optional[field_mask_pb2.FieldMask] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> gcr_product.Product:
         r"""Updates a [Product][google.cloud.retail.v2.Product].
@@ -993,11 +1004,11 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
     def delete_product(
         self,
-        request: Union[product_service.DeleteProductRequest, dict] = None,
+        request: Optional[Union[product_service.DeleteProductRequest, dict]] = None,
         *,
-        name: str = None,
+        name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> None:
         r"""Deletes a [Product][google.cloud.retail.v2.Product].
@@ -1107,10 +1118,10 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
     def import_products(
         self,
-        request: Union[import_config.ImportProductsRequest, dict] = None,
+        request: Optional[Union[import_config.ImportProductsRequest, dict]] = None,
         *,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Bulk import of multiple
@@ -1217,12 +1228,12 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
     def set_inventory(
         self,
-        request: Union[product_service.SetInventoryRequest, dict] = None,
+        request: Optional[Union[product_service.SetInventoryRequest, dict]] = None,
         *,
-        inventory: product.Product = None,
-        set_mask: field_mask_pb2.FieldMask = None,
+        inventory: Optional[product.Product] = None,
+        set_mask: Optional[field_mask_pb2.FieldMask] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Updates inventory information for a
@@ -1472,11 +1483,13 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
     def add_fulfillment_places(
         self,
-        request: Union[product_service.AddFulfillmentPlacesRequest, dict] = None,
+        request: Optional[
+            Union[product_service.AddFulfillmentPlacesRequest, dict]
+        ] = None,
         *,
-        product: str = None,
+        product: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Incrementally adds place IDs to
@@ -1622,11 +1635,13 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
     def remove_fulfillment_places(
         self,
-        request: Union[product_service.RemoveFulfillmentPlacesRequest, dict] = None,
+        request: Optional[
+            Union[product_service.RemoveFulfillmentPlacesRequest, dict]
+        ] = None,
         *,
-        product: str = None,
+        product: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Incrementally removes place IDs from a
@@ -1774,11 +1789,13 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
     def add_local_inventories(
         self,
-        request: Union[product_service.AddLocalInventoriesRequest, dict] = None,
+        request: Optional[
+            Union[product_service.AddLocalInventoriesRequest, dict]
+        ] = None,
         *,
-        product: str = None,
+        product: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Updates local inventory information for a
@@ -1933,11 +1950,13 @@ class ProductServiceClient(metaclass=ProductServiceClientMeta):
 
     def remove_local_inventories(
         self,
-        request: Union[product_service.RemoveLocalInventoriesRequest, dict] = None,
+        request: Optional[
+            Union[product_service.RemoveLocalInventoriesRequest, dict]
+        ] = None,
         *,
-        product: str = None,
+        product: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Remove local inventory information for a

@@ -16,7 +16,18 @@
 from collections import OrderedDict
 import os
 import re
-from typing import Dict, Mapping, Optional, Sequence, Tuple, Type, Union, cast
+from typing import (
+    Dict,
+    Mapping,
+    MutableMapping,
+    MutableSequence,
+    Optional,
+    Sequence,
+    Tuple,
+    Type,
+    Union,
+    cast,
+)
 
 from google.api_core import client_options as client_options_lib
 from google.api_core import exceptions as core_exceptions
@@ -60,7 +71,7 @@ class CompletionServiceClientMeta(type):
 
     def get_transport_class(
         cls,
-        label: str = None,
+        label: Optional[str] = None,
     ) -> Type[CompletionServiceTransport]:
         """Returns an appropriate transport class.
 
@@ -339,7 +350,7 @@ class CompletionServiceClient(metaclass=CompletionServiceClientMeta):
         self,
         *,
         credentials: Optional[ga_credentials.Credentials] = None,
-        transport: Union[str, CompletionServiceTransport, None] = None,
+        transport: Optional[Union[str, CompletionServiceTransport]] = None,
         client_options: Optional[Union[client_options_lib.ClientOptions, dict]] = None,
         client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
     ) -> None:
@@ -437,10 +448,10 @@ class CompletionServiceClient(metaclass=CompletionServiceClientMeta):
 
     def complete_query(
         self,
-        request: Union[completion_service.CompleteQueryRequest, dict] = None,
+        request: Optional[Union[completion_service.CompleteQueryRequest, dict]] = None,
         *,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> completion_service.CompleteQueryResponse:
         r"""Completes the specified prefix with keyword
@@ -520,10 +531,12 @@ class CompletionServiceClient(metaclass=CompletionServiceClientMeta):
 
     def import_completion_data(
         self,
-        request: Union[import_config.ImportCompletionDataRequest, dict] = None,
+        request: Optional[
+            Union[import_config.ImportCompletionDataRequest, dict]
+        ] = None,
         *,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Bulk import of processed completion dataset.
