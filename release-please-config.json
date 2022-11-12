@@ -7,17 +7,17 @@
         "google/cloud/retail/gapic_version.py",
         {
           "type": "json",
-          "path": "samples/generated_samples/snippet_metadata_retail_v2beta.json",
+          "path": "samples/generated_samples/snippet_metadata_google.cloud.retail.v2.json",
           "jsonpath": "$.clientLibrary.version"
         },
         {
           "type": "json",
-          "path": "samples/generated_samples/snippet_metadata_retail_v2alpha.json",
+          "path": "samples/generated_samples/snippet_metadata_google.cloud.retail.v2beta.json",
           "jsonpath": "$.clientLibrary.version"
         },
         {
           "type": "json",
-          "path": "samples/generated_samples/snippet_metadata_retail_v2.json",
+          "path": "samples/generated_samples/snippet_metadata_google.cloud.retail.v2alpha.json",
           "jsonpath": "$.clientLibrary.version"
         }
       ]
