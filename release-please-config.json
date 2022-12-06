@@ -4,8 +4,8 @@
     ".": {
       "release-type": "python",
       "extra-files": [
-        "google/cloud/retail/gapic_version.py",
         "google/cloud/retail_v2alpha/gapic_version.py",
+        "google/cloud/retail/gapic_version.py",
         "google/cloud/retail_v2beta/gapic_version.py",
         "google/cloud/retail_v2/gapic_version.py",
         {
