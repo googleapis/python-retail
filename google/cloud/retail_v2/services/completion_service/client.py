@@ -54,6 +54,7 @@ from google.cloud.retail_v2.types import completion_service, import_config
 from .transports.base import DEFAULT_CLIENT_INFO, CompletionServiceTransport
 from .transports.grpc import CompletionServiceGrpcTransport
 from .transports.grpc_asyncio import CompletionServiceGrpcAsyncIOTransport
+from .transports.rest import CompletionServiceRestTransport
 
 
 class CompletionServiceClientMeta(type):
@@ -69,6 +70,7 @@ class CompletionServiceClientMeta(type):
     )  # type: Dict[str, Type[CompletionServiceTransport]]
     _transport_registry["grpc"] = CompletionServiceGrpcTransport
     _transport_registry["grpc_asyncio"] = CompletionServiceGrpcAsyncIOTransport
+    _transport_registry["rest"] = CompletionServiceRestTransport
 
     def get_transport_class(
         cls,

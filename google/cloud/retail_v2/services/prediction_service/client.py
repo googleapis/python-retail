@@ -51,6 +51,7 @@ from google.cloud.retail_v2.types import prediction_service
 from .transports.base import DEFAULT_CLIENT_INFO, PredictionServiceTransport
 from .transports.grpc import PredictionServiceGrpcTransport
 from .transports.grpc_asyncio import PredictionServiceGrpcAsyncIOTransport
+from .transports.rest import PredictionServiceRestTransport
 
 
 class PredictionServiceClientMeta(type):
@@ -66,6 +67,7 @@ class PredictionServiceClientMeta(type):
     )  # type: Dict[str, Type[PredictionServiceTransport]]
     _transport_registry["grpc"] = PredictionServiceGrpcTransport
     _transport_registry["grpc_asyncio"] = PredictionServiceGrpcAsyncIOTransport
+    _transport_registry["rest"] = PredictionServiceRestTransport
 
     def get_transport_class(
         cls,

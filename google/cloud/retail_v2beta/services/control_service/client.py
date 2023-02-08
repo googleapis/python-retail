@@ -57,6 +57,7 @@ from google.cloud.retail_v2beta.types import control_service, search_service
 from .transports.base import DEFAULT_CLIENT_INFO, ControlServiceTransport
 from .transports.grpc import ControlServiceGrpcTransport
 from .transports.grpc_asyncio import ControlServiceGrpcAsyncIOTransport
+from .transports.rest import ControlServiceRestTransport
 
 
 class ControlServiceClientMeta(type):
@@ -72,6 +73,7 @@ class ControlServiceClientMeta(type):
     )  # type: Dict[str, Type[ControlServiceTransport]]
     _transport_registry["grpc"] = ControlServiceGrpcTransport
     _transport_registry["grpc_asyncio"] = ControlServiceGrpcAsyncIOTransport
+    _transport_registry["rest"] = ControlServiceRestTransport
 
     def get_transport_class(
         cls,

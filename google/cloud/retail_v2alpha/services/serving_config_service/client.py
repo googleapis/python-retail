@@ -57,6 +57,7 @@ from google.cloud.retail_v2alpha.types import serving_config_service
 from .transports.base import DEFAULT_CLIENT_INFO, ServingConfigServiceTransport
 from .transports.grpc import ServingConfigServiceGrpcTransport
 from .transports.grpc_asyncio import ServingConfigServiceGrpcAsyncIOTransport
+from .transports.rest import ServingConfigServiceRestTransport
 
 
 class ServingConfigServiceClientMeta(type):
@@ -72,6 +73,7 @@ class ServingConfigServiceClientMeta(type):
     )  # type: Dict[str, Type[ServingConfigServiceTransport]]
     _transport_registry["grpc"] = ServingConfigServiceGrpcTransport
     _transport_registry["grpc_asyncio"] = ServingConfigServiceGrpcAsyncIOTransport
+    _transport_registry["rest"] = ServingConfigServiceRestTransport
 
     def get_transport_class(
         cls,

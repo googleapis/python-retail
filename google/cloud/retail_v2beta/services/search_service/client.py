@@ -52,6 +52,7 @@ from google.cloud.retail_v2beta.types import search_service
 from .transports.base import DEFAULT_CLIENT_INFO, SearchServiceTransport
 from .transports.grpc import SearchServiceGrpcTransport
 from .transports.grpc_asyncio import SearchServiceGrpcAsyncIOTransport
+from .transports.rest import SearchServiceRestTransport
 
 
 class SearchServiceClientMeta(type):
@@ -65,6 +66,7 @@ class SearchServiceClientMeta(type):
     _transport_registry = OrderedDict()  # type: Dict[str, Type[SearchServiceTransport]]
     _transport_registry["grpc"] = SearchServiceGrpcTransport
     _transport_registry["grpc_asyncio"] = SearchServiceGrpcAsyncIOTransport
+    _transport_registry["rest"] = SearchServiceRestTransport
 
     def get_transport_class(
         cls,

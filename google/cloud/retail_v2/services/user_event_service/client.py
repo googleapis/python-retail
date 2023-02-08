@@ -63,6 +63,7 @@ from google.cloud.retail_v2.types import (
 from .transports.base import DEFAULT_CLIENT_INFO, UserEventServiceTransport
 from .transports.grpc import UserEventServiceGrpcTransport
 from .transports.grpc_asyncio import UserEventServiceGrpcAsyncIOTransport
+from .transports.rest import UserEventServiceRestTransport
 
 
 class UserEventServiceClientMeta(type):
@@ -78,6 +79,7 @@ class UserEventServiceClientMeta(type):
     )  # type: Dict[str, Type[UserEventServiceTransport]]
     _transport_registry["grpc"] = UserEventServiceGrpcTransport
     _transport_registry["grpc_asyncio"] = UserEventServiceGrpcAsyncIOTransport
+    _transport_registry["rest"] = UserEventServiceRestTransport
 
     def get_transport_class(
         cls,
