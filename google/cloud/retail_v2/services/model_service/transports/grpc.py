@@ -22,20 +22,31 @@ from google.auth import credentials as ga_credentials  # type: ignore
 from google.auth.transport.grpc import SslCredentials  # type: ignore
 from google.cloud.location import locations_pb2  # type: ignore
 from google.longrunning import operations_pb2  # type: ignore
+from google.protobuf import empty_pb2  # type: ignore
 import grpc  # type: ignore
 
-from google.cloud.retail_v2.types import completion_service, import_config
+from google.cloud.retail_v2.types import model
+from google.cloud.retail_v2.types import model as gcr_model
+from google.cloud.retail_v2.types import model_service
 
-from .base import DEFAULT_CLIENT_INFO, CompletionServiceTransport
+from .base import DEFAULT_CLIENT_INFO, ModelServiceTransport
 
 
-class CompletionServiceGrpcTransport(CompletionServiceTransport):
-    """gRPC backend transport for CompletionService.
+class ModelServiceGrpcTransport(ModelServiceTransport):
+    """gRPC backend transport for ModelService.
 
-    Autocomplete service for retail.
-    This feature is only available for users who have Retail Search
-    enabled. Enable Retail Search on Cloud Console before using this
-    feature.
+    Service for performing CRUD operations on models. Recommendation
+    models contain all the metadata necessary to generate a set of
+    models for the ``Predict()`` API. A model is queried indirectly via
+    a ServingConfig, which associates a model with a given Placement
+    (e.g. Frequently Bought Together on Home Page).
+
+    This service allows you to do the following:
+
+    -  Initiate training of a model.
+    -  Pause training of an existing model.
+    -  List all the available models along with their metadata.
+    -  Control their tuning schedule.
 
     This class defines the same methods as the primary client, so the
     primary client can load the underlying transport implementation
@@ -249,58 +260,15 @@ class CompletionServiceGrpcTransport(CompletionServiceTransport):
         return self._operations_client
 
     @property
-    def complete_query(
+    def create_model(
         self,
-    ) -> Callable[
-        [completion_service.CompleteQueryRequest],
-        completion_service.CompleteQueryResponse,
-    ]:
-        r"""Return a callable for the complete query method over gRPC.
+    ) -> Callable[[model_service.CreateModelRequest], operations_pb2.Operation]:
+        r"""Return a callable for the create model method over gRPC.
 
-        Completes the specified prefix with keyword
-        suggestions.
-        This feature is only available for users who have Retail
-        Search enabled. Enable Retail Search on Cloud Console
-        before using this feature.
+        Creates a new model.
 
         Returns:
-            Callable[[~.CompleteQueryRequest],
-                    ~.CompleteQueryResponse]:
-                A function that, when called, will call the underlying RPC
-                on the server.
-        """
-        # Generate a "stub function" on-the-fly which will actually make
-        # the request.
-        # gRPC handles serialization and deserialization, so we just need
-        # to pass in the functions for each.
-        if "complete_query" not in self._stubs:
-            self._stubs["complete_query"] = self.grpc_channel.unary_unary(
-                "/google.cloud.retail.v2.CompletionService/CompleteQuery",
-                request_serializer=completion_service.CompleteQueryRequest.serialize,
-                response_deserializer=completion_service.CompleteQueryResponse.deserialize,
-            )
-        return self._stubs["complete_query"]
-
-    @property
-    def import_completion_data(
-        self,
-    ) -> Callable[
-        [import_config.ImportCompletionDataRequest], operations_pb2.Operation
-    ]:
-        r"""Return a callable for the import completion data method over gRPC.
-
-        Bulk import of processed completion dataset.
-        Request processing is asynchronous. Partial updating is
-        not supported.
-        The operation is successfully finished only after the
-        imported suggestions are indexed successfully and ready
-        for serving. The process takes hours.
-        This feature is only available for users who have Retail
-        Search enabled. Enable Retail Search on Cloud Console
-        before using this feature.
-
-        Returns:
-            Callable[[~.ImportCompletionDataRequest],
+            Callable[[~.CreateModelRequest],
                     ~.Operation]:
                 A function that, when called, will call the underlying RPC
                 on the server.
@@ -309,13 +277,191 @@ class CompletionServiceGrpcTransport(CompletionServiceTransport):
         # the request.
         # gRPC handles serialization and deserialization, so we just need
         # to pass in the functions for each.
-        if "import_completion_data" not in self._stubs:
-            self._stubs["import_completion_data"] = self.grpc_channel.unary_unary(
-                "/google.cloud.retail.v2.CompletionService/ImportCompletionData",
-                request_serializer=import_config.ImportCompletionDataRequest.serialize,
+        if "create_model" not in self._stubs:
+            self._stubs["create_model"] = self.grpc_channel.unary_unary(
+                "/google.cloud.retail.v2.ModelService/CreateModel",
+                request_serializer=model_service.CreateModelRequest.serialize,
                 response_deserializer=operations_pb2.Operation.FromString,
             )
-        return self._stubs["import_completion_data"]
+        return self._stubs["create_model"]
+
+    @property
+    def get_model(self) -> Callable[[model_service.GetModelRequest], model.Model]:
+        r"""Return a callable for the get model method over gRPC.
+
+        Gets a model.
+
+        Returns:
+            Callable[[~.GetModelRequest],
+                    ~.Model]:
+                A function that, when called, will call the underlying RPC
+                on the server.
+        """
+        # Generate a "stub function" on-the-fly which will actually make
+        # the request.
+        # gRPC handles serialization and deserialization, so we just need
+        # to pass in the functions for each.
+        if "get_model" not in self._stubs:
+            self._stubs["get_model"] = self.grpc_channel.unary_unary(
+                "/google.cloud.retail.v2.ModelService/GetModel",
+                request_serializer=model_service.GetModelRequest.serialize,
+                response_deserializer=model.Model.deserialize,
+            )
+        return self._stubs["get_model"]
+
+    @property
+    def pause_model(self) -> Callable[[model_service.PauseModelRequest], model.Model]:
+        r"""Return a callable for the pause model method over gRPC.
+
+        Pauses the training of an existing model.
+
+        Returns:
+            Callable[[~.PauseModelRequest],
+                    ~.Model]:
+                A function that, when called, will call the underlying RPC
+                on the server.
+        """
+        # Generate a "stub function" on-the-fly which will actually make
+        # the request.
+        # gRPC handles serialization and deserialization, so we just need
+        # to pass in the functions for each.
+        if "pause_model" not in self._stubs:
+            self._stubs["pause_model"] = self.grpc_channel.unary_unary(
+                "/google.cloud.retail.v2.ModelService/PauseModel",
+                request_serializer=model_service.PauseModelRequest.serialize,
+                response_deserializer=model.Model.deserialize,
+            )
+        return self._stubs["pause_model"]
+
+    @property
+    def resume_model(self) -> Callable[[model_service.ResumeModelRequest], model.Model]:
+        r"""Return a callable for the resume model method over gRPC.
+
+        Resumes the training of an existing model.
+
+        Returns:
+            Callable[[~.ResumeModelRequest],
+                    ~.Model]:
+                A function that, when called, will call the underlying RPC
+                on the server.
+        """
+        # Generate a "stub function" on-the-fly which will actually make
+        # the request.
+        # gRPC handles serialization and deserialization, so we just need
+        # to pass in the functions for each.
+        if "resume_model" not in self._stubs:
+            self._stubs["resume_model"] = self.grpc_channel.unary_unary(
+                "/google.cloud.retail.v2.ModelService/ResumeModel",
+                request_serializer=model_service.ResumeModelRequest.serialize,
+                response_deserializer=model.Model.deserialize,
+            )
+        return self._stubs["resume_model"]
+
+    @property
+    def delete_model(
+        self,
+    ) -> Callable[[model_service.DeleteModelRequest], empty_pb2.Empty]:
+        r"""Return a callable for the delete model method over gRPC.
+
+        Deletes an existing model.
+
+        Returns:
+            Callable[[~.DeleteModelRequest],
+                    ~.Empty]:
+                A function that, when called, will call the underlying RPC
+                on the server.
+        """
+        # Generate a "stub function" on-the-fly which will actually make
+        # the request.
+        # gRPC handles serialization and deserialization, so we just need
+        # to pass in the functions for each.
+        if "delete_model" not in self._stubs:
+            self._stubs["delete_model"] = self.grpc_channel.unary_unary(
+                "/google.cloud.retail.v2.ModelService/DeleteModel",
+                request_serializer=model_service.DeleteModelRequest.serialize,
+                response_deserializer=empty_pb2.Empty.FromString,
+            )
+        return self._stubs["delete_model"]
+
+    @property
+    def list_models(
+        self,
+    ) -> Callable[[model_service.ListModelsRequest], model_service.ListModelsResponse]:
+        r"""Return a callable for the list models method over gRPC.
+
+        Lists all the models linked to this event store.
+
+        Returns:
+            Callable[[~.ListModelsRequest],
+                    ~.ListModelsResponse]:
+                A function that, when called, will call the underlying RPC
+                on the server.
+        """
+        # Generate a "stub function" on-the-fly which will actually make
+        # the request.
+        # gRPC handles serialization and deserialization, so we just need
+        # to pass in the functions for each.
+        if "list_models" not in self._stubs:
+            self._stubs["list_models"] = self.grpc_channel.unary_unary(
+                "/google.cloud.retail.v2.ModelService/ListModels",
+                request_serializer=model_service.ListModelsRequest.serialize,
+                response_deserializer=model_service.ListModelsResponse.deserialize,
+            )
+        return self._stubs["list_models"]
+
+    @property
+    def update_model(
+        self,
+    ) -> Callable[[model_service.UpdateModelRequest], gcr_model.Model]:
+        r"""Return a callable for the update model method over gRPC.
+
+        Update of model metadata. Only fields that currently can be
+        updated are: ``filtering_option`` and ``periodic_tuning_state``.
+        If other values are provided, this API method ignores them.
+
+        Returns:
+            Callable[[~.UpdateModelRequest],
+                    ~.Model]:
+                A function that, when called, will call the underlying RPC
+                on the server.
+        """
+        # Generate a "stub function" on-the-fly which will actually make
+        # the request.
+        # gRPC handles serialization and deserialization, so we just need
+        # to pass in the functions for each.
+        if "update_model" not in self._stubs:
+            self._stubs["update_model"] = self.grpc_channel.unary_unary(
+                "/google.cloud.retail.v2.ModelService/UpdateModel",
+                request_serializer=model_service.UpdateModelRequest.serialize,
+                response_deserializer=gcr_model.Model.deserialize,
+            )
+        return self._stubs["update_model"]
+
+    @property
+    def tune_model(
+        self,
+    ) -> Callable[[model_service.TuneModelRequest], operations_pb2.Operation]:
+        r"""Return a callable for the tune model method over gRPC.
+
+        Tunes an existing model.
+
+        Returns:
+            Callable[[~.TuneModelRequest],
+                    ~.Operation]:
+                A function that, when called, will call the underlying RPC
+                on the server.
+        """
+        # Generate a "stub function" on-the-fly which will actually make
+        # the request.
+        # gRPC handles serialization and deserialization, so we just need
+        # to pass in the functions for each.
+        if "tune_model" not in self._stubs:
+            self._stubs["tune_model"] = self.grpc_channel.unary_unary(
+                "/google.cloud.retail.v2.ModelService/TuneModel",
+                request_serializer=model_service.TuneModelRequest.serialize,
+                response_deserializer=operations_pb2.Operation.FromString,
+            )
+        return self._stubs["tune_model"]
 
     def close(self):
         self.grpc_channel.close()
@@ -361,4 +507,4 @@ class CompletionServiceGrpcTransport(CompletionServiceTransport):
         return "grpc"
 
 
-__all__ = ("CompletionServiceGrpcTransport",)
+__all__ = ("ModelServiceGrpcTransport",)
