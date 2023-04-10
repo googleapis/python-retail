@@ -51,16 +51,25 @@ from google.api_core import operation_async  # type: ignore
 from google.cloud.location import locations_pb2  # type: ignore
 from google.longrunning import operations_pb2
 
-from google.cloud.retail_v2alpha.types import completion_service, import_config
+from google.cloud.retail_v2alpha.types import (
+    merchant_center_account_link as gcr_merchant_center_account_link,
+)
+from google.cloud.retail_v2alpha.types import merchant_center_account_link_service
+from google.cloud.retail_v2alpha.types import merchant_center_account_link
 
-from .transports.base import DEFAULT_CLIENT_INFO, CompletionServiceTransport
-from .transports.grpc import CompletionServiceGrpcTransport
-from .transports.grpc_asyncio import CompletionServiceGrpcAsyncIOTransport
-from .transports.rest import CompletionServiceRestTransport
+from .transports.base import (
+    DEFAULT_CLIENT_INFO,
+    MerchantCenterAccountLinkServiceTransport,
+)
+from .transports.grpc import MerchantCenterAccountLinkServiceGrpcTransport
+from .transports.grpc_asyncio import (
+    MerchantCenterAccountLinkServiceGrpcAsyncIOTransport,
+)
+from .transports.rest import MerchantCenterAccountLinkServiceRestTransport
 
 
-class CompletionServiceClientMeta(type):
-    """Metaclass for the CompletionService client.
+class MerchantCenterAccountLinkServiceClientMeta(type):
+    """Metaclass for the MerchantCenterAccountLinkService client.
 
     This provides class-level methods for building and retrieving
     support objects (e.g. transport) without polluting the client instance
@@ -69,15 +78,17 @@ class CompletionServiceClientMeta(type):
 
     _transport_registry = (
         OrderedDict()
-    )  # type: Dict[str, Type[CompletionServiceTransport]]
-    _transport_registry["grpc"] = CompletionServiceGrpcTransport
-    _transport_registry["grpc_asyncio"] = CompletionServiceGrpcAsyncIOTransport
-    _transport_registry["rest"] = CompletionServiceRestTransport
+    )  # type: Dict[str, Type[MerchantCenterAccountLinkServiceTransport]]
+    _transport_registry["grpc"] = MerchantCenterAccountLinkServiceGrpcTransport
+    _transport_registry[
+        "grpc_asyncio"
+    ] = MerchantCenterAccountLinkServiceGrpcAsyncIOTransport
+    _transport_registry["rest"] = MerchantCenterAccountLinkServiceRestTransport
 
     def get_transport_class(
         cls,
         label: Optional[str] = None,
-    ) -> Type[CompletionServiceTransport]:
+    ) -> Type[MerchantCenterAccountLinkServiceTransport]:
         """Returns an appropriate transport class.
 
         Args:
@@ -96,11 +107,11 @@ class CompletionServiceClientMeta(type):
         return next(iter(cls._transport_registry.values()))
 
 
-class CompletionServiceClient(metaclass=CompletionServiceClientMeta):
-    """Autocomplete service for retail.
-    This feature is only available for users who have Retail Search
-    enabled. Enable Retail Search on Cloud Console before using this
-    feature.
+class MerchantCenterAccountLinkServiceClient(
+    metaclass=MerchantCenterAccountLinkServiceClientMeta
+):
+    """Merchant Center Link service to link a Branch to a Merchant
+    Center Account.
     """
 
     @staticmethod
@@ -149,7 +160,7 @@ class CompletionServiceClient(metaclass=CompletionServiceClientMeta):
             kwargs: Additional arguments to pass to the constructor.
 
         Returns:
-            CompletionServiceClient: The constructed client.
+            MerchantCenterAccountLinkServiceClient: The constructed client.
         """
         credentials = service_account.Credentials.from_service_account_info(info)
         kwargs["credentials"] = credentials
@@ -167,7 +178,7 @@ class CompletionServiceClient(metaclass=CompletionServiceClientMeta):
             kwargs: Additional arguments to pass to the constructor.
 
         Returns:
-            CompletionServiceClient: The constructed client.
+            MerchantCenterAccountLinkServiceClient: The constructed client.
         """
         credentials = service_account.Credentials.from_service_account_file(filename)
         kwargs["credentials"] = credentials
@@ -176,11 +187,11 @@ class CompletionServiceClient(metaclass=CompletionServiceClientMeta):
     from_service_account_json = from_service_account_file
 
     @property
-    def transport(self) -> CompletionServiceTransport:
+    def transport(self) -> MerchantCenterAccountLinkServiceTransport:
         """Returns the transport used by the client instance.
 
         Returns:
-            CompletionServiceTransport: The transport used by the client
+            MerchantCenterAccountLinkServiceTransport: The transport used by the client
                 instance.
         """
         return self._transport
@@ -203,6 +214,30 @@ class CompletionServiceClient(metaclass=CompletionServiceClientMeta):
         """Parses a catalog path into its component segments."""
         m = re.match(
             r"^projects/(?P<project>.+?)/locations/(?P<location>.+?)/catalogs/(?P<catalog>.+?)$",
+            path,
+        )
+        return m.groupdict() if m else {}
+
+    @staticmethod
+    def merchant_center_account_link_path(
+        project: str,
+        location: str,
+        catalog: str,
+        merchant_center_account_link: str,
+    ) -> str:
+        """Returns a fully-qualified merchant_center_account_link string."""
+        return "projects/{project}/locations/{location}/catalogs/{catalog}/merchantCenterAccountLinks/{merchant_center_account_link}".format(
+            project=project,
+            location=location,
+            catalog=catalog,
+            merchant_center_account_link=merchant_center_account_link,
+        )
+
+    @staticmethod
+    def parse_merchant_center_account_link_path(path: str) -> Dict[str, str]:
+        """Parses a merchant_center_account_link path into its component segments."""
+        m = re.match(
+            r"^projects/(?P<project>.+?)/locations/(?P<location>.+?)/catalogs/(?P<catalog>.+?)/merchantCenterAccountLinks/(?P<merchant_center_account_link>.+?)$",
             path,
         )
         return m.groupdict() if m else {}
@@ -355,11 +390,13 @@ class CompletionServiceClient(metaclass=CompletionServiceClientMeta):
         self,
         *,
         credentials: Optional[ga_credentials.Credentials] = None,
-        transport: Optional[Union[str, CompletionServiceTransport]] = None,
+        transport: Optional[
+            Union[str, MerchantCenterAccountLinkServiceTransport]
+        ] = None,
         client_options: Optional[Union[client_options_lib.ClientOptions, dict]] = None,
         client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
     ) -> None:
-        """Instantiates the completion service client.
+        """Instantiates the merchant center account link service client.
 
         Args:
             credentials (Optional[google.auth.credentials.Credentials]): The
@@ -367,7 +404,7 @@ class CompletionServiceClient(metaclass=CompletionServiceClientMeta):
                 credentials identify the application to the service; if none
                 are specified, the client will attempt to ascertain the
                 credentials from the environment.
-            transport (Union[str, CompletionServiceTransport]): The
+            transport (Union[str, MerchantCenterAccountLinkServiceTransport]): The
                 transport to use. If set to None, a transport is chosen
                 automatically.
             client_options (Optional[Union[google.api_core.client_options.ClientOptions, dict]]): Custom options for the
@@ -415,8 +452,8 @@ class CompletionServiceClient(metaclass=CompletionServiceClientMeta):
         # Save or instantiate the transport.
         # Ordinarily, we provide the transport, but allowing a custom transport
         # instance provides an extensibility point for unusual situations.
-        if isinstance(transport, CompletionServiceTransport):
-            # transport is a CompletionServiceTransport instance.
+        if isinstance(transport, MerchantCenterAccountLinkServiceTransport):
+            # transport is a MerchantCenterAccountLinkServiceTransport instance.
             if credentials or client_options.credentials_file or api_key_value:
                 raise ValueError(
                     "When providing a transport instance, "
@@ -451,108 +488,24 @@ class CompletionServiceClient(metaclass=CompletionServiceClientMeta):
                 api_audience=client_options.api_audience,
             )
 
-    def complete_query(
-        self,
-        request: Optional[Union[completion_service.CompleteQueryRequest, dict]] = None,
-        *,
-        retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: Union[float, object] = gapic_v1.method.DEFAULT,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> completion_service.CompleteQueryResponse:
-        r"""Completes the specified prefix with keyword
-        suggestions.
-        This feature is only available for users who have Retail
-        Search enabled. Enable Retail Search on Cloud Console
-        before using this feature.
-
-        .. code-block:: python
-
-            # This snippet has been automatically generated and should be regarded as a
-            # code template only.
-            # It will require modifications to work:
-            # - It may require correct/in-range values for request initialization.
-            # - It may require specifying regional endpoints when creating the service
-            #   client as shown in:
-            #   https://googleapis.dev/python/google-api-core/latest/client_options.html
-            from google.cloud import retail_v2alpha
-
-            def sample_complete_query():
-                # Create a client
-                client = retail_v2alpha.CompletionServiceClient()
-
-                # Initialize request argument(s)
-                request = retail_v2alpha.CompleteQueryRequest(
-                    catalog="catalog_value",
-                    query="query_value",
-                )
-
-                # Make the request
-                response = client.complete_query(request=request)
-
-                # Handle the response
-                print(response)
-
-        Args:
-            request (Union[google.cloud.retail_v2alpha.types.CompleteQueryRequest, dict]):
-                The request object. Autocomplete parameters.
-            retry (google.api_core.retry.Retry): Designation of what errors, if any,
-                should be retried.
-            timeout (float): The timeout for this request.
-            metadata (Sequence[Tuple[str, str]]): Strings which should be
-                sent along with the request as metadata.
-
-        Returns:
-            google.cloud.retail_v2alpha.types.CompleteQueryResponse:
-                Response of the autocomplete query.
-        """
-        # Create or coerce a protobuf request object.
-        # Minor optimization to avoid making a copy if the user passes
-        # in a completion_service.CompleteQueryRequest.
-        # There's no risk of modifying the input as we've already verified
-        # there are no flattened fields.
-        if not isinstance(request, completion_service.CompleteQueryRequest):
-            request = completion_service.CompleteQueryRequest(request)
-
-        # Wrap the RPC method; this adds retry and timeout information,
-        # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.complete_query]
-
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata((("catalog", request.catalog),)),
-        )
-
-        # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
-
-        # Done; return the response.
-        return response
-
-    def import_completion_data(
+    def list_merchant_center_account_links(
         self,
         request: Optional[
-            Union[import_config.ImportCompletionDataRequest, dict]
+            Union[
+                merchant_center_account_link_service.ListMerchantCenterAccountLinksRequest,
+                dict,
+            ]
         ] = None,
         *,
+        parent: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> operation.Operation:
-        r"""Bulk import of processed completion dataset.
-        Request processing is asynchronous. Partial updating is
-        not supported.
-        The operation is successfully finished only after the
-        imported suggestions are indexed successfully and ready
-        for serving. The process takes hours.
-        This feature is only available for users who have Retail
-        Search enabled. Enable Retail Search on Cloud Console
-        before using this feature.
+    ) -> merchant_center_account_link_service.ListMerchantCenterAccountLinksResponse:
+        r"""Lists all
+        [MerchantCenterAccountLink][google.cloud.retail.v2alpha.MerchantCenterAccountLink]s
+        under the specified parent
+        [Catalog][google.cloud.retail.v2alpha.Catalog].
 
         .. code-block:: python
 
@@ -565,34 +518,34 @@ class CompletionServiceClient(metaclass=CompletionServiceClientMeta):
             #   https://googleapis.dev/python/google-api-core/latest/client_options.html
             from google.cloud import retail_v2alpha
 
-            def sample_import_completion_data():
+            def sample_list_merchant_center_account_links():
                 # Create a client
-                client = retail_v2alpha.CompletionServiceClient()
+                client = retail_v2alpha.MerchantCenterAccountLinkServiceClient()
 
                 # Initialize request argument(s)
-                input_config = retail_v2alpha.CompletionDataInputConfig()
-                input_config.big_query_source.dataset_id = "dataset_id_value"
-                input_config.big_query_source.table_id = "table_id_value"
-
-                request = retail_v2alpha.ImportCompletionDataRequest(
+                request = retail_v2alpha.ListMerchantCenterAccountLinksRequest(
                     parent="parent_value",
-                    input_config=input_config,
                 )
 
                 # Make the request
-                operation = client.import_completion_data(request=request)
-
-                print("Waiting for operation to complete...")
-
-                response = operation.result()
+                response = client.list_merchant_center_account_links(request=request)
 
                 # Handle the response
                 print(response)
 
         Args:
-            request (Union[google.cloud.retail_v2alpha.types.ImportCompletionDataRequest, dict]):
-                The request object. Request message for
-                ImportCompletionData methods.
+            request (Union[google.cloud.retail_v2alpha.types.ListMerchantCenterAccountLinksRequest, dict]):
+                The request object. Request for
+                [MerchantCenterAccountLinkService.ListMerchantCenterAccountLinks][google.cloud.retail.v2alpha.MerchantCenterAccountLinkService.ListMerchantCenterAccountLinks]
+                method.
+            parent (str):
+                Required. The parent Catalog of the resource. It must
+                match this format:
+                projects/{PROJECT_NUMBER}/locations/global/catalogs/{CATALOG_ID}
+
+                This corresponds to the ``parent`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -600,28 +553,43 @@ class CompletionServiceClient(metaclass=CompletionServiceClientMeta):
                 sent along with the request as metadata.
 
         Returns:
-            google.api_core.operation.Operation:
-                An object representing a long-running operation.
-
-                The result type for the operation will be :class:`google.cloud.retail_v2alpha.types.ImportCompletionDataResponse` Response of the
-                   [ImportCompletionDataRequest][google.cloud.retail.v2alpha.ImportCompletionDataRequest].
-                   If the long running operation is done, this message
-                   is returned by the
-                   google.longrunning.Operations.response field if the
-                   operation is successful.
+            google.cloud.retail_v2alpha.types.ListMerchantCenterAccountLinksResponse:
+                Response for
+                   [MerchantCenterAccountLinkService.ListMerchantCenterAccountLinks][google.cloud.retail.v2alpha.MerchantCenterAccountLinkService.ListMerchantCenterAccountLinks]
+                   method.
 
         """
         # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([parent])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
         # Minor optimization to avoid making a copy if the user passes
-        # in a import_config.ImportCompletionDataRequest.
+        # in a merchant_center_account_link_service.ListMerchantCenterAccountLinksRequest.
         # There's no risk of modifying the input as we've already verified
         # there are no flattened fields.
-        if not isinstance(request, import_config.ImportCompletionDataRequest):
-            request = import_config.ImportCompletionDataRequest(request)
+        if not isinstance(
+            request,
+            merchant_center_account_link_service.ListMerchantCenterAccountLinksRequest,
+        ):
+            request = merchant_center_account_link_service.ListMerchantCenterAccountLinksRequest(
+                request
+            )
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if parent is not None:
+                request.parent = parent
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.import_completion_data]
+        rpc = self._transport._wrapped_methods[
+            self._transport.list_merchant_center_account_links
+        ]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -637,18 +605,281 @@ class CompletionServiceClient(metaclass=CompletionServiceClientMeta):
             metadata=metadata,
         )
 
+        # Done; return the response.
+        return response
+
+    def create_merchant_center_account_link(
+        self,
+        request: Optional[
+            Union[
+                merchant_center_account_link_service.CreateMerchantCenterAccountLinkRequest,
+                dict,
+            ]
+        ] = None,
+        *,
+        parent: Optional[str] = None,
+        merchant_center_account_link: Optional[
+            gcr_merchant_center_account_link.MerchantCenterAccountLink
+        ] = None,
+        retry: OptionalRetry = gapic_v1.method.DEFAULT,
+        timeout: Union[float, object] = gapic_v1.method.DEFAULT,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> operation.Operation:
+        r"""Creates a MerchantCenterAccountLink.
+
+        [MerchantCenterAccountLink][google.cloud.retail.v2alpha.MerchantCenterAccountLink]
+        cannot be set to a different oneof field, if so an
+        INVALID_ARGUMENT is returned.
+
+        .. code-block:: python
+
+            # This snippet has been automatically generated and should be regarded as a
+            # code template only.
+            # It will require modifications to work:
+            # - It may require correct/in-range values for request initialization.
+            # - It may require specifying regional endpoints when creating the service
+            #   client as shown in:
+            #   https://googleapis.dev/python/google-api-core/latest/client_options.html
+            from google.cloud import retail_v2alpha
+
+            def sample_create_merchant_center_account_link():
+                # Create a client
+                client = retail_v2alpha.MerchantCenterAccountLinkServiceClient()
+
+                # Initialize request argument(s)
+                merchant_center_account_link = retail_v2alpha.MerchantCenterAccountLink()
+                merchant_center_account_link.merchant_center_account_id = 2730
+                merchant_center_account_link.branch_id = "branch_id_value"
+
+                request = retail_v2alpha.CreateMerchantCenterAccountLinkRequest(
+                    parent="parent_value",
+                    merchant_center_account_link=merchant_center_account_link,
+                )
+
+                # Make the request
+                operation = client.create_merchant_center_account_link(request=request)
+
+                print("Waiting for operation to complete...")
+
+                response = operation.result()
+
+                # Handle the response
+                print(response)
+
+        Args:
+            request (Union[google.cloud.retail_v2alpha.types.CreateMerchantCenterAccountLinkRequest, dict]):
+                The request object. Request for
+                [MerchantCenterAccountLinkService.CreateMerchantCenterAccountLink][google.cloud.retail.v2alpha.MerchantCenterAccountLinkService.CreateMerchantCenterAccountLink]
+                method.
+            parent (str):
+                Required. The branch resource where this
+                MerchantCenterAccountLink will be created. Format:
+                projects/{PROJECT_NUMBER}/locations/global/catalogs/{CATALOG_ID}}
+
+                This corresponds to the ``parent`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            merchant_center_account_link (google.cloud.retail_v2alpha.types.MerchantCenterAccountLink):
+                Required. The
+                [MerchantCenterAccountLink][google.cloud.retail.v2alpha.MerchantCenterAccountLink]
+                to create.
+
+                If the caller does not have permission to create the
+                [MerchantCenterAccountLink][google.cloud.retail.v2alpha.MerchantCenterAccountLink],
+                regardless of whether or not it exists, a
+                PERMISSION_DENIED error is returned.
+
+                This corresponds to the ``merchant_center_account_link`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            retry (google.api_core.retry.Retry): Designation of what errors, if any,
+                should be retried.
+            timeout (float): The timeout for this request.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
+
+        Returns:
+            google.api_core.operation.Operation:
+                An object representing a long-running operation.
+
+                The result type for the operation will be :class:`google.cloud.retail_v2alpha.types.MerchantCenterAccountLink` Represents a link between a Merchant Center account and a branch.
+                   Once a link is established, products from the linked
+                   merchant center account will be streamed to the
+                   linked branch.
+
+        """
+        # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([parent, merchant_center_account_link])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
+        # Minor optimization to avoid making a copy if the user passes
+        # in a merchant_center_account_link_service.CreateMerchantCenterAccountLinkRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(
+            request,
+            merchant_center_account_link_service.CreateMerchantCenterAccountLinkRequest,
+        ):
+            request = merchant_center_account_link_service.CreateMerchantCenterAccountLinkRequest(
+                request
+            )
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if parent is not None:
+                request.parent = parent
+            if merchant_center_account_link is not None:
+                request.merchant_center_account_link = merchant_center_account_link
+
+        # Wrap the RPC method; this adds retry and timeout information,
+        # and friendly error handling.
+        rpc = self._transport._wrapped_methods[
+            self._transport.create_merchant_center_account_link
+        ]
+
+        # Certain fields should be provided within the metadata header;
+        # add these here.
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata(
+                (
+                    (
+                        "merchant_center_account_link.name",
+                        request.merchant_center_account_link.name,
+                    ),
+                )
+            ),
+        )
+
+        # Send the request.
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
+
         # Wrap the response in an operation future.
         response = operation.from_gapic(
             response,
             self._transport.operations_client,
-            import_config.ImportCompletionDataResponse,
-            metadata_type=import_config.ImportMetadata,
+            gcr_merchant_center_account_link.MerchantCenterAccountLink,
+            metadata_type=gcr_merchant_center_account_link.CreateMerchantCenterAccountLinkMetadata,
         )
 
         # Done; return the response.
         return response
 
-    def __enter__(self) -> "CompletionServiceClient":
+    def delete_merchant_center_account_link(
+        self,
+        request: Optional[
+            Union[
+                merchant_center_account_link_service.DeleteMerchantCenterAccountLinkRequest,
+                dict,
+            ]
+        ] = None,
+        *,
+        name: Optional[str] = None,
+        retry: OptionalRetry = gapic_v1.method.DEFAULT,
+        timeout: Union[float, object] = gapic_v1.method.DEFAULT,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> None:
+        r"""Deletes a MerchantCenterAccountLink. If the
+        [MerchantCenterAccountLink][google.cloud.retail.v2alpha.MerchantCenterAccountLink]
+        to delete does not exist, a NOT_FOUND error is returned.
+
+        .. code-block:: python
+
+            # This snippet has been automatically generated and should be regarded as a
+            # code template only.
+            # It will require modifications to work:
+            # - It may require correct/in-range values for request initialization.
+            # - It may require specifying regional endpoints when creating the service
+            #   client as shown in:
+            #   https://googleapis.dev/python/google-api-core/latest/client_options.html
+            from google.cloud import retail_v2alpha
+
+            def sample_delete_merchant_center_account_link():
+                # Create a client
+                client = retail_v2alpha.MerchantCenterAccountLinkServiceClient()
+
+                # Initialize request argument(s)
+                request = retail_v2alpha.DeleteMerchantCenterAccountLinkRequest(
+                    name="name_value",
+                )
+
+                # Make the request
+                client.delete_merchant_center_account_link(request=request)
+
+        Args:
+            request (Union[google.cloud.retail_v2alpha.types.DeleteMerchantCenterAccountLinkRequest, dict]):
+                The request object. Request for
+                [MerchantCenterAccountLinkService.DeleteMerchantCenterAccountLink][google.cloud.retail.v2alpha.MerchantCenterAccountLinkService.DeleteMerchantCenterAccountLink]
+                method.
+            name (str):
+                Required. Full resource name. Format:
+                projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/merchantCenterAccountLinks/{merchant_center_account_link_id}
+
+                This corresponds to the ``name`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            retry (google.api_core.retry.Retry): Designation of what errors, if any,
+                should be retried.
+            timeout (float): The timeout for this request.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
+        """
+        # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([name])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
+        # Minor optimization to avoid making a copy if the user passes
+        # in a merchant_center_account_link_service.DeleteMerchantCenterAccountLinkRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(
+            request,
+            merchant_center_account_link_service.DeleteMerchantCenterAccountLinkRequest,
+        ):
+            request = merchant_center_account_link_service.DeleteMerchantCenterAccountLinkRequest(
+                request
+            )
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if name is not None:
+                request.name = name
+
+        # Wrap the RPC method; this adds retry and timeout information,
+        # and friendly error handling.
+        rpc = self._transport._wrapped_methods[
+            self._transport.delete_merchant_center_account_link
+        ]
+
+        # Certain fields should be provided within the metadata header;
+        # add these here.
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata((("name", request.name),)),
+        )
+
+        # Send the request.
+        rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
+
+    def __enter__(self) -> "MerchantCenterAccountLinkServiceClient":
         return self
 
     def __exit__(self, type, value, traceback):
@@ -775,4 +1006,4 @@ DEFAULT_CLIENT_INFO = gapic_v1.client_info.ClientInfo(
 )
 
 
-__all__ = ("CompletionServiceClient",)
+__all__ = ("MerchantCenterAccountLinkServiceClient",)

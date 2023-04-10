@@ -13,30 +13,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-from typing import Awaitable, Callable, Dict, Optional, Sequence, Tuple, Union
+from typing import Callable, Dict, Optional, Sequence, Tuple, Union
 import warnings
 
-from google.api_core import gapic_v1, grpc_helpers_async, operations_v1
+from google.api_core import gapic_v1, grpc_helpers, operations_v1
+import google.auth  # type: ignore
 from google.auth import credentials as ga_credentials  # type: ignore
 from google.auth.transport.grpc import SslCredentials  # type: ignore
 from google.cloud.location import locations_pb2  # type: ignore
 from google.longrunning import operations_pb2  # type: ignore
+from google.protobuf import empty_pb2  # type: ignore
 import grpc  # type: ignore
-from grpc.experimental import aio  # type: ignore
 
-from google.cloud.retail_v2alpha.types import completion_service, import_config
+from google.cloud.retail_v2alpha.types import merchant_center_account_link_service
 
-from .base import DEFAULT_CLIENT_INFO, CompletionServiceTransport
-from .grpc import CompletionServiceGrpcTransport
+from .base import DEFAULT_CLIENT_INFO, MerchantCenterAccountLinkServiceTransport
 
 
-class CompletionServiceGrpcAsyncIOTransport(CompletionServiceTransport):
-    """gRPC AsyncIO backend transport for CompletionService.
+class MerchantCenterAccountLinkServiceGrpcTransport(
+    MerchantCenterAccountLinkServiceTransport
+):
+    """gRPC backend transport for MerchantCenterAccountLinkService.
 
-    Autocomplete service for retail.
-    This feature is only available for users who have Retail Search
-    enabled. Enable Retail Search on Cloud Console before using this
-    feature.
+    Merchant Center Link service to link a Branch to a Merchant
+    Center Account.
 
     This class defines the same methods as the primary client, so the
     primary client can load the underlying transport implementation
@@ -46,51 +46,7 @@ class CompletionServiceGrpcAsyncIOTransport(CompletionServiceTransport):
     top of HTTP/2); the ``grpcio`` package must be installed.
     """
 
-    _grpc_channel: aio.Channel
-    _stubs: Dict[str, Callable] = {}
-
-    @classmethod
-    def create_channel(
-        cls,
-        host: str = "retail.googleapis.com",
-        credentials: Optional[ga_credentials.Credentials] = None,
-        credentials_file: Optional[str] = None,
-        scopes: Optional[Sequence[str]] = None,
-        quota_project_id: Optional[str] = None,
-        **kwargs,
-    ) -> aio.Channel:
-        """Create and return a gRPC AsyncIO channel object.
-        Args:
-            host (Optional[str]): The host for the channel to use.
-            credentials (Optional[~.Credentials]): The
-                authorization credentials to attach to requests. These
-                credentials identify this application to the service. If
-                none are specified, the client will attempt to ascertain
-                the credentials from the environment.
-            credentials_file (Optional[str]): A file with credentials that can
-                be loaded with :func:`google.auth.load_credentials_from_file`.
-                This argument is ignored if ``channel`` is provided.
-            scopes (Optional[Sequence[str]]): A optional list of scopes needed for this
-                service. These are only used when credentials are not specified and
-                are passed to :func:`google.auth.default`.
-            quota_project_id (Optional[str]): An optional project to use for billing
-                and quota.
-            kwargs (Optional[dict]): Keyword arguments, which are passed to the
-                channel creation.
-        Returns:
-            aio.Channel: A gRPC AsyncIO channel object.
-        """
-
-        return grpc_helpers_async.create_channel(
-            host,
-            credentials=credentials,
-            credentials_file=credentials_file,
-            quota_project_id=quota_project_id,
-            default_scopes=cls.AUTH_SCOPES,
-            scopes=scopes,
-            default_host=cls.DEFAULT_HOST,
-            **kwargs,
-        )
+    _stubs: Dict[str, Callable]
 
     def __init__(
         self,
@@ -99,7 +55,7 @@ class CompletionServiceGrpcAsyncIOTransport(CompletionServiceTransport):
         credentials: Optional[ga_credentials.Credentials] = None,
         credentials_file: Optional[str] = None,
         scopes: Optional[Sequence[str]] = None,
-        channel: Optional[aio.Channel] = None,
+        channel: Optional[grpc.Channel] = None,
         api_mtls_endpoint: Optional[str] = None,
         client_cert_source: Optional[Callable[[], Tuple[bytes, bytes]]] = None,
         ssl_channel_credentials: Optional[grpc.ChannelCredentials] = None,
@@ -123,10 +79,9 @@ class CompletionServiceGrpcAsyncIOTransport(CompletionServiceTransport):
             credentials_file (Optional[str]): A file with credentials that can
                 be loaded with :func:`google.auth.load_credentials_from_file`.
                 This argument is ignored if ``channel`` is provided.
-            scopes (Optional[Sequence[str]]): A optional list of scopes needed for this
-                service. These are only used when credentials are not specified and
-                are passed to :func:`google.auth.default`.
-            channel (Optional[aio.Channel]): A ``Channel`` instance through
+            scopes (Optional(Sequence[str])): A list of scopes. This argument is
+                ignored if ``channel`` is provided.
+            channel (Optional[grpc.Channel]): A ``Channel`` instance through
                 which to make calls.
             api_mtls_endpoint (Optional[str]): Deprecated. The mutual TLS endpoint.
                 If provided, it overrides the ``host`` argument and tries to create
@@ -153,7 +108,7 @@ class CompletionServiceGrpcAsyncIOTransport(CompletionServiceTransport):
                 be used for service account credentials.
 
         Raises:
-            google.auth.exceptions.MutualTlsChannelError: If mutual TLS transport
+          google.auth.exceptions.MutualTLSChannelError: If mutual TLS transport
               creation failed for any reason.
           google.api_core.exceptions.DuplicateCredentialArgs: If both ``credentials``
               and ``credentials_file`` are passed.
@@ -161,7 +116,7 @@ class CompletionServiceGrpcAsyncIOTransport(CompletionServiceTransport):
         self._grpc_channel = None
         self._ssl_channel_credentials = ssl_channel_credentials
         self._stubs: Dict[str, Callable] = {}
-        self._operations_client: Optional[operations_v1.OperationsAsyncClient] = None
+        self._operations_client: Optional[operations_v1.OperationsClient] = None
 
         if api_mtls_endpoint:
             warnings.warn("api_mtls_endpoint is deprecated", DeprecationWarning)
@@ -174,6 +129,7 @@ class CompletionServiceGrpcAsyncIOTransport(CompletionServiceTransport):
             # If a channel was explicitly provided, set it.
             self._grpc_channel = channel
             self._ssl_channel_credentials = None
+
         else:
             if api_mtls_endpoint:
                 host = api_mtls_endpoint
@@ -227,18 +183,60 @@ class CompletionServiceGrpcAsyncIOTransport(CompletionServiceTransport):
         # Wrap messages. This must be done after self._grpc_channel exists
         self._prep_wrapped_messages(client_info)
 
-    @property
-    def grpc_channel(self) -> aio.Channel:
-        """Create the channel designed to connect to this service.
+    @classmethod
+    def create_channel(
+        cls,
+        host: str = "retail.googleapis.com",
+        credentials: Optional[ga_credentials.Credentials] = None,
+        credentials_file: Optional[str] = None,
+        scopes: Optional[Sequence[str]] = None,
+        quota_project_id: Optional[str] = None,
+        **kwargs,
+    ) -> grpc.Channel:
+        """Create and return a gRPC channel object.
+        Args:
+            host (Optional[str]): The host for the channel to use.
+            credentials (Optional[~.Credentials]): The
+                authorization credentials to attach to requests. These
+                credentials identify this application to the service. If
+                none are specified, the client will attempt to ascertain
+                the credentials from the environment.
+            credentials_file (Optional[str]): A file with credentials that can
+                be loaded with :func:`google.auth.load_credentials_from_file`.
+                This argument is mutually exclusive with credentials.
+            scopes (Optional[Sequence[str]]): A optional list of scopes needed for this
+                service. These are only used when credentials are not specified and
+                are passed to :func:`google.auth.default`.
+            quota_project_id (Optional[str]): An optional project to use for billing
+                and quota.
+            kwargs (Optional[dict]): Keyword arguments, which are passed to the
+                channel creation.
+        Returns:
+            grpc.Channel: A gRPC channel object.
 
-        This property caches on the instance; repeated calls return
-        the same channel.
+        Raises:
+            google.api_core.exceptions.DuplicateCredentialArgs: If both ``credentials``
+              and ``credentials_file`` are passed.
         """
-        # Return the channel from cache.
+
+        return grpc_helpers.create_channel(
+            host,
+            credentials=credentials,
+            credentials_file=credentials_file,
+            quota_project_id=quota_project_id,
+            default_scopes=cls.AUTH_SCOPES,
+            scopes=scopes,
+            default_host=cls.DEFAULT_HOST,
+            **kwargs,
+        )
+
+    @property
+    def grpc_channel(self) -> grpc.Channel:
+        """Return the channel designed to connect to this service."""
         return self._grpc_channel
 
     @property
-    def operations_client(self) -> operations_v1.OperationsAsyncClient:
+    def operations_client(self) -> operations_v1.OperationsClient:
         """Create the client designed to process long-running operations.
 
         This property caches on the instance; repeated calls return the same
@@ -246,31 +244,29 @@ class CompletionServiceGrpcAsyncIOTransport(CompletionServiceTransport):
         """
         # Quick check: Only create a new client if we do not already have one.
         if self._operations_client is None:
-            self._operations_client = operations_v1.OperationsAsyncClient(
-                self.grpc_channel
-            )
+            self._operations_client = operations_v1.OperationsClient(self.grpc_channel)
 
         # Return the client from cache.
         return self._operations_client
 
     @property
-    def complete_query(
+    def list_merchant_center_account_links(
         self,
     ) -> Callable[
-        [completion_service.CompleteQueryRequest],
-        Awaitable[completion_service.CompleteQueryResponse],
+        [merchant_center_account_link_service.ListMerchantCenterAccountLinksRequest],
+        merchant_center_account_link_service.ListMerchantCenterAccountLinksResponse,
     ]:
-        r"""Return a callable for the complete query method over gRPC.
+        r"""Return a callable for the list merchant center account
+        links method over gRPC.
 
-        Completes the specified prefix with keyword
-        suggestions.
-        This feature is only available for users who have Retail
-        Search enabled. Enable Retail Search on Cloud Console
-        before using this feature.
+        Lists all
+        [MerchantCenterAccountLink][google.cloud.retail.v2alpha.MerchantCenterAccountLink]s
+        under the specified parent
+        [Catalog][google.cloud.retail.v2alpha.Catalog].
 
         Returns:
-            Callable[[~.CompleteQueryRequest],
-                    Awaitable[~.CompleteQueryResponse]]:
+            Callable[[~.ListMerchantCenterAccountLinksRequest],
+                    ~.ListMerchantCenterAccountLinksResponse]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -278,35 +274,35 @@ class CompletionServiceGrpcAsyncIOTransport(CompletionServiceTransport):
         # the request.
         # gRPC handles serialization and deserialization, so we just need
         # to pass in the functions for each.
-        if "complete_query" not in self._stubs:
-            self._stubs["complete_query"] = self.grpc_channel.unary_unary(
-                "/google.cloud.retail.v2alpha.CompletionService/CompleteQuery",
-                request_serializer=completion_service.CompleteQueryRequest.serialize,
-                response_deserializer=completion_service.CompleteQueryResponse.deserialize,
+        if "list_merchant_center_account_links" not in self._stubs:
+            self._stubs[
+                "list_merchant_center_account_links"
+            ] = self.grpc_channel.unary_unary(
+                "/google.cloud.retail.v2alpha.MerchantCenterAccountLinkService/ListMerchantCenterAccountLinks",
+                request_serializer=merchant_center_account_link_service.ListMerchantCenterAccountLinksRequest.serialize,
+                response_deserializer=merchant_center_account_link_service.ListMerchantCenterAccountLinksResponse.deserialize,
             )
-        return self._stubs["complete_query"]
+        return self._stubs["list_merchant_center_account_links"]
 
     @property
-    def import_completion_data(
+    def create_merchant_center_account_link(
         self,
     ) -> Callable[
-        [import_config.ImportCompletionDataRequest], Awaitable[operations_pb2.Operation]
+        [merchant_center_account_link_service.CreateMerchantCenterAccountLinkRequest],
+        operations_pb2.Operation,
     ]:
-        r"""Return a callable for the import completion data method over gRPC.
+        r"""Return a callable for the create merchant center account
+        link method over gRPC.
 
-        Bulk import of processed completion dataset.
-        Request processing is asynchronous. Partial updating is
-        not supported.
-        The operation is successfully finished only after the
-        imported suggestions are indexed successfully and ready
-        for serving. The process takes hours.
-        This feature is only available for users who have Retail
-        Search enabled. Enable Retail Search on Cloud Console
-        before using this feature.
+        Creates a MerchantCenterAccountLink.
+
+        [MerchantCenterAccountLink][google.cloud.retail.v2alpha.MerchantCenterAccountLink]
+        cannot be set to a different oneof field, if so an
+        INVALID_ARGUMENT is returned.
 
         Returns:
-            Callable[[~.ImportCompletionDataRequest],
-                    Awaitable[~.Operation]]:
+            Callable[[~.CreateMerchantCenterAccountLinkRequest],
+                    ~.Operation]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -314,16 +310,52 @@ class CompletionServiceGrpcAsyncIOTransport(CompletionServiceTransport):
         # the request.
         # gRPC handles serialization and deserialization, so we just need
         # to pass in the functions for each.
-        if "import_completion_data" not in self._stubs:
-            self._stubs["import_completion_data"] = self.grpc_channel.unary_unary(
-                "/google.cloud.retail.v2alpha.CompletionService/ImportCompletionData",
-                request_serializer=import_config.ImportCompletionDataRequest.serialize,
+        if "create_merchant_center_account_link" not in self._stubs:
+            self._stubs[
+                "create_merchant_center_account_link"
+            ] = self.grpc_channel.unary_unary(
+                "/google.cloud.retail.v2alpha.MerchantCenterAccountLinkService/CreateMerchantCenterAccountLink",
+                request_serializer=merchant_center_account_link_service.CreateMerchantCenterAccountLinkRequest.serialize,
                 response_deserializer=operations_pb2.Operation.FromString,
             )
-        return self._stubs["import_completion_data"]
+        return self._stubs["create_merchant_center_account_link"]
+
+    @property
+    def delete_merchant_center_account_link(
+        self,
+    ) -> Callable[
+        [merchant_center_account_link_service.DeleteMerchantCenterAccountLinkRequest],
+        empty_pb2.Empty,
+    ]:
+        r"""Return a callable for the delete merchant center account
+        link method over gRPC.
+
+        Deletes a MerchantCenterAccountLink. If the
+        [MerchantCenterAccountLink][google.cloud.retail.v2alpha.MerchantCenterAccountLink]
+        to delete does not exist, a NOT_FOUND error is returned.
+
+        Returns:
+            Callable[[~.DeleteMerchantCenterAccountLinkRequest],
+                    ~.Empty]:
+                A function that, when called, will call the underlying RPC
+                on the server.
+        """
+        # Generate a "stub function" on-the-fly which will actually make
+        # the request.
+        # gRPC handles serialization and deserialization, so we just need
+        # to pass in the functions for each.
+        if "delete_merchant_center_account_link" not in self._stubs:
+            self._stubs[
+                "delete_merchant_center_account_link"
+            ] = self.grpc_channel.unary_unary(
+                "/google.cloud.retail.v2alpha.MerchantCenterAccountLinkService/DeleteMerchantCenterAccountLink",
+                request_serializer=merchant_center_account_link_service.DeleteMerchantCenterAccountLinkRequest.serialize,
+                response_deserializer=empty_pb2.Empty.FromString,
+            )
+        return self._stubs["delete_merchant_center_account_link"]
 
     def close(self):
-        return self.grpc_channel.close()
+        self.grpc_channel.close()
 
     @property
     def get_operation(
@@ -361,5 +393,9 @@ class CompletionServiceGrpcAsyncIOTransport(CompletionServiceTransport):
             )
         return self._stubs["list_operations"]
 
+    @property
+    def kind(self) -> str:
+        return "grpc"
 
-__all__ = ("CompletionServiceGrpcAsyncIOTransport",)
+
+__all__ = ("MerchantCenterAccountLinkServiceGrpcTransport",)

@@ -45,11 +45,12 @@ except AttributeError:  # pragma: NO COVER
 
 
 from google.longrunning import operations_pb2  # type: ignore
+from google.protobuf import empty_pb2  # type: ignore
 
-from google.cloud.retail_v2alpha.types import completion_service, import_config
+from google.cloud.retail_v2alpha.types import merchant_center_account_link_service
 
-from .base import CompletionServiceTransport
 from .base import DEFAULT_CLIENT_INFO as BASE_DEFAULT_CLIENT_INFO
+from .base import MerchantCenterAccountLinkServiceTransport
 
 DEFAULT_CLIENT_INFO = gapic_v1.client_info.ClientInfo(
     gapic_version=BASE_DEFAULT_CLIENT_INFO.gapic_version,
@@ -58,8 +59,8 @@ DEFAULT_CLIENT_INFO = gapic_v1.client_info.ClientInfo(
 )
 
 
-class CompletionServiceRestInterceptor:
-    """Interceptor for CompletionService.
+class MerchantCenterAccountLinkServiceRestInterceptor:
+    """Interceptor for MerchantCenterAccountLinkService.
 
     Interceptors are used to manipulate requests, request metadata, and responses
     in arbitrary ways.
@@ -69,74 +70,100 @@ class CompletionServiceRestInterceptor:
     * Stripping extraneous information from responses
 
     These use cases and more can be enabled by injecting an
-    instance of a custom subclass when constructing the CompletionServiceRestTransport.
+    instance of a custom subclass when constructing the MerchantCenterAccountLinkServiceRestTransport.
 
     .. code-block:: python
-        class MyCustomCompletionServiceInterceptor(CompletionServiceRestInterceptor):
-            def pre_complete_query(self, request, metadata):
+        class MyCustomMerchantCenterAccountLinkServiceInterceptor(MerchantCenterAccountLinkServiceRestInterceptor):
+            def pre_create_merchant_center_account_link(self, request, metadata):
                 logging.log(f"Received request: {request}")
                 return request, metadata
 
-            def post_complete_query(self, response):
+            def post_create_merchant_center_account_link(self, response):
                 logging.log(f"Received response: {response}")
                 return response
 
-            def pre_import_completion_data(self, request, metadata):
+            def pre_delete_merchant_center_account_link(self, request, metadata):
                 logging.log(f"Received request: {request}")
                 return request, metadata
 
-            def post_import_completion_data(self, response):
+            def pre_list_merchant_center_account_links(self, request, metadata):
+                logging.log(f"Received request: {request}")
+                return request, metadata
+
+            def post_list_merchant_center_account_links(self, response):
                 logging.log(f"Received response: {response}")
                 return response
 
-        transport = CompletionServiceRestTransport(interceptor=MyCustomCompletionServiceInterceptor())
-        client = CompletionServiceClient(transport=transport)
+        transport = MerchantCenterAccountLinkServiceRestTransport(interceptor=MyCustomMerchantCenterAccountLinkServiceInterceptor())
+        client = MerchantCenterAccountLinkServiceClient(transport=transport)
 
 
     """
 
-    def pre_complete_query(
+    def pre_create_merchant_center_account_link(
         self,
-        request: completion_service.CompleteQueryRequest,
+        request: merchant_center_account_link_service.CreateMerchantCenterAccountLinkRequest,
         metadata: Sequence[Tuple[str, str]],
-    ) -> Tuple[completion_service.CompleteQueryRequest, Sequence[Tuple[str, str]]]:
-        """Pre-rpc interceptor for complete_query
+    ) -> Tuple[
+        merchant_center_account_link_service.CreateMerchantCenterAccountLinkRequest,
+        Sequence[Tuple[str, str]],
+    ]:
+        """Pre-rpc interceptor for create_merchant_center_account_link
 
         Override in a subclass to manipulate the request or metadata
-        before they are sent to the CompletionService server.
+        before they are sent to the MerchantCenterAccountLinkService server.
         """
         return request, metadata
 
-    def post_complete_query(
-        self, response: completion_service.CompleteQueryResponse
-    ) -> completion_service.CompleteQueryResponse:
-        """Post-rpc interceptor for complete_query
+    def post_create_merchant_center_account_link(
+        self, response: operations_pb2.Operation
+    ) -> operations_pb2.Operation:
+        """Post-rpc interceptor for create_merchant_center_account_link
 
         Override in a subclass to manipulate the response
-        after it is returned by the CompletionService server but before
+        after it is returned by the MerchantCenterAccountLinkService server but before
         it is returned to user code.
         """
         return response
 
-    def pre_import_completion_data(
+    def pre_delete_merchant_center_account_link(
         self,
-        request: import_config.ImportCompletionDataRequest,
+        request: merchant_center_account_link_service.DeleteMerchantCenterAccountLinkRequest,
         metadata: Sequence[Tuple[str, str]],
-    ) -> Tuple[import_config.ImportCompletionDataRequest, Sequence[Tuple[str, str]]]:
-        """Pre-rpc interceptor for import_completion_data
+    ) -> Tuple[
+        merchant_center_account_link_service.DeleteMerchantCenterAccountLinkRequest,
+        Sequence[Tuple[str, str]],
+    ]:
+        """Pre-rpc interceptor for delete_merchant_center_account_link
 
         Override in a subclass to manipulate the request or metadata
-        before they are sent to the CompletionService server.
+        before they are sent to the MerchantCenterAccountLinkService server.
         """
         return request, metadata
 
-    def post_import_completion_data(
-        self, response: operations_pb2.Operation
-    ) -> operations_pb2.Operation:
-        """Post-rpc interceptor for import_completion_data
+    def pre_list_merchant_center_account_links(
+        self,
+        request: merchant_center_account_link_service.ListMerchantCenterAccountLinksRequest,
+        metadata: Sequence[Tuple[str, str]],
+    ) -> Tuple[
+        merchant_center_account_link_service.ListMerchantCenterAccountLinksRequest,
+        Sequence[Tuple[str, str]],
+    ]:
+        """Pre-rpc interceptor for list_merchant_center_account_links
+
+        Override in a subclass to manipulate the request or metadata
+        before they are sent to the MerchantCenterAccountLinkService server.
+        """
+        return request, metadata
+
+    def post_list_merchant_center_account_links(
+        self,
+        response: merchant_center_account_link_service.ListMerchantCenterAccountLinksResponse,
+    ) -> merchant_center_account_link_service.ListMerchantCenterAccountLinksResponse:
+        """Post-rpc interceptor for list_merchant_center_account_links
 
         Override in a subclass to manipulate the response
-        after it is returned by the CompletionService server but before
+        after it is returned by the MerchantCenterAccountLinkService server but before
         it is returned to user code.
         """
         return response
@@ -149,7 +176,7 @@ class CompletionServiceRestInterceptor:
         """Pre-rpc interceptor for get_operation
 
         Override in a subclass to manipulate the request or metadata
-        before they are sent to the CompletionService server.
+        before they are sent to the MerchantCenterAccountLinkService server.
         """
         return request, metadata
 
@@ -159,7 +186,7 @@ class CompletionServiceRestInterceptor:
         """Post-rpc interceptor for get_operation
 
         Override in a subclass to manipulate the response
-        after it is returned by the CompletionService server but before
+        after it is returned by the MerchantCenterAccountLinkService server but before
         it is returned to user code.
         """
         return response
@@ -172,7 +199,7 @@ class CompletionServiceRestInterceptor:
         """Pre-rpc interceptor for list_operations
 
         Override in a subclass to manipulate the request or metadata
-        before they are sent to the CompletionService server.
+        before they are sent to the MerchantCenterAccountLinkService server.
         """
         return request, metadata
 
@@ -182,26 +209,26 @@ class CompletionServiceRestInterceptor:
         """Post-rpc interceptor for list_operations
 
         Override in a subclass to manipulate the response
-        after it is returned by the CompletionService server but before
+        after it is returned by the MerchantCenterAccountLinkService server but before
         it is returned to user code.
         """
         return response
 
 
 @dataclasses.dataclass
-class CompletionServiceRestStub:
+class MerchantCenterAccountLinkServiceRestStub:
     _session: AuthorizedSession
     _host: str
-    _interceptor: CompletionServiceRestInterceptor
+    _interceptor: MerchantCenterAccountLinkServiceRestInterceptor
 
 
-class CompletionServiceRestTransport(CompletionServiceTransport):
-    """REST backend transport for CompletionService.
+class MerchantCenterAccountLinkServiceRestTransport(
+    MerchantCenterAccountLinkServiceTransport
+):
+    """REST backend transport for MerchantCenterAccountLinkService.
 
-    Autocomplete service for retail.
-    This feature is only available for users who have Retail Search
-    enabled. Enable Retail Search on Cloud Console before using this
-    feature.
+    Merchant Center Link service to link a Branch to a Merchant
+    Center Account.
 
     This class defines the same methods as the primary client, so the
     primary client can load the underlying transport implementation
@@ -223,7 +250,7 @@ class CompletionServiceRestTransport(CompletionServiceTransport):
         client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
         always_use_jwt_access: Optional[bool] = False,
         url_scheme: str = "https",
-        interceptor: Optional[CompletionServiceRestInterceptor] = None,
+        interceptor: Optional[MerchantCenterAccountLinkServiceRestInterceptor] = None,
         api_audience: Optional[str] = None,
     ) -> None:
         """Instantiate the transport.
@@ -285,7 +312,9 @@ class CompletionServiceRestTransport(CompletionServiceTransport):
         self._operations_client: Optional[operations_v1.AbstractOperationsClient] = None
         if client_cert_source_for_mtls:
             self._session.configure_mtls_channel(client_cert_source_for_mtls)
-        self._interceptor = interceptor or CompletionServiceRestInterceptor()
+        self._interceptor = (
+            interceptor or MerchantCenterAccountLinkServiceRestInterceptor()
+        )
         self._prep_wrapped_messages(client_info)
 
     @property
@@ -352,12 +381,12 @@ class CompletionServiceRestTransport(CompletionServiceTransport):
         # Return the client from cache.
         return self._operations_client
 
-    class _CompleteQuery(CompletionServiceRestStub):
+    class _CreateMerchantCenterAccountLink(MerchantCenterAccountLinkServiceRestStub):
         def __hash__(self):
-            return hash("CompleteQuery")
+            return hash("CreateMerchantCenterAccountLink")
 
         __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, Any] = {
-            "query": "",
+            "parent": "",
         }
 
         @classmethod
@@ -370,129 +399,50 @@ class CompletionServiceRestTransport(CompletionServiceTransport):
 
         def __call__(
             self,
-            request: completion_service.CompleteQueryRequest,
-            *,
-            retry: OptionalRetry = gapic_v1.method.DEFAULT,
-            timeout: Optional[float] = None,
-            metadata: Sequence[Tuple[str, str]] = (),
-        ) -> completion_service.CompleteQueryResponse:
-            r"""Call the complete query method over HTTP.
-
-            Args:
-                request (~.completion_service.CompleteQueryRequest):
-                    The request object. Autocomplete parameters.
-                retry (google.api_core.retry.Retry): Designation of what errors, if any,
-                    should be retried.
-                timeout (float): The timeout for this request.
-                metadata (Sequence[Tuple[str, str]]): Strings which should be
-                    sent along with the request as metadata.
-
-            Returns:
-                ~.completion_service.CompleteQueryResponse:
-                    Response of the autocomplete query.
-            """
-
-            http_options: List[Dict[str, str]] = [
-                {
-                    "method": "get",
-                    "uri": "/v2alpha/{catalog=projects/*/locations/*/catalogs/*}:completeQuery",
-                },
-            ]
-            request, metadata = self._interceptor.pre_complete_query(request, metadata)
-            pb_request = completion_service.CompleteQueryRequest.pb(request)
-            transcoded_request = path_template.transcode(http_options, pb_request)
-
-            uri = transcoded_request["uri"]
-            method = transcoded_request["method"]
-
-            # Jsonify the query params
-            query_params = json.loads(
-                json_format.MessageToJson(
-                    transcoded_request["query_params"],
-                    including_default_value_fields=False,
-                    use_integers_for_enums=True,
-                )
-            )
-            query_params.update(self._get_unset_required_fields(query_params))
-
-            query_params["$alt"] = "json;enum-encoding=int"
-
-            # Send the request
-            headers = dict(metadata)
-            headers["Content-Type"] = "application/json"
-            response = getattr(self._session, method)(
-                "{host}{uri}".format(host=self._host, uri=uri),
-                timeout=timeout,
-                headers=headers,
-                params=rest_helpers.flatten_query_params(query_params, strict=True),
-            )
-
-            # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
-            # subclass.
-            if response.status_code >= 400:
-                raise core_exceptions.from_http_response(response)
-
-            # Return the response
-            resp = completion_service.CompleteQueryResponse()
-            pb_resp = completion_service.CompleteQueryResponse.pb(resp)
-
-            json_format.Parse(response.content, pb_resp, ignore_unknown_fields=True)
-            resp = self._interceptor.post_complete_query(resp)
-            return resp
-
-    class _ImportCompletionData(CompletionServiceRestStub):
-        def __hash__(self):
-            return hash("ImportCompletionData")
-
-        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, Any] = {}
-
-        @classmethod
-        def _get_unset_required_fields(cls, message_dict):
-            return {
-                k: v
-                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
-                if k not in message_dict
-            }
-
-        def __call__(
-            self,
-            request: import_config.ImportCompletionDataRequest,
+            request: merchant_center_account_link_service.CreateMerchantCenterAccountLinkRequest,
             *,
             retry: OptionalRetry = gapic_v1.method.DEFAULT,
             timeout: Optional[float] = None,
             metadata: Sequence[Tuple[str, str]] = (),
         ) -> operations_pb2.Operation:
-            r"""Call the import completion data method over HTTP.
+            r"""Call the create merchant center
+            account link method over HTTP.
 
-            Args:
-                request (~.import_config.ImportCompletionDataRequest):
-                    The request object. Request message for
-                ImportCompletionData methods.
-                retry (google.api_core.retry.Retry): Designation of what errors, if any,
-                    should be retried.
-                timeout (float): The timeout for this request.
-                metadata (Sequence[Tuple[str, str]]): Strings which should be
-                    sent along with the request as metadata.
+                Args:
+                    request (~.merchant_center_account_link_service.CreateMerchantCenterAccountLinkRequest):
+                        The request object. Request for
+                    [MerchantCenterAccountLinkService.CreateMerchantCenterAccountLink][google.cloud.retail.v2alpha.MerchantCenterAccountLinkService.CreateMerchantCenterAccountLink]
+                    method.
+                    retry (google.api_core.retry.Retry): Designation of what errors, if any,
+                        should be retried.
+                    timeout (float): The timeout for this request.
+                    metadata (Sequence[Tuple[str, str]]): Strings which should be
+                        sent along with the request as metadata.
 
-            Returns:
-                ~.operations_pb2.Operation:
-                    This resource represents a
-                long-running operation that is the
-                result of a network API call.
+                Returns:
+                    ~.operations_pb2.Operation:
+                        This resource represents a
+                    long-running operation that is the
+                    result of a network API call.
 
             """
 
             http_options: List[Dict[str, str]] = [
                 {
                     "method": "post",
-                    "uri": "/v2alpha/{parent=projects/*/locations/*/catalogs/*}/completionData:import",
-                    "body": "*",
+                    "uri": "/v2alpha/{merchant_center_account_link.name=projects/*/locations/*/catalogs/*/merchantCenterAccountLinks/*}",
+                    "body": "merchant_center_account_link",
                 },
             ]
-            request, metadata = self._interceptor.pre_import_completion_data(
+            (
+                request,
+                metadata,
+            ) = self._interceptor.pre_create_merchant_center_account_link(
                 request, metadata
             )
-            pb_request = import_config.ImportCompletionDataRequest.pb(request)
+            pb_request = merchant_center_account_link_service.CreateMerchantCenterAccountLinkRequest.pb(
+                request
+            )
             transcoded_request = path_template.transcode(http_options, pb_request)
 
             # Jsonify the request body
@@ -536,35 +486,234 @@ class CompletionServiceRestTransport(CompletionServiceTransport):
             # Return the response
             resp = operations_pb2.Operation()
             json_format.Parse(response.content, resp, ignore_unknown_fields=True)
-            resp = self._interceptor.post_import_completion_data(resp)
+            resp = self._interceptor.post_create_merchant_center_account_link(resp)
+            return resp
+
+    class _DeleteMerchantCenterAccountLink(MerchantCenterAccountLinkServiceRestStub):
+        def __hash__(self):
+            return hash("DeleteMerchantCenterAccountLink")
+
+        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, Any] = {}
+
+        @classmethod
+        def _get_unset_required_fields(cls, message_dict):
+            return {
+                k: v
+                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
+                if k not in message_dict
+            }
+
+        def __call__(
+            self,
+            request: merchant_center_account_link_service.DeleteMerchantCenterAccountLinkRequest,
+            *,
+            retry: OptionalRetry = gapic_v1.method.DEFAULT,
+            timeout: Optional[float] = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+        ):
+            r"""Call the delete merchant center
+            account link method over HTTP.
+
+                Args:
+                    request (~.merchant_center_account_link_service.DeleteMerchantCenterAccountLinkRequest):
+                        The request object. Request for
+                    [MerchantCenterAccountLinkService.DeleteMerchantCenterAccountLink][google.cloud.retail.v2alpha.MerchantCenterAccountLinkService.DeleteMerchantCenterAccountLink]
+                    method.
+                    retry (google.api_core.retry.Retry): Designation of what errors, if any,
+                        should be retried.
+                    timeout (float): The timeout for this request.
+                    metadata (Sequence[Tuple[str, str]]): Strings which should be
+                        sent along with the request as metadata.
+            """
+
+            http_options: List[Dict[str, str]] = [
+                {
+                    "method": "delete",
+                    "uri": "/v2alpha/{name=projects/*/locations/*/catalogs/*/merchantCenterAccountLinks/*}",
+                },
+            ]
+            (
+                request,
+                metadata,
+            ) = self._interceptor.pre_delete_merchant_center_account_link(
+                request, metadata
+            )
+            pb_request = merchant_center_account_link_service.DeleteMerchantCenterAccountLinkRequest.pb(
+                request
+            )
+            transcoded_request = path_template.transcode(http_options, pb_request)
+
+            uri = transcoded_request["uri"]
+            method = transcoded_request["method"]
+
+            # Jsonify the query params
+            query_params = json.loads(
+                json_format.MessageToJson(
+                    transcoded_request["query_params"],
+                    including_default_value_fields=False,
+                    use_integers_for_enums=True,
+                )
+            )
+            query_params.update(self._get_unset_required_fields(query_params))
+
+            query_params["$alt"] = "json;enum-encoding=int"
+
+            # Send the request
+            headers = dict(metadata)
+            headers["Content-Type"] = "application/json"
+            response = getattr(self._session, method)(
+                "{host}{uri}".format(host=self._host, uri=uri),
+                timeout=timeout,
+                headers=headers,
+                params=rest_helpers.flatten_query_params(query_params, strict=True),
+            )
+
+            # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
+            # subclass.
+            if response.status_code >= 400:
+                raise core_exceptions.from_http_response(response)
+
+    class _ListMerchantCenterAccountLinks(MerchantCenterAccountLinkServiceRestStub):
+        def __hash__(self):
+            return hash("ListMerchantCenterAccountLinks")
+
+        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, Any] = {}
+
+        @classmethod
+        def _get_unset_required_fields(cls, message_dict):
+            return {
+                k: v
+                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
+                if k not in message_dict
+            }
+
+        def __call__(
+            self,
+            request: merchant_center_account_link_service.ListMerchantCenterAccountLinksRequest,
+            *,
+            retry: OptionalRetry = gapic_v1.method.DEFAULT,
+            timeout: Optional[float] = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+        ) -> merchant_center_account_link_service.ListMerchantCenterAccountLinksResponse:
+            r"""Call the list merchant center
+            account links method over HTTP.
+
+                Args:
+                    request (~.merchant_center_account_link_service.ListMerchantCenterAccountLinksRequest):
+                        The request object. Request for
+                    [MerchantCenterAccountLinkService.ListMerchantCenterAccountLinks][google.cloud.retail.v2alpha.MerchantCenterAccountLinkService.ListMerchantCenterAccountLinks]
+                    method.
+                    retry (google.api_core.retry.Retry): Designation of what errors, if any,
+                        should be retried.
+                    timeout (float): The timeout for this request.
+                    metadata (Sequence[Tuple[str, str]]): Strings which should be
+                        sent along with the request as metadata.
+
+                Returns:
+                    ~.merchant_center_account_link_service.ListMerchantCenterAccountLinksResponse:
+                        Response for
+                    [MerchantCenterAccountLinkService.ListMerchantCenterAccountLinks][google.cloud.retail.v2alpha.MerchantCenterAccountLinkService.ListMerchantCenterAccountLinks]
+                    method.
+
+            """
+
+            http_options: List[Dict[str, str]] = [
+                {
+                    "method": "get",
+                    "uri": "/v2alpha/{parent=projects/*/locations/*/catalogs/*}/merchantCenterAccountLinks",
+                },
+            ]
+            (
+                request,
+                metadata,
+            ) = self._interceptor.pre_list_merchant_center_account_links(
+                request, metadata
+            )
+            pb_request = merchant_center_account_link_service.ListMerchantCenterAccountLinksRequest.pb(
+                request
+            )
+            transcoded_request = path_template.transcode(http_options, pb_request)
+
+            uri = transcoded_request["uri"]
+            method = transcoded_request["method"]
+
+            # Jsonify the query params
+            query_params = json.loads(
+                json_format.MessageToJson(
+                    transcoded_request["query_params"],
+                    including_default_value_fields=False,
+                    use_integers_for_enums=True,
+                )
+            )
+            query_params.update(self._get_unset_required_fields(query_params))
+
+            query_params["$alt"] = "json;enum-encoding=int"
+
+            # Send the request
+            headers = dict(metadata)
+            headers["Content-Type"] = "application/json"
+            response = getattr(self._session, method)(
+                "{host}{uri}".format(host=self._host, uri=uri),
+                timeout=timeout,
+                headers=headers,
+                params=rest_helpers.flatten_query_params(query_params, strict=True),
+            )
+
+            # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
+            # subclass.
+            if response.status_code >= 400:
+                raise core_exceptions.from_http_response(response)
+
+            # Return the response
+            resp = (
+                merchant_center_account_link_service.ListMerchantCenterAccountLinksResponse()
+            )
+            pb_resp = merchant_center_account_link_service.ListMerchantCenterAccountLinksResponse.pb(
+                resp
+            )
+
+            json_format.Parse(response.content, pb_resp, ignore_unknown_fields=True)
+            resp = self._interceptor.post_list_merchant_center_account_links(resp)
             return resp
 
     @property
-    def complete_query(
+    def create_merchant_center_account_link(
         self,
     ) -> Callable[
-        [completion_service.CompleteQueryRequest],
-        completion_service.CompleteQueryResponse,
+        [merchant_center_account_link_service.CreateMerchantCenterAccountLinkRequest],
+        operations_pb2.Operation,
     ]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._CompleteQuery(self._session, self._host, self._interceptor)  # type: ignore
+        return self._CreateMerchantCenterAccountLink(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
-    def import_completion_data(
+    def delete_merchant_center_account_link(
         self,
     ) -> Callable[
-        [import_config.ImportCompletionDataRequest], operations_pb2.Operation
+        [merchant_center_account_link_service.DeleteMerchantCenterAccountLinkRequest],
+        empty_pb2.Empty,
     ]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._ImportCompletionData(self._session, self._host, self._interceptor)  # type: ignore
+        return self._DeleteMerchantCenterAccountLink(self._session, self._host, self._interceptor)  # type: ignore
+
+    @property
+    def list_merchant_center_account_links(
+        self,
+    ) -> Callable[
+        [merchant_center_account_link_service.ListMerchantCenterAccountLinksRequest],
+        merchant_center_account_link_service.ListMerchantCenterAccountLinksResponse,
+    ]:
+        # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
+        # In C++ this would require a dynamic_cast
+        return self._ListMerchantCenterAccountLinks(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
     def get_operation(self):
         return self._GetOperation(self._session, self._host, self._interceptor)  # type: ignore
 
-    class _GetOperation(CompletionServiceRestStub):
+    class _GetOperation(MerchantCenterAccountLinkServiceRestStub):
         def __call__(
             self,
             request: operations_pb2.GetOperationRequest,
@@ -647,7 +796,7 @@ class CompletionServiceRestTransport(CompletionServiceTransport):
     def list_operations(self):
         return self._ListOperations(self._session, self._host, self._interceptor)  # type: ignore
 
-    class _ListOperations(CompletionServiceRestStub):
+    class _ListOperations(MerchantCenterAccountLinkServiceRestStub):
         def __call__(
             self,
             request: operations_pb2.ListOperationsRequest,
@@ -726,4 +875,4 @@ class CompletionServiceRestTransport(CompletionServiceTransport):
         self._session.close()
 
 
-__all__ = ("CompletionServiceRestTransport",)
+__all__ = ("MerchantCenterAccountLinkServiceRestTransport",)

@@ -28,17 +28,15 @@ from google.oauth2 import service_account  # type: ignore
 from google.protobuf import empty_pb2  # type: ignore
 
 from google.cloud.retail_v2alpha import gapic_version as package_version
-from google.cloud.retail_v2alpha.types import model
-from google.cloud.retail_v2alpha.types import model as gcr_model
-from google.cloud.retail_v2alpha.types import model_service
+from google.cloud.retail_v2alpha.types import merchant_center_account_link_service
 
 DEFAULT_CLIENT_INFO = gapic_v1.client_info.ClientInfo(
     gapic_version=package_version.__version__
 )
 
 
-class ModelServiceTransport(abc.ABC):
-    """Abstract transport class for ModelService."""
+class MerchantCenterAccountLinkServiceTransport(abc.ABC):
+    """Abstract transport class for MerchantCenterAccountLinkService."""
 
     AUTH_SCOPES = ("https://www.googleapis.com/auth/cloud-platform",)
 
@@ -127,43 +125,18 @@ class ModelServiceTransport(abc.ABC):
     def _prep_wrapped_messages(self, client_info):
         # Precompute the wrapped methods.
         self._wrapped_methods = {
-            self.create_model: gapic_v1.method.wrap_method(
-                self.create_model,
+            self.list_merchant_center_account_links: gapic_v1.method.wrap_method(
+                self.list_merchant_center_account_links,
                 default_timeout=None,
                 client_info=client_info,
             ),
-            self.get_model: gapic_v1.method.wrap_method(
-                self.get_model,
+            self.create_merchant_center_account_link: gapic_v1.method.wrap_method(
+                self.create_merchant_center_account_link,
                 default_timeout=None,
                 client_info=client_info,
             ),
-            self.pause_model: gapic_v1.method.wrap_method(
-                self.pause_model,
-                default_timeout=None,
-                client_info=client_info,
-            ),
-            self.resume_model: gapic_v1.method.wrap_method(
-                self.resume_model,
-                default_timeout=None,
-                client_info=client_info,
-            ),
-            self.delete_model: gapic_v1.method.wrap_method(
-                self.delete_model,
-                default_timeout=None,
-                client_info=client_info,
-            ),
-            self.list_models: gapic_v1.method.wrap_method(
-                self.list_models,
-                default_timeout=None,
-                client_info=client_info,
-            ),
-            self.update_model: gapic_v1.method.wrap_method(
-                self.update_model,
-                default_timeout=None,
-                client_info=client_info,
-            ),
-            self.tune_model: gapic_v1.method.wrap_method(
-                self.tune_model,
+            self.delete_merchant_center_account_link: gapic_v1.method.wrap_method(
+                self.delete_merchant_center_account_link,
                 default_timeout=None,
                 client_info=client_info,
             ),
@@ -184,74 +157,34 @@ class ModelServiceTransport(abc.ABC):
         raise NotImplementedError()
 
     @property
-    def create_model(
+    def list_merchant_center_account_links(
         self,
     ) -> Callable[
-        [model_service.CreateModelRequest],
-        Union[operations_pb2.Operation, Awaitable[operations_pb2.Operation]],
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def get_model(
-        self,
-    ) -> Callable[
-        [model_service.GetModelRequest], Union[model.Model, Awaitable[model.Model]]
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def pause_model(
-        self,
-    ) -> Callable[
-        [model_service.PauseModelRequest], Union[model.Model, Awaitable[model.Model]]
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def resume_model(
-        self,
-    ) -> Callable[
-        [model_service.ResumeModelRequest], Union[model.Model, Awaitable[model.Model]]
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def delete_model(
-        self,
-    ) -> Callable[
-        [model_service.DeleteModelRequest],
-        Union[empty_pb2.Empty, Awaitable[empty_pb2.Empty]],
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def list_models(
-        self,
-    ) -> Callable[
-        [model_service.ListModelsRequest],
+        [merchant_center_account_link_service.ListMerchantCenterAccountLinksRequest],
         Union[
-            model_service.ListModelsResponse,
-            Awaitable[model_service.ListModelsResponse],
+            merchant_center_account_link_service.ListMerchantCenterAccountLinksResponse,
+            Awaitable[
+                merchant_center_account_link_service.ListMerchantCenterAccountLinksResponse
+            ],
         ],
     ]:
         raise NotImplementedError()
 
     @property
-    def update_model(
+    def create_merchant_center_account_link(
         self,
     ) -> Callable[
-        [model_service.UpdateModelRequest],
-        Union[gcr_model.Model, Awaitable[gcr_model.Model]],
+        [merchant_center_account_link_service.CreateMerchantCenterAccountLinkRequest],
+        Union[operations_pb2.Operation, Awaitable[operations_pb2.Operation]],
     ]:
         raise NotImplementedError()
 
     @property
-    def tune_model(
+    def delete_merchant_center_account_link(
         self,
     ) -> Callable[
-        [model_service.TuneModelRequest],
-        Union[operations_pb2.Operation, Awaitable[operations_pb2.Operation]],
+        [merchant_center_account_link_service.DeleteMerchantCenterAccountLinkRequest],
+        Union[empty_pb2.Empty, Awaitable[empty_pb2.Empty]],
     ]:
         raise NotImplementedError()
 
@@ -281,4 +214,4 @@ class ModelServiceTransport(abc.ABC):
         raise NotImplementedError()
 
 
-__all__ = ("ModelServiceTransport",)
+__all__ = ("MerchantCenterAccountLinkServiceTransport",)
